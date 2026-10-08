@@ -7,6 +7,7 @@ import { Domestic } from './Domestic';
 import { Crisis } from './Crisis';
 import { WorldRail } from './WorldRail';
 import { Diplomacy } from './Diplomacy';
+import { Conflicts } from './Conflict';
 import { Assembly } from './Assembly';
 import { Overview } from './Overview';
 const tabs = [{ id: 'capital', label: 'Republic', icon: Building2 }, { id: 'policy', label: 'Cabinet', icon: Landmark }, { id: 'diplomacy', label: 'Diplomacy', icon: Handshake }, { id: 'economy', label: 'Economy', icon: Settings2 }];
@@ -19,6 +20,7 @@ export function Game({ controller: c }: { controller: WorldController }) {
     <WorldRail w={w} selected={selected} select={select} /><div className="game-main"><header className="republic-header"><div><div className="eyebrow">OFFICE OF THE PRESIDENT</div><h1>{r.flag} {r.name}</h1><p className="muted">President {r.leader} <span className="divider">/</span> {r.metrics.stability > 55 ? 'A nation finding its stride' : 'A nation at a crossroads'}</p></div><div className="approval"><span>PUBLIC APPROVAL</span><b>{r.metrics.approval.toFixed(0)}<small>%</small></b></div></header>
       <div className="headline-metrics">{[['GROSS DOMESTIC PRODUCT', money(r.metrics.gdp)], ['TREASURY RESERVES', money(r.metrics.treasury)], ['GLOBAL INFLUENCE', r.influence.toFixed(0)], ['ENERGY SECURITY', `${r.metrics.energy.toFixed(0)}%`]].map(([label, value]) => <div key={label}><span>{label}</span><b>{value}</b></div>)}</div>
       <nav className="game-tabs">{tabs.map(({ id, label, icon: Icon }) => <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}><Icon size={16} />{label}</button>)}</nav>
+      <Conflicts w={w} send={c.send} busy={c.busy} />
       <Assembly w={w} send={c.send} busy={c.busy} />
       {r.crisis && <Crisis crisis={r.crisis} send={c.send} busy={c.busy} />}
       {tab === 'capital' && <Overview w={w} region={region} setRegion={setRegion} />}

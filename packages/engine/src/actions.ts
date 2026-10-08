@@ -1,5 +1,6 @@
 import type { Action, Room } from '@republic/contracts';
 import { botDraft, createRepublic } from './create';
+import { conflict } from './conflict';
 import { tradeAction } from './trade';
 import { diplomacy } from './diplomacy';
 import { domestic } from './domestic';
@@ -19,6 +20,6 @@ export function act(room: Room, playerId: string, action: Action, development = 
     room.republics.push(createRepublic(id, botDraft(room.republics.length), room.options.difficulty === 'struggling')); return;
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
-  if (domestic(room, me, action, development) || tradeAction(room, me, action) || diplomacy(room, me, action)) return;
+  if (domestic(room, me, action, development) || tradeAction(room, me, action) || diplomacy(room, me, action) || conflict(room, me, action)) return;
   throw new Error('Action not available yet');
 }
