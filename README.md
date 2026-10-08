@@ -1,6 +1,6 @@
 # Republic — First Assembly
 
-A playable V0 of a multiplayer political strategy party game. Four to eight friends
+A playable V0 of a multiplayer political strategy party game. Two to eight friends
 lead separate Republics through twenty simulated years. Negotiate in person or over
 voice; record the agreements in the game. There are no accounts.
 
@@ -85,7 +85,7 @@ deployment phase; Docker/Railway/Vercel provisioning is not part of local verifi
 
 ## V0 boundaries
 
-- Twenty years, three session lengths, one host, four to eight seats; no account system.
+- Twenty years, three session lengths, one host, two to eight seats; no account system.
 - Seven strategic resources, eight policies, six persistent regional scenes per Republic.
 - Bilateral recurring deals, counters, pacts, loans, sanctions, votes and six crisis templates.
 - Six-month abstract wars with outside support, bounded losses and reparations; no conquest.

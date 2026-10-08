@@ -2,7 +2,7 @@
 
 ## Your first five minutes
 
-1. Select up to four resource points. Oil/gas feed energy; agriculture feeds people.
+1. Select up to five resource points. Oil/gas feed energy; agriculture feeds people.
    Iron/timber sustain infrastructure. Rare earths support military technology; gold earns reserves.
 2. Check Economy for shortages and liabilities. The first shortages emerge as starting stocks run out.
 3. Find another Republic with the resource you need. Talk first; open their public profile and propose trade.
@@ -85,3 +85,11 @@ The final score is the sum of five categories, each capped at 200:
 The maximum score is 1,000. The results include category winners, military/diplomatic awards,
 debt and diplomacy statistics. The host can start a rematch with the same seats and fresh economies.
 Exact tuning is in the small, transport-independent engine modules.
+
+## Founding resources and starting conditions
+
+Five points: oil 2, gas 2, gold 2, rare earths 3, iron 1, farmland 1, timber 1, coastline 2, rivers 1, uranium 3. Geography is not a tradeable inventory. Coastlines add fishing, port income and growth; rivers add food and energy; uranium adds policy-dependent energy and influence, with additional starting debt. Commodities have individual production, extraction costs and surplus export prices.
+
+Resource crises draw only from a Republic's selected advantages. They damage a relevant service metric by four and halve that resource's production and benefits for six months. Cabinet responses retain the existing crisis resolution choices. These are simplified game mechanics, not economic forecasts.
+
+The server defaults to two human seats before starting; MIN_PLAYERS can raise the threshold to eight. Test delegates never satisfy it. All players share the host's challenge; the review screen uses the same initialization logic as room creation. Saved identities and plot layouts survive the resource migration.
