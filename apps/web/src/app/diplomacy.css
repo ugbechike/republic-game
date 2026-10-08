@@ -1,28 +1,125 @@
-.diplomacy-layout { display: grid; gap: 18px; }
-.target-select { margin-top: 20px; }
-.profile-metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 25px 0; }
-.profile-metrics span { color: var(--muted); font-size: 10px; }
-.profile-metrics b { display: block; font-size: 20px; font-weight: 400; color: #d8e0d6; margin-top: 8px; }
-.wrap { flex-wrap: wrap; margin-bottom: 15px; }
-.wrap button { font-size: 11px; }
-.loan-form { display: flex; gap: 10px; align-items: end; margin: 20px 0; }
-.loan-form input { max-width: 150px; }
-.loan-form button { height: 40px; font-size: 12px; }
-.trade-form { border-top: 1px solid var(--line); margin-top: 25px; padding-top: 25px; }
-.trade-form fieldset { border: 1px solid var(--line); border-radius: 7px; padding: 15px; margin: 15px 0; }
-.trade-form legend { font-size: 9px; color: var(--accent); letter-spacing: 1px; padding: 0 8px; }
-.trade-form > .form-row { align-items: end; margin-bottom: 15px; }
-.agreement { border-top: 1px solid var(--line); padding: 20px 0; }
-.agreement > p { margin: 15px 0 7px; font-size: 12px; }
-.agreement .actions { margin-top: 14px; flex-wrap: wrap; }
-.agreement button { font-size: 11px; }
-.assembly { margin-bottom: 20px; border-color: #d9c79550; display: flex; gap: 20px; justify-content: space-between; align-items: center; }
-.assembly h3 { margin: 12px 0; }
-.assembly p { margin: 0; }
-@media (max-width: 750px) { .assembly { flex-direction: column; align-items: start; } .profile-metrics { grid-template-columns: 1fr 1fr; } }
+.diplomacy-layout {
+  display: grid;
+  gap: 18px;
+}
+.target-select {
+  margin-top: 20px;
+}
+.profile-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 25px 0;
+}
+.profile-metrics span {
+  color: var(--muted);
+  font-size: 10px;
+}
+.profile-metrics b {
+  display: block;
+  font-size: 20px;
+  font-weight: 400;
+  color: #d8e0d6;
+  margin-top: 8px;
+}
+.wrap {
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+.wrap button {
+  font-size: 11px;
+}
+.loan-form {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  margin: 20px 0;
+}
+.loan-form input {
+  max-width: 150px;
+}
+.loan-form button {
+  height: 40px;
+  font-size: 12px;
+}
+.trade-form {
+  border-top: 1px solid var(--line);
+  margin-top: 25px;
+  padding-top: 25px;
+}
+.trade-form fieldset {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 15px;
+  margin: 15px 0;
+}
+.trade-form legend {
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  padding: 0 8px;
+}
+.trade-form > .form-row {
+  align-items: end;
+  margin-bottom: 15px;
+}
+.agreement {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.agreement > p {
+  margin: 15px 0 7px;
+  font-size: 12px;
+}
+.agreement .actions {
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.agreement button {
+  font-size: 11px;
+}
+.assembly {
+  margin-bottom: 20px;
+  border-color: #d9c79550;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+.assembly h3 {
+  margin: 12px 0;
+}
+.assembly p {
+  margin: 0;
+}
+@media (max-width: 750px) {
+  .assembly {
+    flex-direction: column;
+    align-items: start;
+  }
+  .profile-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
-.conflict-controls { border-top: 1px solid var(--line); padding-top: 20px; }
-.danger-button { color: #e8a78e; border-color: #e8a78e40; }
-.war-confirm { border: 1px solid #e8a78e40; padding: 20px; border-radius: 7px; margin: 15px 0; }
-.war-panel { margin-bottom: 20px; border-color: #e8a78e40; }
-.war-panel h3 { margin-top: 20px; }
+.conflict-controls {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.danger-button {
+  color: #e8a78e;
+  border-color: #e8a78e40;
+}
+.war-confirm {
+  border: 1px solid #e8a78e40;
+  padding: 20px;
+  border-radius: 7px;
+  margin: 15px 0;
+}
+.war-panel {
+  margin-bottom: 20px;
+  border-color: #e8a78e40;
+}
+.war-panel h3 {
+  margin-top: 20px;
+}

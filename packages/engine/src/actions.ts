@@ -6,27 +6,58 @@ import { diplomacy } from './diplomacy';
 import { domestic } from './domestic';
 import { interval, notice, requireThat } from './helpers';
 export function act(room: Room, playerId: string, action: Action, development = false, now = Date.now()) {
-  const me = room.republics.find(r => r.id === playerId);
+  const me = room.republics.find((r) => r.id === playerId);
   requireThat(me, 'Unknown player');
   if (action.type === 'rematch') {
     requireThat(playerId === room.host && room.phase === 'ended', 'Only the host can start a rematch after results');
-    room.republics = room.republics.map(r => createRepublic(r.id, { name: r.name, leader: r.leader, flag: r.flag as Parameters<typeof createRepublic>[1]['flag'], resources: r.resources }, room.options.difficulty === 'struggling'));
-    room.phase = 'lobby'; room.month = 0; room.nextTick = 0; room.speed = 1;
-    room.deals = []; room.alliances = []; room.loans = []; room.wars = []; room.sanctions = []; room.results = []; room.notices = []; delete room.vote;
+    room.republics = room.republics.map((r) =>
+      createRepublic(
+        r.id,
+        {
+          name: r.name,
+          leader: r.leader,
+          flag: r.flag as Parameters<typeof createRepublic>[1]['flag'],
+          resources: r.resources,
+        },
+        room.options.difficulty === 'struggling',
+      ),
+    );
+    room.phase = 'lobby';
+    room.month = 0;
+    room.nextTick = 0;
+    room.speed = 1;
+    room.deals = [];
+    room.alliances = [];
+    room.loans = [];
+    room.wars = [];
+    room.sanctions = [];
+    room.results = [];
+    room.notices = [];
+    delete room.vote;
     return;
   }
   if (action.type === 'start') {
     requireThat(playerId === room.host && room.phase === 'lobby', 'Only the host can start a lobby');
     requireThat(room.republics.length >= 4, 'At least four Republics are required');
-    room.phase = 'playing'; room.nextTick = now + interval(room); notice(room, 'The Assembly is in session. Twenty years. One world.'); return;
+    room.phase = 'playing';
+    room.nextTick = now + interval(room);
+    notice(room, 'The Assembly is in session. Twenty years. One world.');
+    return;
   }
   if (action.type === 'debug' && action.kind === 'bot') {
     requireThat(development && playerId === room.host && room.phase === 'lobby', 'Development host only');
     requireThat(room.republics.length < room.options.maxPlayers, 'Room is full');
     const id = `bot-${room.republics.length}`;
-    room.republics.push(createRepublic(id, botDraft(room.republics.length), room.options.difficulty === 'struggling')); return;
+    room.republics.push(createRepublic(id, botDraft(room.republics.length), room.options.difficulty === 'struggling'));
+    return;
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
-  if (domestic(room, me, action, development) || tradeAction(room, me, action) || diplomacy(room, me, action) || conflict(room, me, action)) return;
+  if (
+    domestic(room, me, action, development) ||
+    tradeAction(room, me, action) ||
+    diplomacy(room, me, action) ||
+    conflict(room, me, action)
+  )
+    return;
   throw new Error('Action not available yet');
 }

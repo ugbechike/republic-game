@@ -1,0 +1,95 @@
+@media (min-width: 1600px) {
+  .game {
+    grid-template-columns: 250px minmax(0, 1fr) 270px;
+  }
+  .game-main {
+    padding: 40px;
+  }
+}
+@media (max-width: 1200px) {
+  .game {
+    grid-template-columns: 195px minmax(0, 1fr);
+  }
+  .news-rail {
+    grid-column: 2;
+    border-top: 1px solid var(--line);
+  }
+  .news-rail > div[role='log'] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  .game-main {
+    padding: 25px;
+  }
+}
+@media (max-width: 750px) {
+  .game {
+    display: block;
+  }
+  .topbar {
+    height: 65px;
+    padding: 0 15px;
+    gap: 8px;
+  }
+  .world-name {
+    display: none;
+  }
+  .game-brand {
+    min-width: 0;
+    font-size: 12px;
+  }
+  .calendar {
+    font-size: 9px;
+    gap: 5px;
+  }
+  .calendar span {
+    display: none;
+  }
+  .world-rail {
+    flex-direction: row;
+    overflow: auto;
+    padding: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .nation-card {
+    min-width: 155px;
+  }
+  .world-rail > .section-label,
+  .rail-note,
+  .room-badge {
+    display: none;
+  }
+  .game-main {
+    padding: 20px 15px;
+  }
+  .republic-header h1 {
+    font-size: 29px;
+  }
+  .headline-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .headline-metrics > div:nth-child(3) {
+    padding-left: 0;
+  }
+  .headline-metrics > div:nth-child(2) {
+    border: 0;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .game-tabs {
+    gap: 20px;
+    overflow: auto;
+  }
+  .game-tabs button {
+    font-size: 11px;
+  }
+  .crisis-options {
+    grid-template-columns: 1fr;
+  }
+  .news-rail > div[role='log'] {
+    grid-template-columns: 1fr;
+  }
+}

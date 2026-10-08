@@ -1,30 +1,143 @@
-.results { max-width: 1000px; padding: 70px 25px; margin: auto; text-align: center; background: radial-gradient(ellipse at 50% 15%,#d9c79510,transparent 45%); }
-.results > .eyebrow { justify-content: center; font-size: 9px; }
-.trophy { color: var(--accent); margin: 40px auto 25px; }
-.results > h1 { font-family: Georgia,serif; font-size: clamp(32px,5vw,55px); margin: 20px 0; }
-.winner { padding: 35px 0; }
-.winner > span { font-size: 60px; }
-.winner h2 { font-family: Georgia,serif; font-size: 32px; margin: 15px 0; }
-.winner > b { font-size: 36px; font-weight: 400; color: var(--accent); }
-.winner small { font-size: 9px; letter-spacing: 2px; }
-.ranking { border-top: 1px solid var(--line); }
-.ranking article { display: flex; align-items: center; gap: 22px; padding: 25px 20px; border-bottom: 1px solid var(--line); text-align: left; }
-.ranking .you { background: #d9c79509; }
-.ranking .rank { font-size: 12px; color: var(--muted); }
-.ranking article > div { flex: 1; }
-.ranking h3 { font-size: 15px; margin-bottom: 13px; }
-.ranking h3 small { font-size: 8px; color: var(--accent); margin-left: 10px; }
-.ranking article > b { font-size: 26px; color: var(--accent); font-weight: 400; }
-.score-segments { display: flex; height: 5px; gap: 3px; max-width: 500px; }
-.score-segments i { border-radius: 2px; }
-.score-key { display: flex; gap: 20px; justify-content: center; color: var(--muted); font-size: 9px; margin: 20px 0 35px; flex-wrap: wrap; }
-.awards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-.awards span { font-size: 10px; color: var(--muted); }
-.awards h3 { margin: 15px 0 0; }
-.table-talk { margin: 50px 0; }
-.table-talk h2 { font-family: Georgia,serif; font-size: 28px; }
-.table-talk > div { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 40px; }
-.table-talk p { text-align: left; display: flex; justify-content: space-between; font-size: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
-.table-talk span { color: var(--muted); }
-.results > .actions { justify-content: center; }
-@media (max-width: 750px) { .awards { grid-template-columns: 1fr 1fr; } .table-talk > div { grid-template-columns: 1fr; } .ranking article { gap: 10px; padding: 20px 10px; } }
+.results {
+  max-width: 1000px;
+  padding: 70px 25px;
+  margin: auto;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 15%, #d9c79510, transparent 45%);
+}
+.results > .eyebrow {
+  justify-content: center;
+  font-size: 9px;
+}
+.trophy {
+  color: var(--accent);
+  margin: 40px auto 25px;
+}
+.results > h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(32px, 5vw, 55px);
+  margin: 20px 0;
+}
+.winner {
+  padding: 35px 0;
+}
+.winner > span {
+  font-size: 60px;
+}
+.winner h2 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin: 15px 0;
+}
+.winner > b {
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--accent);
+}
+.winner small {
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+.ranking {
+  border-top: 1px solid var(--line);
+}
+.ranking article {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 25px 20px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+.ranking .you {
+  background: #d9c79509;
+}
+.ranking .rank {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ranking article > div {
+  flex: 1;
+}
+.ranking h3 {
+  font-size: 15px;
+  margin-bottom: 13px;
+}
+.ranking h3 small {
+  font-size: 8px;
+  color: var(--accent);
+  margin-left: 10px;
+}
+.ranking article > b {
+  font-size: 26px;
+  color: var(--accent);
+  font-weight: 400;
+}
+.score-segments {
+  display: flex;
+  height: 5px;
+  gap: 3px;
+  max-width: 500px;
+}
+.score-segments i {
+  border-radius: 2px;
+}
+.score-key {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 9px;
+  margin: 20px 0 35px;
+  flex-wrap: wrap;
+}
+.awards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.awards span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.awards h3 {
+  margin: 15px 0 0;
+}
+.table-talk {
+  margin: 50px 0;
+}
+.table-talk h2 {
+  font-family: Georgia, serif;
+  font-size: 28px;
+}
+.table-talk > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 40px;
+}
+.table-talk p {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+.table-talk span {
+  color: var(--muted);
+}
+.results > .actions {
+  justify-content: center;
+}
+@media (max-width: 750px) {
+  .awards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .table-talk > div {
+    grid-template-columns: 1fr;
+  }
+  .ranking article {
+    gap: 10px;
+    padding: 20px 10px;
+  }
+}

@@ -14,12 +14,15 @@
     "typecheck": "tsc --noEmit -p apps/server && tsc --noEmit -p apps/web",
     "test": "vitest run",
     "check:files": "node scripts/check-files.mjs",
-    "check": "npm run typecheck && npm test && npm run check:files"
+    "check": "npm run typecheck && npm test && npm run check:files",
+    "format": "prettier --write \"apps/**/*.{ts,tsx,css}\" \"packages/**/*.ts\" \"scripts/*.mjs\"",
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css}\" \"packages/**/*.ts\" \"scripts/*.mjs\""
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
     "@types/node": "^22.18.0",
     "concurrently": "^9.2.1",
+    "prettier": "^3.9.9",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   }

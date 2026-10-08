@@ -12,5 +12,8 @@ async function walk(dir) {
   }
 }
 await walk('.');
-if (violations.length) { console.error(violations.join('\n')); process.exit(1); }
+if (violations.length) {
+  console.error(violations.join('\n'));
+  process.exit(1);
+}
 console.log('All source files are at most 250 lines.');

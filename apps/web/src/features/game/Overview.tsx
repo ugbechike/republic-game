@@ -2,12 +2,102 @@ import dynamic from 'next/dynamic';
 import { ArrowUpRight, MapPin, Move, TrendingUp } from 'lucide-react';
 import { RESOURCE_LABEL, type RoomView, type Region } from '@republic/contracts';
 import { money } from './format';
-const CityCanvas = dynamic(() => import('../city/CityCanvas'), { ssr: false, loading: () => <div className="city-loading"><div className="spinner" />Surveying the capital…</div> });
+const CityCanvas = dynamic(() => import('../city/CityCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="city-loading">
+      <div className="spinner" />
+      Surveying the capital…
+    </div>
+  ),
+});
 export function Overview({ w, region, setRegion }: { w: RoomView; region: Region; setRegion: (id: string) => void }) {
-  const r = w.me, capital = region.id.endsWith('-0'), building = region.plots.filter(p => p.stage > 0 && p.stage < 4).length;
-  const history = r.history, low = Math.min(...history) * .98, high = Math.max(...history) * 1.02;
-  const points = history.map((n, i) => `${i / Math.max(1, history.length - 1) * 400},${65 - (n - low) / (high - low) * 55}`).join(' ');
-  return <><section className="city-panel"><div className="city-heading"><div className="eyebrow"><MapPin size={12} /> {capital ? 'FEDERAL CAPITAL TERRITORY' : 'STATE TERRITORY'}</div><h2>{region.name}</h2><p>{capital ? 'The heart of your Republic' : `${RESOURCE_LABEL[region.industry]} · ${region.population.toFixed(1)}M citizens`}</p></div><div className="city-live"><i className="live-dot" /> LIVE SIMULATION</div><div className="city-canvas"><CityCanvas region={region} republic={r} /></div><div className="city-caption"><span><Move size={12} /> DRAG TO EXPLORE · SCROLL TO ZOOM</span><span>{building > 0 ? `${building} PROJECTS UNDER CONSTRUCTION` : 'DEVELOPMENT IS TAKING SHAPE'}</span></div></section>
-    <div className="region-tabs">{r.regions.map(s => <button key={s.id} className={s.id === region.id ? 'selected' : ''} onClick={() => setRegion(s.id)}>{s.name}</button>)}</div>
-    <div className="outlook-grid"><section className="panel"><div className="section-label">ECONOMIC MOMENTUM <TrendingUp size={13} /></div><div className="chart-value">{money(r.metrics.gdp)} <span>GDP · LAST {history.length} MONTHS</span></div><svg className="sparkline" viewBox="0 0 400 80" role="img" aria-label="GDP over recent months"><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#9fcbb1" stopOpacity=".22" /><stop offset="1" stopColor="#9fcbb1" stopOpacity="0" /></linearGradient></defs><polygon points={`0,80 ${points} 400,80`} fill="url(#chart-fill)" /><polyline points={points} fill="none" stroke="#9fcbb1" strokeWidth="2" /></svg></section><section className="panel"><div className="section-label">REGIONAL OUTLOOK <ArrowUpRight size={13} /></div><h3 className="region-outlook">{region.development > 50 ? 'Conditions for growth.' : 'Potential worth investing in.'}</h3><div className="regional-metrics"><span>Development<b>{region.development.toFixed(0)}</b></span><span>Infrastructure<b>{region.infrastructure.toFixed(0)}</b></span><span>Unemployment<b>{region.unemployment.toFixed(1)}%</b></span></div><p className="muted small">{RESOURCE_LABEL[region.industry]} · {money(region.economy)} economy · {region.stability.toFixed(0)} stability</p></section></div></>;
+  const r = w.me,
+    capital = region.id.endsWith('-0'),
+    building = region.plots.filter((p) => p.stage > 0 && p.stage < 4).length;
+  const history = r.history,
+    low = Math.min(...history) * 0.98,
+    high = Math.max(...history) * 1.02;
+  const points = history
+    .map((n, i) => `${(i / Math.max(1, history.length - 1)) * 400},${65 - ((n - low) / (high - low)) * 55}`)
+    .join(' ');
+  return (
+    <>
+      <section className="city-panel">
+        <div className="city-heading">
+          <div className="eyebrow">
+            <MapPin size={12} /> {capital ? 'FEDERAL CAPITAL TERRITORY' : 'STATE TERRITORY'}
+          </div>
+          <h2>{region.name}</h2>
+          <p>
+            {capital
+              ? 'The heart of your Republic'
+              : `${RESOURCE_LABEL[region.industry]} · ${region.population.toFixed(1)}M citizens`}
+          </p>
+        </div>
+        <div className="city-live">
+          <i className="live-dot" /> LIVE SIMULATION
+        </div>
+        <div className="city-canvas">
+          <CityCanvas region={region} republic={r} />
+        </div>
+        <div className="city-caption">
+          <span>
+            <Move size={12} /> DRAG TO EXPLORE · SCROLL TO ZOOM
+          </span>
+          <span>{building > 0 ? `${building} PROJECTS UNDER CONSTRUCTION` : 'DEVELOPMENT IS TAKING SHAPE'}</span>
+        </div>
+      </section>
+      <div className="region-tabs">
+        {r.regions.map((s) => (
+          <button key={s.id} className={s.id === region.id ? 'selected' : ''} onClick={() => setRegion(s.id)}>
+            {s.name}
+          </button>
+        ))}
+      </div>
+      <div className="outlook-grid">
+        <section className="panel">
+          <div className="section-label">
+            ECONOMIC MOMENTUM <TrendingUp size={13} />
+          </div>
+          <div className="chart-value">
+            {money(r.metrics.gdp)} <span>GDP · LAST {history.length} MONTHS</span>
+          </div>
+          <svg className="sparkline" viewBox="0 0 400 80" role="img" aria-label="GDP over recent months">
+            <defs>
+              <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop stopColor="#9fcbb1" stopOpacity=".22" />
+                <stop offset="1" stopColor="#9fcbb1" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <polygon points={`0,80 ${points} 400,80`} fill="url(#chart-fill)" />
+            <polyline points={points} fill="none" stroke="#9fcbb1" strokeWidth="2" />
+          </svg>
+        </section>
+        <section className="panel">
+          <div className="section-label">
+            REGIONAL OUTLOOK <ArrowUpRight size={13} />
+          </div>
+          <h3 className="region-outlook">
+            {region.development > 50 ? 'Conditions for growth.' : 'Potential worth investing in.'}
+          </h3>
+          <div className="regional-metrics">
+            <span>
+              Development<b>{region.development.toFixed(0)}</b>
+            </span>
+            <span>
+              Infrastructure<b>{region.infrastructure.toFixed(0)}</b>
+            </span>
+            <span>
+              Unemployment<b>{region.unemployment.toFixed(1)}%</b>
+            </span>
+          </div>
+          <p className="muted small">
+            {RESOURCE_LABEL[region.industry]} · {money(region.economy)} economy · {region.stability.toFixed(0)}{' '}
+            stability
+          </p>
+        </section>
+      </div>
+    </>
+  );
 }

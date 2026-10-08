@@ -11,8 +11,18 @@ export function tick(room: Room) {
   if (room.phase !== 'playing') return;
   botsTick(room);
   room.month++;
-  tradeTick(room); diplomacyTick(room); conflictTick(room);
-  for (const r of room.republics) { economy(room, r); eventsTick(room, r); }
+  tradeTick(room);
+  diplomacyTick(room);
+  conflictTick(room);
+  for (const r of room.republics) {
+    economy(room, r);
+    eventsTick(room, r);
+  }
   if (room.month >= 240) finish(room);
 }
-export function advance(room: Room, now: number) { if (room.phase !== 'playing' || now < room.nextTick) return false; tick(room); room.nextTick = now + interval(room); return true; }
+export function advance(room: Room, now: number) {
+  if (room.phase !== 'playing' || now < room.nextTick) return false;
+  tick(room);
+  room.nextTick = now + interval(room);
+  return true;
+}

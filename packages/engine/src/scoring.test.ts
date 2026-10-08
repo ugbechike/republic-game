@@ -3,8 +3,46 @@ import { createRoom } from './create';
 import { score } from './scoring';
 import { act } from './actions';
 import { tick, advance } from './tick';
-const world = () => createRoom('ABCDE', 'a', 'hash', { name: 'Solara', leader: 'Ada', flag: '🌅', resources: ['oil'] }, { duration: 60, maxPlayers: 4, difficulty: 'developing' });
-it('caps all five categories and does not let GDP alone guarantee victory', () => { const room = world(), r = room.republics[0]; r.metrics.gdp = 1e9; const result = score(r, room); expect(result.economy).toBe(200); expect(result.total).toBeLessThanOrEqual(1000); expect(result.prosperity).toBeGreaterThan(0); });
-it('ends at 240 months and resets a rematch without changing identity', () => { const room = world(); room.phase = 'playing'; room.month = 239; tick(room); expect(room.phase).toBe('ended'); expect(room.results).toHaveLength(1); act(room, 'a', { type: 'rematch' }); expect(room.phase).toBe('lobby'); expect(room.players[0].tokenHash).toBe('hash'); expect(room.republics[0].metrics.treasury).toBe(12); });
-it('does not tick early or advance ended games', () => { const room = world(); room.phase = 'playing'; room.nextTick = 100; expect(advance(room, 99)).toBe(false); expect(advance(room, 100)).toBe(true); room.phase = 'ended'; expect(advance(room, 1e9)).toBe(false); });
-it('rejects all debug operations outside development', () => { const room = world(); room.phase = 'playing'; expect(() => act(room, 'a', { type: 'debug', kind: 'money' }, false)).toThrow('Development'); });
+const world = () =>
+  createRoom(
+    'ABCDE',
+    'a',
+    'hash',
+    { name: 'Solara', leader: 'Ada', flag: '🌅', resources: ['oil'] },
+    { duration: 60, maxPlayers: 4, difficulty: 'developing' },
+  );
+it('caps all five categories and does not let GDP alone guarantee victory', () => {
+  const room = world(),
+    r = room.republics[0];
+  r.metrics.gdp = 1e9;
+  const result = score(r, room);
+  expect(result.economy).toBe(200);
+  expect(result.total).toBeLessThanOrEqual(1000);
+  expect(result.prosperity).toBeGreaterThan(0);
+});
+it('ends at 240 months and resets a rematch without changing identity', () => {
+  const room = world();
+  room.phase = 'playing';
+  room.month = 239;
+  tick(room);
+  expect(room.phase).toBe('ended');
+  expect(room.results).toHaveLength(1);
+  act(room, 'a', { type: 'rematch' });
+  expect(room.phase).toBe('lobby');
+  expect(room.players[0].tokenHash).toBe('hash');
+  expect(room.republics[0].metrics.treasury).toBe(12);
+});
+it('does not tick early or advance ended games', () => {
+  const room = world();
+  room.phase = 'playing';
+  room.nextTick = 100;
+  expect(advance(room, 99)).toBe(false);
+  expect(advance(room, 100)).toBe(true);
+  room.phase = 'ended';
+  expect(advance(room, 1e9)).toBe(false);
+});
+it('rejects all debug operations outside development', () => {
+  const room = world();
+  room.phase = 'playing';
+  expect(() => act(room, 'a', { type: 'debug', kind: 'money' }, false)).toThrow('Development');
+});

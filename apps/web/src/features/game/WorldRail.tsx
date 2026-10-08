@@ -1,5 +1,45 @@
 import type { RoomView } from '@republic/contracts';
 import { money } from './format';
 export function WorldRail({ w, selected, select }: { w: RoomView; selected: string; select: (id: string) => void }) {
-  return <aside className="world-rail"><div className="section-label">THE WORLD <span>{w.republics.length} NATIONS</span></div>{w.republics.map(r => <button className={`nation-card ${r.id === selected ? 'selected' : ''}`} key={r.id} onClick={() => select(r.id)}><span className="nation-flag">{r.flag}</span><div><b>{r.name}</b><small>{r.id === w.playerId ? 'YOUR REPUBLIC' : `PRESIDENT ${r.leader.toUpperCase()}`}</small><div className="nation-meta"><span>{money(r.gdp)} <em>GDP</em></span><span>{r.influence.toFixed(0)} <em>INF</em></span></div></div><i className="live-dot" /></button>)}<div className="rail-note"><span className="eyebrow">A WORD OF ADVICE</span><p>Talk to the person,<br />then make the deal.</p><span className="muted small">Public military figures are estimates. Every promise has a price.</span></div><div className="room-badge">WORLD <b>{w.code}</b></div></aside>;
+  return (
+    <aside className="world-rail">
+      <div className="section-label">
+        THE WORLD <span>{w.republics.length} NATIONS</span>
+      </div>
+      {w.republics.map((r) => (
+        <button
+          className={`nation-card ${r.id === selected ? 'selected' : ''}`}
+          key={r.id}
+          onClick={() => select(r.id)}
+        >
+          <span className="nation-flag">{r.flag}</span>
+          <div>
+            <b>{r.name}</b>
+            <small>{r.id === w.playerId ? 'YOUR REPUBLIC' : `PRESIDENT ${r.leader.toUpperCase()}`}</small>
+            <div className="nation-meta">
+              <span>
+                {money(r.gdp)} <em>GDP</em>
+              </span>
+              <span>
+                {r.influence.toFixed(0)} <em>INF</em>
+              </span>
+            </div>
+          </div>
+          <i className="live-dot" />
+        </button>
+      ))}
+      <div className="rail-note">
+        <span className="eyebrow">A WORD OF ADVICE</span>
+        <p>
+          Talk to the person,
+          <br />
+          then make the deal.
+        </p>
+        <span className="muted small">Public military figures are estimates. Every promise has a price.</span>
+      </div>
+      <div className="room-badge">
+        WORLD <b>{w.code}</b>
+      </div>
+    </aside>
+  );
 }
