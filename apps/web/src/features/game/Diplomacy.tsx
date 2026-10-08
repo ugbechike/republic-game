@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FlagBanner } from '../../components/FlagBanner';
 import { RESOURCE_LABEL, type Action, type Deal, type RoomView } from '@republic/contracts';
 import { TradeForm } from './TradeForm';
 import { Agreements } from './Agreements';
@@ -40,7 +41,7 @@ export function Diplomacy({
               .filter((r) => r.id !== w.playerId)
               .map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.flag} {r.name}
+                  {r.name}
                 </option>
               ))}
           </select>
@@ -48,7 +49,7 @@ export function Diplomacy({
         {target ? (
           <>
             <h2 className="panel-title">
-              {target.flag} {target.name}
+              <FlagBanner flag={target.flag} /> {target.name}
             </h2>
             <p className="muted">
               President {target.leader} · {target.resources.map((r) => RESOURCE_LABEL[r]).join(', ')}

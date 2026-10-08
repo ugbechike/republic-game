@@ -1,0 +1,85 @@
+.game-surface {
+  background: #071d28ef;
+  border: 1px solid #94b5bb33;
+  border-radius: 8px;
+  box-shadow: 0 25px 80px #0006;
+  backdrop-filter: blur(16px);
+}
+.how-to-panel,
+.join-world {
+  max-width: 850px;
+  margin: 7vh auto;
+  padding: 36px;
+}
+.how-to-panel h1,
+.join-world h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  margin: 12px 0;
+}
+.how-to-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 28px 0;
+}
+.how-to-grid article {
+  border: 1px solid #ffffff13;
+  padding: 20px;
+  border-radius: 4px;
+}
+.how-to-grid article > span {
+  float: right;
+  color: #75898d;
+}
+.how-to-grid h3 {
+  margin: 12px 0 8px;
+}
+.how-to-grid p {
+  line-height: 1.6;
+  color: #acbfc5;
+}
+.join-world {
+  max-width: 520px;
+}
+.join-world input {
+  font-size: 30px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+@keyframes world-arrival {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (max-width: 760px) {
+  .title-motto {
+    display: none;
+  }
+  .title-menu {
+    margin-top: 12vh;
+  }
+  .title-screen {
+    padding: 24px;
+  }
+  .title-footer p {
+    display: none;
+  }
+  .title-menu h1 {
+    font-size: 64px;
+  }
+  .how-to-grid {
+    grid-template-columns: 1fr;
+  }
+  .republic-brand {
+    font-size: 24px;
+    letter-spacing: 6px;
+  }
+}

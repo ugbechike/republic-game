@@ -1,10 +1,12 @@
-import { RESOURCE_LABEL, RESOURCES, type RoomView, type Action } from '@republic/contracts';
+import { RESOURCE_LABEL, TRADE_RESOURCES, type RoomView, type Action } from '@republic/contracts';
+import { ResourcePortfolio } from './ResourcePortfolio';
 import { money, human } from './format';
 export function Domestic({ w, send, busy }: { w: RoomView; send: (a: Action) => void; busy: boolean }) {
   const r = w.me,
     m = r.metrics;
   return (
     <div className="detail-grid">
+      <ResourcePortfolio r={r} month={w.month} />
       <section className="panel">
         <div className="section-label">THE NATIONAL BALANCE SHEET</div>
         <h2 className="panel-title">Room to manoeuvre.</h2>
@@ -30,7 +32,7 @@ export function Domestic({ w, send, busy }: { w: RoomView; send: (a: Action) => 
       <section className="panel">
         <div className="section-label">STRATEGIC RESERVES</div>
         <h2 className="panel-title">No nation has everything.</h2>
-        {RESOURCES.map((k) => (
+        {TRADE_RESOURCES.map((k) => (
           <div className="stock-row" key={k}>
             <span>
               {RESOURCE_LABEL[k]} {r.resources.includes(k) && <small className="green">PRODUCER</small>}

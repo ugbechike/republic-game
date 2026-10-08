@@ -6,6 +6,7 @@ import type { OrthographicCamera } from 'three';
 import type { Region, Republic } from '@republic/contracts';
 import { Building } from './Buildings';
 import { Landscape } from './Landscape';
+import { ResourceLandmarks } from './ResourceLandmarks';
 class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
@@ -31,7 +32,7 @@ function FitCamera({ capital }: { capital: boolean }) {
   const { camera, size } = useThree();
   useEffect(() => {
     const orthographic = camera as OrthographicCamera;
-    orthographic.zoom = Math.min(size.width / (capital ? 22 : 17), size.height / (capital ? 13 : 10));
+    orthographic.zoom = Math.min(size.width / (capital ? 26 : 21), size.height / (capital ? 17 : 14));
     orthographic.updateProjectionMatrix();
   }, [camera, size.width, size.height, capital]);
   return null;
@@ -76,6 +77,7 @@ export default function CityCanvas({ region, republic }: { region: Region; repub
           activity={region.development}
           reducedMotion={reducedMotion}
         />
+        <ResourceLandmarks resources={republic.resources} capital={capital} />
         {region.plots.map((plot) => (
           <Building key={`${region.id}-${plot.id}-${plot.stage}`} plot={plot} />
         ))}

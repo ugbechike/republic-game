@@ -1,0 +1,237 @@
+.summit-backdrop .cinematic-art {
+  background-position: 65% center;
+  filter: brightness(0.6) saturate(0.65);
+}
+.summit-backdrop .cinematic-shade {
+  background: linear-gradient(0deg, #04151bf5, transparent 75%), linear-gradient(90deg, #04151baa, #04151b22);
+}
+.summit-code {
+  text-align: right;
+  display: grid;
+  justify-items: end;
+}
+.summit-code > span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #d6bc7e;
+}
+.summit-code button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 27px;
+  letter-spacing: 4px;
+  color: #f0d496;
+  border: 0;
+  padding: 4px 0;
+  background: none;
+}
+.summit-code small {
+  color: #b8c4c6;
+  font-size: 10px;
+}
+.summit-content {
+  max-width: 1380px;
+  margin: 9vh auto 0;
+}
+.summit-title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.summit-crest {
+  color: #f0d18b;
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ecd08970;
+  border-radius: 50%;
+  background: #e9c66a0d;
+}
+.summit-title h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 54px;
+  line-height: 1;
+  margin: 10px 0 0;
+  font-weight: 600;
+}
+.summit-count {
+  margin-left: auto;
+  text-align: right;
+}
+.summit-count b {
+  display: block;
+  font-size: 35px;
+  color: #f1d797;
+}
+.summit-count b span {
+  color: #99adb6;
+  font-size: 25px;
+}
+.summit-count small {
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.summit-seats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 15px;
+}
+.summit-seat {
+  position: relative;
+  background: linear-gradient(150deg, #193440e8, #051823ef);
+  border: 1px solid #57758180;
+  border-radius: 6px;
+  padding: 22px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 365px;
+}
+.summit-seat.your-seat {
+  border-color: #e9cb84;
+  box-shadow: 0 0 22px #d9b65712;
+}
+.summit-seat .flag-banner.flag-large {
+  width: 80px;
+  height: 88px;
+  margin: 24px 0 18px;
+}
+.summit-seat .flag-banner.flag-large svg {
+  width: 57px;
+  height: 57px;
+}
+.seat-ribbon {
+  font-size: 9px;
+  color: #d6bd85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 1px;
+}
+.summit-seat h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 29px;
+  margin: 0 0 5px;
+}
+.summit-seat p {
+  font-size: 12px;
+  color: #afc0c7;
+}
+.seat-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.seat-resources span {
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #cfc796;
+}
+.summit-seat > small {
+  font-size: 10px;
+  color: #869eaa;
+  margin-top: auto;
+}
+.ready-badge {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #092a23;
+  background: #7cdda5;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.ready-badge.delegate {
+  background: #bba984;
+}
+.empty-seat {
+  justify-content: center;
+  background: #0619248c;
+  border-style: dashed;
+  color: #79939f;
+}
+.empty-crest {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 80px;
+  border: 1px solid #7a99a24d;
+  border-radius: 4px 4px 25px 4px;
+  margin-bottom: 22px;
+}
+.empty-seat p {
+  line-height: 1.7;
+  font-size: 11px;
+}
+.empty-seat > small {
+  margin-top: 20px;
+}
+.summit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding: 30px 0;
+}
+.summit-footer > div {
+  text-align: center;
+}
+.summit-footer > div > span {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  color: #d2dcd9;
+  font-size: 13px;
+}
+.summit-footer p {
+  color: #8da7b2;
+  margin: 6px 0 0;
+  font-size: 11px;
+}
+.waiting-host {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.summit-debug {
+  font-size: 10px;
+  color: #84999f;
+}
+.summit-debug p {
+  margin: 10px 0;
+}
+@media (max-width: 760px) {
+  .summit-content {
+    margin-top: 40px;
+  }
+  .summit-seats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .summit-title h1 {
+    font-size: 34px;
+  }
+  .summit-title .kicker {
+    font-size: 8px;
+  }
+  .summit-crest {
+    display: none;
+  }
+  .summit-footer {
+    flex-wrap: wrap;
+  }
+  .summit-footer > div {
+    order: 3;
+    width: 100%;
+  }
+}

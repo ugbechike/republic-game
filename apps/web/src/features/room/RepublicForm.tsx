@@ -1,73 +1,49 @@
-import { FLAGS, RESOURCES, RESOURCE_COST, RESOURCE_LABEL, type Draft } from '@republic/contracts';
+import { FLAGS, type Draft } from '@republic/contracts';
+import { FlagBanner, FLAG_STYLES } from '../../components/FlagBanner';
 export function RepublicForm({ draft, setDraft }: { draft: Draft; setDraft: (d: Draft) => void }) {
-  const points = draft.resources.reduce((n, r) => n + RESOURCE_COST[r], 0);
   return (
-    <div className="form-stack">
-      <div className="form-row">
-        <label>
-          Republic name
-          <input
-            required
-            minLength={2}
-            maxLength={28}
-            value={draft.name}
-            placeholder="e.g. Solara"
-            onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-          />
-        </label>
-        <label>
-          President
-          <input
-            required
-            minLength={2}
-            maxLength={28}
-            value={draft.leader}
-            placeholder="Your name"
-            onChange={(e) => setDraft({ ...draft, leader: e.target.value })}
-          />
-        </label>
-      </div>
-      <label>Choose your standard</label>
-      <div className="flag-options">
+    <section className="identity-fields">
+      <label htmlFor="republic-name">
+        Republic name <span>{draft.name.length}/28</span>
+      </label>
+      <input
+        id="republic-name"
+        autoFocus
+        required
+        minLength={2}
+        maxLength={28}
+        placeholder="e.g. Solara"
+        value={draft.name}
+        onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+        autoComplete="off"
+      />
+      <label htmlFor="leader-name">Leader name</label>
+      <input
+        id="leader-name"
+        required
+        minLength={2}
+        maxLength={28}
+        placeholder="Your name"
+        value={draft.leader}
+        onChange={(e) => setDraft({ ...draft, leader: e.target.value })}
+        autoComplete="off"
+      />
+      <h3>CHOOSE YOUR FLAG</h3>
+      <div className="flag-deck">
         {FLAGS.map((flag) => (
           <button
             type="button"
-            aria-label={`Flag ${flag}`}
-            aria-pressed={draft.flag === flag}
-            className={draft.flag === flag ? 'selected' : ''}
-            onClick={() => setDraft({ ...draft, flag })}
             key={flag}
+            aria-label={`${FLAG_STYLES[flag].name} flag`}
+            aria-pressed={draft.flag === flag}
+            className={draft.flag === flag ? 'chosen' : ''}
+            onClick={() => setDraft({ ...draft, flag })}
           >
-            {flag}
+            <FlagBanner flag={flag} />
+            <span>{FLAG_STYLES[flag].name}</span>
           </button>
         ))}
       </div>
-      <div className="section-label">
-        NATURAL ADVANTAGES <span>{points} / 4 POINTS</span>
-      </div>
-      <div className="resource-options">
-        {RESOURCES.map((resource) => {
-          const selected = draft.resources.includes(resource);
-          return (
-            <button
-              type="button"
-              key={resource}
-              aria-pressed={selected}
-              disabled={!selected && points + RESOURCE_COST[resource] > 4}
-              className={selected ? 'selected' : ''}
-              onClick={() =>
-                setDraft({
-                  ...draft,
-                  resources: selected ? draft.resources.filter((r) => r !== resource) : [...draft.resources, resource],
-                })
-              }
-            >
-              {RESOURCE_LABEL[resource]} <small>{RESOURCE_COST[resource]}pt</small>
-            </button>
-          );
-        })}
-      </div>
-      <p className="muted small">Energy and food keep your economy moving. What you lack, negotiate for.</p>
-    </div>
+    </section>
   );
 }

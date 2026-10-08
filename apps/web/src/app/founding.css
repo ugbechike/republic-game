@@ -1,0 +1,232 @@
+.founding-screen {
+  padding: 22px 4vw 0;
+}
+.founding-screen .cinematic-shade {
+  background: linear-gradient(90deg, #04151bed, #071c26e3), linear-gradient(0deg, #05141d, transparent);
+}
+.founding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.founding-header > span {
+  letter-spacing: 2px;
+  font-size: 12px;
+  color: #bdcbd0;
+}
+.founding-progress {
+  display: flex;
+  max-width: 700px;
+  margin: 28px auto;
+}
+.founding-progress button {
+  flex: 1;
+  border: 0;
+  border-radius: 0;
+  border-top: 2px solid #29424e;
+  position: relative;
+  background: none;
+  padding: 17px 0 0;
+  font-size: 11px;
+  color: #81949c;
+}
+.founding-progress button span {
+  position: absolute;
+  top: -11px;
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+  background: #1b3543;
+  border: 1px solid #47606c;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+}
+.founding-progress button.reached {
+  border-color: #dcbf7d;
+  color: #e8d296;
+}
+.founding-progress button.reached span {
+  background: #e2c579;
+  color: #0d222e;
+  border-color: #f6de98;
+}
+.founding-content {
+  max-width: 1380px;
+  margin: auto;
+}
+.founding-content h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(28px, 2.8vw, 43px);
+  line-height: 1.05;
+  font-weight: 600;
+  margin: 10px 0;
+}
+.founding-content p {
+  color: #9fb5be;
+  line-height: 1.5;
+}
+.identity-step {
+  max-width: 1000px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  min-height: 470px;
+}
+.identity-fields {
+  margin-top: 24px;
+}
+.identity-fields label {
+  margin-top: 18px;
+  font-size: 13px;
+}
+.identity-fields label span {
+  float: right;
+  color: #758e9c;
+}
+.identity-fields input {
+  background: #061c28d9;
+  border-color: #41606b;
+  font-size: 17px;
+  padding: 13px;
+}
+.identity-fields h3 {
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin: 24px 0 12px;
+}
+.flag-deck {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.flag-deck button {
+  padding: 7px;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  border-color: #36515c;
+}
+.flag-deck button > span:last-child {
+  font-size: 10px;
+}
+.chosen,
+.flag-deck .chosen {
+  border-color: #f4d285 !important;
+  box-shadow:
+    0 0 0 1px #f4d285,
+    inset 0 0 20px #edc77512;
+}
+.flag-banner {
+  width: 47px;
+  height: 48px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffffff1b;
+  border-radius: 3px 3px 12px 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 1px #ffffff18,
+    0 5px 10px #0003;
+}
+.flag-banner svg {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  z-index: 1;
+}
+.flag-banner i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, #ffffff20, transparent 45%, #0003);
+}
+.flag-banner.flag-large {
+  width: 118px;
+  height: 128px;
+  border-radius: 4px 4px 30px 4px;
+}
+.flag-banner.flag-large svg {
+  width: 82px;
+  height: 82px;
+}
+.identity-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: radial-gradient(ellipse, #bc92441f, transparent 67%);
+  border: 1px solid #6f96a125;
+  border-radius: 6px;
+}
+.identity-preview .flag-banner {
+  margin: 40px 0 25px;
+}
+.identity-preview h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+.identity-motto {
+  font-size: 10px;
+  color: #bbab7d;
+  letter-spacing: 2px;
+  margin: 30px 0;
+}
+.founding-footer {
+  border-top: 1px solid #66848e33;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 24px;
+}
+.founding-footer > span {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #8c9ea7;
+  text-align: center;
+}
+.step-transition {
+  animation: step-in 0.35s ease-out;
+}
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 760px) {
+  .founding-header > span,
+  .founding-footer > span {
+    display: none;
+  }
+  .identity-step {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .identity-preview {
+    padding: 25px;
+  }
+  .founding-footer {
+    position: sticky;
+    bottom: 0;
+    background: #081c27f5;
+    z-index: 5;
+  }
+  .founding-footer .game-button {
+    padding: 12px;
+    font-size: 12px;
+  }
+}

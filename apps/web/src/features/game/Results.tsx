@@ -1,6 +1,7 @@
 import { Trophy, ArrowUpRight } from 'lucide-react';
 import type { RoomView, Action, Score } from '@republic/contracts';
 import { human } from './format';
+import { FlagBanner } from '../../components/FlagBanner';
 const categories = ['economy', 'prosperity', 'influence', 'strength', 'stability'] as const;
 export function Results({
   w,
@@ -26,7 +27,7 @@ export function Results({
       <h1>World Power Ranking</h1>
       <p className="muted">The world you inherited is gone. This is the one you made.</p>
       <div className="winner">
-        <span>{winner.flag}</span>
+        <FlagBanner flag={winner.flag} large />
         <h2>{winner.name}</h2>
         <b>
           {winner.total}
@@ -37,7 +38,7 @@ export function Results({
         {w.results.map((r, index) => (
           <article key={r.id} className={r.id === w.playerId ? 'you' : ''}>
             <span className="rank">{String(index + 1).padStart(2, '0')}</span>
-            <span className="flag">{r.flag}</span>
+            <FlagBanner flag={r.flag} />
             <div>
               <h3>
                 {r.name} {r.id === w.playerId && <small>YOUR REPUBLIC</small>}
@@ -78,9 +79,7 @@ export function Results({
                 ][i]
               }
             </span>
-            <h3>
-              {best(key).flag} {best(key).name}
-            </h3>
+            <h3>{best(key).name}</h3>
           </section>
         ))}
         <section className="panel">

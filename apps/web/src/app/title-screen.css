@@ -1,0 +1,211 @@
+.title-screen,
+.founding-screen,
+.summit-screen {
+  min-height: 100svh;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 36px 5vw;
+}
+.cinematic-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: #071923;
+}
+.cinematic-art {
+  position: absolute;
+  inset: 0;
+  background: url('/art/republic-sunset.png') center/cover;
+  animation: world-arrival 1.2s ease-out both;
+}
+.cinematic-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #04131aee 0%, #04131aa8 28%, #04131a08 65%),
+    linear-gradient(0deg, #04131aeb, transparent 45%, #04131a65);
+}
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 75% 30%, #eab76215, transparent 55%);
+  pointer-events: none;
+}
+.title-header,
+.title-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+}
+.republic-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #f3d18c;
+  font-size: 32px;
+  letter-spacing: 9px;
+  font-weight: 600;
+}
+.republic-brand > span {
+  width: 56px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e3bd6960;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: #edc87514;
+}
+.republic-brand svg {
+  width: 42px;
+  height: 42px;
+}
+.republic-brand small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 3px;
+  margin-top: 5px;
+  color: #c1b38f;
+}
+.brand-small {
+  font-size: 22px;
+  letter-spacing: 6px;
+}
+.brand-small > span {
+  width: 40px;
+  height: 44px;
+}
+.brand-small svg {
+  width: 30px;
+  height: 30px;
+}
+.title-motto,
+.title-facts,
+.title-footer {
+  font-size: 11px;
+  letter-spacing: 1.6px;
+}
+.title-motto i,
+.title-facts i {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #dfc489;
+  margin: 0 12px;
+  vertical-align: middle;
+}
+.title-menu {
+  margin: 9vh 0 7vh;
+  max-width: 610px;
+}
+.kicker {
+  color: #d7c399;
+  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.title-menu h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(64px, 6.6vw, 108px);
+  line-height: 0.96;
+  letter-spacing: 1px;
+  font-weight: 650;
+  margin: 25px 0;
+  text-shadow: 0 4px 30px #0008;
+}
+.title-menu h1 em {
+  font-style: normal;
+  color: #f2d48f;
+}
+.title-menu > p {
+  color: #c8d2d4;
+  font-size: 18px;
+  line-height: 1.6;
+}
+.title-actions {
+  display: grid;
+  gap: 10px;
+  max-width: 320px;
+  margin: 28px 0;
+}
+.game-button {
+  min-height: 48px;
+  border: 1px solid #7da3b144;
+  border-radius: 5px;
+  background: linear-gradient(#173340e8, #0a202bec);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 22px;
+  font-weight: 650;
+  box-shadow:
+    0 5px 15px #0003,
+    inset 0 1px #ffffff0c;
+  transition:
+    transform 0.18s,
+    filter 0.18s;
+}
+.game-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+.game-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.game-button.gold {
+  background: linear-gradient(#ffe5a1, #dfb764);
+  border-color: #ebcc87;
+  color: #15252a;
+  box-shadow:
+    0 6px 24px #e5b4501a,
+    inset 0 1px #fff9;
+}
+.game-button.quiet {
+  background: #0b1d27c9;
+}
+.title-actions .game-button {
+  justify-content: space-between;
+}
+.resume-game {
+  border: 0;
+  background: none;
+  color: #c3d4d7;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.title-facts {
+  color: #b7c5c6;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.title-footer {
+  color: #9dadad;
+}
+.title-footer p {
+  margin: 0;
+  font-style: italic;
+  letter-spacing: 0;
+}
+.title-footer b {
+  border: 1px solid #ffffff25;
+  padding: 3px 6px;
+  margin-left: 12px;
+  font-weight: 400;
+}
+.sound-toggle,
+.icon-button {
+  display: grid;
+  place-items: center;
+  padding: 10px;
+}
