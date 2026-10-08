@@ -1,0 +1,26 @@
+{
+  "name": "republic",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n server,web \"npm run dev -w @republic/server\" \"npm run dev -w @republic/web\"",
+    "build": "npm run build -w @republic/web",
+    "typecheck": "tsc --noEmit -p apps/server && tsc --noEmit -p apps/web",
+    "test": "vitest run",
+    "check:files": "node scripts/check-files.mjs",
+    "check": "npm run typecheck && npm test && npm run check:files"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^22.18.0",
+    "vitest": "^3.2.4",
+    "concurrently": "^9.2.0",
+    "@playwright/test": "^1.56.0"
+  }
+}

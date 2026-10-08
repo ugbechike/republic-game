@@ -1,0 +1,27 @@
+{
+  "name": "@republic/web",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@republic/contracts": "*",
+    "@republic/api-client": "*",
+    "next": "^16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "@react-three/fiber": "^9.8.1",
+    "@react-three/drei": "^10.7.6",
+    "three": "^0.180.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "tailwindcss": "^4.1.16",
+    "@tailwindcss/postcss": "^4.1.16"
+  }
+}
