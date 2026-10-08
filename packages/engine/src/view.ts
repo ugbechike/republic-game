@@ -3,6 +3,7 @@ export function view(room: Room, playerId: string, development: boolean): RoomVi
   const { players: _players, seed: _seed, republics, ...publicRoom } = room;
   return structuredClone({ ...publicRoom, playerId, development,
     republics: republics.map(r => ({ id: r.id, name: r.name, leader: r.leader, flag: r.flag, resources: r.resources, gdp: r.metrics.gdp, population: r.metrics.population, stability: r.metrics.stability, militaryEstimate: Math.round(r.metrics.military / 10) * 10, influence: r.influence, reputation: r.reputation, stats: r.stats })),
+    publicTrades: room.deals.filter(d => d.status === 'active').map(d => ({ from: d.from, to: d.to })),
     me: republics.find(r => r.id === playerId)!,
     notices: room.notices.filter(n => !n.audience || n.audience.includes(playerId)),
     deals: room.deals.filter(d => d.from === playerId || d.to === playerId),

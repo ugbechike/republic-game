@@ -8,6 +8,13 @@ import { interval, notice, requireThat } from './helpers';
 export function act(room: Room, playerId: string, action: Action, development = false, now = Date.now()) {
   const me = room.republics.find(r => r.id === playerId);
   requireThat(me, 'Unknown player');
+  if (action.type === 'rematch') {
+    requireThat(playerId === room.host && room.phase === 'ended', 'Only the host can start a rematch after results');
+    room.republics = room.republics.map(r => createRepublic(r.id, { name: r.name, leader: r.leader, flag: r.flag as Parameters<typeof createRepublic>[1]['flag'], resources: r.resources }, room.options.difficulty === 'struggling'));
+    room.phase = 'lobby'; room.month = 0; room.nextTick = 0; room.speed = 1;
+    room.deals = []; room.alliances = []; room.loans = []; room.wars = []; room.sanctions = []; room.results = []; room.notices = []; delete room.vote;
+    return;
+  }
   if (action.type === 'start') {
     requireThat(playerId === room.host && room.phase === 'lobby', 'Only the host can start a lobby');
     requireThat(room.republics.length >= 4, 'At least four Republics are required');
