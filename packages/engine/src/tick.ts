@@ -1,10 +1,13 @@
 import type { Room } from '@republic/contracts';
 import { interval } from './helpers';
+import { tradeTick } from './trade';
+import { diplomacyTick } from './diplomacy';
 import { economy } from './economy';
 import { eventsTick } from './events';
 export function tick(room: Room) {
   if (room.phase !== 'playing') return;
   room.month++;
+  tradeTick(room); diplomacyTick(room);
   for (const r of room.republics) { economy(room, r); eventsTick(room, r); }
   if (room.month >= 240) room.phase = 'ended';
 }
