@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./room.css";
+@import "./game.css";
 :root { --bg: #0b141b; --panel: #132029; --line: #ffffff14; --muted: #8a9b9f; --accent: #d9c795; --green: #9fcbb1; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: #edf0e9; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }

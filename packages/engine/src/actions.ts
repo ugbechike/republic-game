@@ -1,5 +1,6 @@
 import type { Action, Room } from '@republic/contracts';
 import { botDraft, createRepublic } from './create';
+import { domestic } from './domestic';
 import { interval, notice, requireThat } from './helpers';
 export function act(room: Room, playerId: string, action: Action, development = false, now = Date.now()) {
   const me = room.republics.find(r => r.id === playerId);
@@ -16,5 +17,6 @@ export function act(room: Room, playerId: string, action: Action, development = 
     room.republics.push(createRepublic(id, botDraft(room.republics.length), room.options.difficulty === 'struggling')); return;
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
+  if (domestic(room, me, action, development)) return;
   throw new Error('Action not available yet');
 }
