@@ -47,8 +47,8 @@ it('validates HTTP, authenticates sockets, deduplicates actions and restores a s
     expect(resumed.state.republics).toHaveLength(2);
     expect((await store.all())[0].players[0].requests).toContain(payload.requestId);
   } finally {
-    sockets.forEach((s) => s.disconnect());
     await app.close();
+    sockets.forEach((s) => s.disconnect());
   }
 }, 30_000);
 it('broadcasts the same authoritative calendar to four independent players', async () => {
@@ -87,7 +87,7 @@ it('broadcasts the same authoritative calendar to four independent players', asy
     expect(states.every((s) => s.month === 1 && s.version === states[0].version)).toBe(true);
     expect(states.map((s) => s.me.id)).toEqual(sessions.map((s) => s.playerId));
   } finally {
-    sockets.forEach((s) => s.disconnect());
     await app.close();
+    sockets.forEach((s) => s.disconnect());
   }
 }, 30_000);

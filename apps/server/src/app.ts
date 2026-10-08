@@ -84,6 +84,11 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     }
   }, 500);
   timer.unref();
+  app.addHook('preClose', async () => {
+    clearInterval(timer);
+    io.disconnectSockets(true);
+    io.engine.close();
+  });
   app.addHook('onClose', async () => {
     clearInterval(timer);
     io.close();
