@@ -1,4 +1,5 @@
-import { RESOURCES, type Republic, type Room } from '@republic/contracts';
+import { resourceEconomy } from './resource-economy';
+import { type Republic, type Room } from '@republic/contracts';
 import { clamp, notice } from './helpers';
 export function election(room: Room, r: Republic) {
   r.house = Math.round(clamp(r.metrics.approval * 0.65 + r.metrics.stability * 0.35 - r.metrics.inflation, 20, 85));
@@ -13,11 +14,7 @@ export function economy(room: Room, r: Republic) {
   r.pendingPolicies = r.pendingPolicies.filter((c) => c.month > room.month);
   for (const effect of r.effects.filter((e) => e.month <= room.month)) m[effect.metric] += effect.amount;
   r.effects = r.effects.filter((e) => e.month > room.month);
-  for (const k of RESOURCES) {
-    const industry = r.regions.filter((s) => s.industry === k).length;
-    const output = r.resources.includes(k) ? 2.2 + industry * 0.5 + m.infrastructure / 80 : 0;
-    r.stocks[k] = clamp(r.stocks[k] + output, 0, 240);
-  }
+  const advantage = resourceEconomy(room, r);
   const fuel = Math.min(r.stocks.oil + r.stocks.gas, 1.7);
   const oilUsed = Math.min(r.stocks.oil, fuel);
   r.stocks.oil -= oilUsed;
@@ -30,10 +27,7 @@ export function economy(room: Room, r: Republic) {
   r.stocks.timber -= material - ironUsed;
   const tech = Math.min(r.stocks.rareEarths, 0.2);
   r.stocks.rareEarths -= tech;
-  const gold = Math.min(r.stocks.gold, 0.3);
-  r.stocks.gold -= gold;
-  m.treasury += gold * 0.12;
-  const energyTarget = clamp((fuel / 1.7) * 60 + p.energy * 1.5);
+  const energyTarget = clamp((fuel / 1.7) * 60 + p.energy * 1.5 + advantage.energy);
   m.energy += (energyTarget - m.energy) * 0.15;
   m.education = clamp(m.education + (p.education - 7) * 0.06);
   m.healthcare = clamp(m.healthcare + (p.healthcare - 7) * 0.06);
@@ -46,6 +40,7 @@ export function economy(room: Room, r: Republic) {
   const regional = r.regions.reduce((n, s) => n + s.development, 0) / r.regions.length;
   const growth = clamp(
     0.0018 +
+      advantage.growth +
       (m.education - 50) / 30000 +
       (m.infrastructure - 50) / 25000 +
       (regional - 50) / 50000 +

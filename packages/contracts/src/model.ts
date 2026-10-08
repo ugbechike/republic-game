@@ -1,23 +1,5 @@
-export const RESOURCES = ['oil', 'gas', 'agriculture', 'gold', 'iron', 'rareEarths', 'timber'] as const;
-export type Resource = (typeof RESOURCES)[number];
-export const RESOURCE_COST: Record<Resource, number> = {
-  oil: 2,
-  gas: 2,
-  agriculture: 1,
-  gold: 2,
-  iron: 1,
-  rareEarths: 2,
-  timber: 1,
-};
-export const RESOURCE_LABEL: Record<Resource, string> = {
-  oil: 'Oil',
-  gas: 'Natural gas',
-  agriculture: 'Agriculture',
-  gold: 'Gold',
-  iron: 'Iron',
-  rareEarths: 'Rare earths',
-  timber: 'Timber',
-};
+import type { Resource, TRADE_RESOURCES } from './resources';
+export * from './resources';
 export const FLAGS = ['🌅', '🌊', '🌲', '☀️', '🏔️', '🌙', '⚡', '🦅'] as const;
 export type Policy =
   'corporateTax' | 'incomeTax' | 'education' | 'healthcare' | 'infrastructure' | 'defence' | 'energy' | 'social';
@@ -58,7 +40,9 @@ export type Region = {
 };
 export type Crisis = {
   id: string;
-  kind: 'flood' | 'power' | 'scandal' | 'boom' | 'health' | 'drought';
+  kind: 'flood' | 'power' | 'scandal' | 'boom' | 'health' | 'drought' | 'resource';
+  resource?: Resource;
+  affectedMetric?: keyof Metrics;
   title: string;
   description: string;
   expires: number;
@@ -70,6 +54,7 @@ export type Republic = {
   flag: string;
   resources: Resource[];
   stocks: Record<Resource, number>;
+  disruptions?: { resource: Resource; ends: number }[];
   metrics: Metrics;
   policies: Record<Policy, number>;
   pendingPolicies: { key: Policy; value: number; month: number }[];
@@ -84,7 +69,7 @@ export type Republic = {
   stats: { wars: number; sanctions: number; betrayals: number; deliveries: number };
 };
 export type Player = { id: string; tokenHash: string; requests: string[] };
-export type Bundle = { money: number; resource: Resource; amount: number };
+export type Bundle = { money: number; resource: (typeof TRADE_RESOURCES)[number]; amount: number };
 export type Deal = {
   id: string;
   from: string;
@@ -147,6 +132,7 @@ export type Score = {
 export type Room = {
   code: string;
   host: string;
+  minPlayers: number;
   options: { duration: 45 | 60 | 90; maxPlayers: number; difficulty: 'developing' | 'struggling' };
   phase: 'lobby' | 'playing' | 'ended';
   version: number;
@@ -178,3 +164,6 @@ export type RoomView = Omit<Room, 'players' | 'republics' | 'seed'> & {
 };
 export type Session = { code: string; playerId: string; token: string };
 export type Ack = { ok: boolean; error?: string };
+
+export type RoomSummary = Pick<Room, 'code' | 'phase' | 'options' | 'minPlayers'> & { occupied: number };
+export type RepublicPreview = { metrics: Metrics; influence: number };

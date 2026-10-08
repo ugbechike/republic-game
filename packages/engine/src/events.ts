@@ -1,3 +1,4 @@
+import { resourceEvents } from './resource-events';
 import type { Crisis, Republic, Room } from '@republic/contracts';
 import { clamp, notice, random, spend, uid } from './helpers';
 const events: Pick<Crisis, 'kind' | 'title' | 'description'>[] = [
@@ -37,19 +38,32 @@ const events: Pick<Crisis, 'kind' | 'title' | 'description'>[] = [
 ];
 export function triggerCrisis(room: Room, r: Republic) {
   if (r.crisis) return;
-  r.crisis = { ...events[Math.floor(random(room) * events.length)], id: uid(room), expires: room.month + 6 };
+  const specific = resourceEvents(r);
+  const general = events.filter(
+    (e) =>
+      !['drought', 'flood'].includes(e.kind) ||
+      r.resources.some((k) => ['agriculture', 'rivers', 'coastline'].includes(k)),
+  );
+  const pool = random(room) < 0.7 && specific.length ? specific : general;
+  r.crisis = { ...pool[Math.floor(random(room) * pool.length)], id: uid(room), expires: room.month + 6 };
+  if (r.crisis.resource) {
+    r.disruptions = [...(r.disruptions ?? []), { resource: r.crisis.resource, ends: room.month + 6 }];
+    const metric = r.crisis.affectedMetric ?? 'infrastructure';
+    r.metrics[metric] = clamp(r.metrics[metric] - 4);
+  }
   notice(room, `${r.name}: ${r.crisis.title}. Cabinet decision required.`, [r.id]);
 }
 export function resolveCrisis(room: Room, r: Republic, choice: 'intervene' | 'appeal' | 'market') {
   if (!r.crisis) throw new Error('No active crisis');
   const metric =
-    r.crisis.kind === 'power'
+    r.crisis.affectedMetric ??
+    (r.crisis.kind === 'power'
       ? 'energy'
       : r.crisis.kind === 'health'
         ? 'healthcare'
         : r.crisis.kind === 'scandal'
           ? 'stability'
-          : 'infrastructure';
+          : 'infrastructure');
   if (choice === 'intervene') {
     spend(r, 2);
     r.effects.push({ month: room.month + 3, metric, amount: 8 });

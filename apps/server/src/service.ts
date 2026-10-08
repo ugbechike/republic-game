@@ -1,7 +1,7 @@
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import type { Draft, Room, Session } from '@republic/contracts';
-import { act, advance, createRepublic, createRoom, interval, requireThat } from '@republic/engine';
-import { envelopeSchema } from '@republic/contracts';
+import { act, migrateRoom, advance, createRepublic, createRoom, interval, requireThat } from '@republic/engine';
+import { DEFAULT_MIN_PLAYERS, envelopeSchema } from '@republic/contracts';
 import type { Store } from './store';
 export const hash = (token: string) => createHash('sha256').update(token).digest('hex');
 export class Rooms {
@@ -11,9 +11,11 @@ export class Rooms {
     private store: Store,
     readonly development: boolean,
     private changed: (room: Room) => void,
+    readonly minimum = DEFAULT_MIN_PLAYERS,
   ) {}
   async load() {
     for (const r of await this.store.all()) {
+      migrateRoom(r, this.minimum);
       r.nextTick = Date.now() + interval(r);
       this.rooms.set(r.code, r);
     }
@@ -48,6 +50,8 @@ export class Rooms {
     const playerId = randomUUID(),
       token = randomBytes(32).toString('hex');
     const room = createRoom(code, playerId, hash(token), draft, options);
+    room.minPlayers = this.minimum;
+    requireThat(options.maxPlayers >= this.minimum, `World capacity must be at least ${this.minimum}`);
     await this.store.save(room);
     this.rooms.set(code, room);
     return { code, playerId, token };

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RESOURCES, RESOURCE_COST } from './model';
+import { RESOURCES, RESOURCE_COST, RESOURCE_POINTS, TRADE_RESOURCES } from './model';
 const id = z.string().min(1).max(80);
 export const draftSchema = z.object({
   name: z.string().trim().min(2).max(28),
@@ -8,20 +8,20 @@ export const draftSchema = z.object({
   resources: z
     .array(z.enum(RESOURCES))
     .min(1)
-    .max(4)
+    .max(5)
     .refine(
-      (r) => new Set(r).size === r.length && r.reduce((n, k) => n + RESOURCE_COST[k], 0) <= 4,
-      'Choose unique resources costing at most four points',
+      (r) => new Set(r).size === r.length && r.reduce((n, k) => n + RESOURCE_COST[k], 0) <= RESOURCE_POINTS,
+      'Choose unique resources costing at most five points',
     ),
 });
 export const optionsSchema = z.object({
   duration: z.union([z.literal(45), z.literal(60), z.literal(90)]),
-  maxPlayers: z.number().int().min(4).max(8),
+  maxPlayers: z.number().int().min(2).max(8),
   difficulty: z.enum(['developing', 'struggling']),
 });
 const bundle = z.object({
   money: z.number().min(0).max(30),
-  resource: z.enum(RESOURCES),
+  resource: z.enum(TRADE_RESOURCES),
   amount: z.number().min(0).max(60),
 });
 export const actionSchema = z.discriminatedUnion('type', [

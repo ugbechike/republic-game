@@ -3,8 +3,8 @@ import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
 import { Server } from 'socket.io';
 import { z } from 'zod';
-import { draftSchema, optionsSchema, type Session } from '@republic/contracts';
-import { view } from '@republic/engine';
+import { DEFAULT_MIN_PLAYERS, draftSchema, optionsSchema, type Session } from '@republic/contracts';
+import { createRepublic, view } from '@republic/engine';
 import { Rooms } from './service';
 import type { Store } from './store';
 export async function createApp(store: Store, development = process.env.NODE_ENV !== 'production') {
@@ -13,16 +13,27 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     bodyLimit: 16_384,
     trustProxy: process.env.NODE_ENV === 'production',
   });
-  const origins = (process.env.CLIENT_ORIGIN ?? 'http://localhost:3000').split(',');
+  const origins = (process.env.CLIENT_ORIGIN ?? 'http://localhost:3000,http://127.0.0.1:3000').split(',');
   await app.register(cors, { origin: origins });
   await app.register(rateLimit, { max: 30, timeWindow: '1 minute' });
   const io = new Server(app.server, { cors: { origin: origins }, maxHttpBufferSize: 16_384 });
-  const rooms = new Rooms(store, development, (room) => {
-    for (const socket of io.sockets.sockets.values()) {
-      const session = socket.data.session as Session;
-      if (session?.code === room.code) socket.emit('state', view(room, session.playerId, development));
-    }
-  });
+  const minimum = z.coerce
+    .number()
+    .int()
+    .min(2)
+    .max(8)
+    .parse(process.env.MIN_PLAYERS ?? DEFAULT_MIN_PLAYERS);
+  const rooms = new Rooms(
+    store,
+    development,
+    (room) => {
+      for (const socket of io.sockets.sockets.values()) {
+        const session = socket.data.session as Session;
+        if (session?.code === room.code) socket.emit('state', view(room, session.playerId, development));
+      }
+    },
+    minimum,
+  );
   await rooms.load();
   app.setErrorHandler((error, _request, reply) => {
     reply.status(400).send({
@@ -35,6 +46,26 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     });
   });
   app.get('/health', () => ({ ok: true, rooms: rooms.rooms.size }));
+  app.get('/config', () => ({ minPlayers: minimum }));
+  app.get('/rooms/:code/summary', (request) => {
+    const { code } = z.object({ code: z.string().regex(/^[A-Z2-9]{5}$/) }).parse(request.params);
+    const room = rooms.rooms.get(code);
+    if (!room) throw new Error('World not found. Check the code with your host.');
+    return {
+      code,
+      phase: room.phase,
+      options: room.options,
+      minPlayers: room.minPlayers,
+      occupied: room.republics.length,
+    };
+  });
+  app.post('/republic-preview', (request) => {
+    const { draft, difficulty } = z
+      .object({ draft: draftSchema, difficulty: z.enum(['developing', 'struggling']) })
+      .parse(request.body);
+    const r = createRepublic('preview', draft, difficulty === 'struggling');
+    return { metrics: r.metrics, influence: r.influence };
+  });
   app.post('/rooms', async (request) => {
     const body = z.object({ draft: draftSchema, options: optionsSchema }).parse(request.body);
     return rooms.create(body.draft, body.options);

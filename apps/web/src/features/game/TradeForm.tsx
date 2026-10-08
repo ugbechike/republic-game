@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RESOURCES, RESOURCE_LABEL, type Action, type Bundle, type Deal } from '@republic/contracts';
+import { TRADE_RESOURCES, RESOURCE_LABEL, type Action, type Bundle, type Deal } from '@republic/contracts';
 function BundleFields({ label, value, change }: { label: string; value: Bundle; change: (b: Bundle) => void }) {
   return (
     <fieldset>
@@ -22,7 +22,7 @@ function BundleFields({ label, value, change }: { label: string; value: Bundle; 
             value={value.resource}
             onChange={(e) => change({ ...value, resource: e.target.value as Bundle['resource'] })}
           >
-            {RESOURCES.map((r) => (
+            {TRADE_RESOURCES.map((r) => (
               <option value={r} key={r}>
                 {RESOURCE_LABEL[r]}
               </option>

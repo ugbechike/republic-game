@@ -1,4 +1,13 @@
-import { FLAGS, RESOURCES, type Draft, type Republic, type Room, type Region } from '@republic/contracts';
+import { startingAdvantages } from './resource-economy';
+import {
+  FLAGS,
+  RESOURCES,
+  DEFAULT_MIN_PLAYERS,
+  type Draft,
+  type Republic,
+  type Room,
+  type Region,
+} from '@republic/contracts';
 export function createRepublic(id: string, draft: Draft, struggling: boolean): Republic {
   const base = struggling ? 38 : 55;
   const regions: Region[] = [
@@ -36,10 +45,12 @@ export function createRepublic(id: string, draft: Draft, struggling: boolean): R
       height: 0.5 + ((p * 17 + i * 3) % 11) / 6,
     })),
   }));
-  return {
+  const republic: Republic = {
     id,
     ...draft,
-    stocks: Object.fromEntries(RESOURCES.map((k) => [k, draft.resources.includes(k) ? 28 : 10])) as Republic['stocks'],
+    stocks: Object.fromEntries(
+      RESOURCES.map((k) => [k, ['coastline', 'rivers'].includes(k) ? 0 : draft.resources.includes(k) ? 28 : 10]),
+    ) as Republic['stocks'],
     metrics: {
       population: 10,
       gdp: struggling ? 42 : 68,
@@ -75,6 +86,8 @@ export function createRepublic(id: string, draft: Draft, struggling: boolean): R
     history: [struggling ? 42 : 68],
     stats: { wars: 0, sanctions: 0, betrayals: 0, deliveries: 0 },
   };
+  startingAdvantages(republic);
+  return republic;
 }
 export function createRoom(
   code: string,
@@ -86,6 +99,7 @@ export function createRoom(
   return {
     code,
     host,
+    minPlayers: DEFAULT_MIN_PLAYERS,
     options,
     phase: 'lobby',
     version: 0,

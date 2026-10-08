@@ -38,7 +38,8 @@ export function act(room: Room, playerId: string, action: Action, development = 
   }
   if (action.type === 'start') {
     requireThat(playerId === room.host && room.phase === 'lobby', 'Only the host can start a lobby');
-    requireThat(room.republics.length >= 4, 'At least four Republics are required');
+    const humans = room.players.filter((p) => room.republics.some((r) => r.id === p.id)).length;
+    requireThat(humans >= room.minPlayers, `At least ${room.minPlayers} human Republics are required`);
     room.phase = 'playing';
     room.nextTick = now + interval(room);
     notice(room, 'The Assembly is in session. Twenty years. One world.');
