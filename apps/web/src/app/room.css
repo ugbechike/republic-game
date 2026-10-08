@@ -1,0 +1,35 @@
+.landing { min-height: 100vh; display: grid; grid-template-columns: 1.15fr 1fr; padding: 45px 7vw; gap: 30px 7vw; position: relative; overflow: hidden; background: radial-gradient(ellipse at 20% 60%, #24463f66, transparent 55%); }
+.landing-grid { position: absolute; inset: 35% 30% -80% -30%; background-image: linear-gradient(#8fbaa31a 1px, transparent 1px), linear-gradient(90deg,#8fbaa31a 1px,transparent 1px); background-size: 70px 70px; transform: perspective(800px) rotateX(55deg) rotateZ(-25deg); pointer-events: none; }
+.brand { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; letter-spacing: 5px; font-size: 18px; height: 45px; z-index: 1; }
+.brand span { margin-left: auto; color: var(--muted); font-size: 9px; letter-spacing: 2px; }
+.hero { z-index: 1; align-self: center; }
+.hero h1 { font-family: Georgia, serif; font-size: clamp(35px, 4vw, 62px); line-height: 1.12; margin: 30px 0 25px; letter-spacing: -2px; }
+.hero em { color: var(--accent); font-style: normal; }
+.hero > p { font-size: 16px; line-height: 1.8; color: #a4b7b5; }
+.hero-facts { display: flex; gap: 18px; margin: 30px 0; color: #aec0ba; font-size: 11px; flex-wrap: wrap; }
+.hero-facts span { display: flex; gap: 7px; align-items: center; }
+.hero-quote { margin: 60px 0 35px; padding-left: 20px; border-left: 2px solid #d9c79570; font-family: Georgia, serif; color: #b9c9bd; font-size: 20px; line-height: 1.6; }
+.edition { color: #69817c; font-size: 9px; letter-spacing: 2px; }
+.entry-panel { align-self: center; z-index: 1; padding: 30px; border: 1px solid #a6c9b329; border-radius: 15px; background: #142127e8; box-shadow: 0 25px 100px #0004; }
+.tabs { display: flex; border-bottom: 1px solid var(--line); margin-bottom: 25px; }
+.tabs button { border: 0; border-radius: 0; background: none; padding: 12px 0; margin-right: 30px; color: var(--muted); }
+.tabs .active { border-bottom: 2px solid var(--accent); color: var(--accent); }
+.entry-panel h2 { font-size: 22px; }
+.entry-panel .muted { font-size: 12px; }
+.form-stack { display: grid; gap: 16px; margin: 25px 0 15px; }
+.flag-options { display: flex; gap: 7px; flex-wrap: wrap; }
+.flag-options button { padding: 6px 10px; font-size: 20px; }
+.resource-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.resource-options button { font-size: 11px; padding: 8px 11px; }
+.resource-options small { color: var(--muted); margin-left: 8px; }
+.options { margin-bottom: 25px; }
+.options select { font-size: 11px; }
+.lobby { max-width: 1100px; margin: auto; padding: 10vh 30px; text-align: center; }
+.lobby .eyebrow, .lobby .actions { justify-content: center; }
+.lobby h1 { font-family: Georgia, serif; font-size: 45px; margin: 25px 0; }
+.room-code { letter-spacing: 12px; font-size: 38px; color: var(--accent); margin: 10px 0 25px; padding: 20px 30px; }
+.lobby-players { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; margin: 35px 0; }
+.flag { font-size: 30px; }
+.lobby-players h3 { margin: 15px 0 5px; }
+.lobby-players small { color: var(--green); font-size: 9px; letter-spacing: 1px; }
+@media (max-width: 850px) { .landing { grid-template-columns: 1fr; padding: 25px; } .hero-quote, .edition { display: none; } .hero { margin-top: 30px; } .hero h1 { font-size: 45px; } .brand span { display: none; } .entry-panel { padding: 20px; } }
