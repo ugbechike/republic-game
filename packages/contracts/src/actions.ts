@@ -39,6 +39,11 @@ export const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('draftClaim'), deposit: id }),
   z.object({ type: z.literal('draftReady') }),
   z.object({
+    type: z.literal('officeDecision'),
+    id,
+    choice: z.enum(['fund', 'partial', 'refuse', 'support', 'incentive']),
+  }),
+  z.object({
     type: z.literal('briefing'),
     id,
     choice: z.enum(['resolve', 'assistance', 'delay', 'alternative', 'mediation']),

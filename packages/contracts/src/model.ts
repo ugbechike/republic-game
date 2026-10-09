@@ -1,3 +1,4 @@
+import type { OfficeMatter } from './office';
 import type { WorldDraft, ResourceQuality } from './draft';
 import type { EconomyState, FlowLedger, Briefing, BankFacility, WorldCrisis, Sanction, TradeItem } from './pressure';
 import type { Resource, TRADE_RESOURCES } from './resources';
@@ -61,6 +62,8 @@ export type Republic = {
   flows?: FlowLedger;
   briefings?: Briefing[];
   nextBriefingAt?: number;
+  officeMatters?: OfficeMatter[];
+  nextOfficeAt?: number;
   credit?: number;
   relations?: Record<string, number>;
   bankFacility?: BankFacility;

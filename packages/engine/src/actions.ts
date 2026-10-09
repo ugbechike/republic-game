@@ -1,3 +1,4 @@
+import { officeDecision } from './office-director';
 import { beginDraft, claimDeposit, finishDraft } from './world-draft';
 import { briefingAction } from './briefing-actions';
 import { directorDebug } from './director-debug';
@@ -69,6 +70,7 @@ export function act(room: Room, playerId: string, action: Action, development = 
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
   if (
+    officeDecision(room, me, action) ||
     briefingAction(room, me, action) ||
     directorDebug(room, me, action, development) ||
     domestic(room, me, action, development) ||

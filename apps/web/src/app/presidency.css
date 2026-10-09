@@ -1,0 +1,249 @@
+.presidency {
+  min-height: 100svh;
+  background: #07151d;
+  color: #f0ecdf;
+}
+.presidency-header {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4vw;
+  z-index: 12;
+  background: linear-gradient(#04111be6, #04111b00);
+}
+.presidency-brand {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  border: 0;
+  background: none;
+  padding: 8px 0;
+  text-align: left;
+}
+.presidency-brand > span {
+  font-size: 21px;
+  letter-spacing: 0.03em;
+}
+.presidency-brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #c7b586;
+  margin-top: 3px;
+}
+.presidential-vitals {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.presidential-vitals button {
+  border: 0;
+  background: none;
+  font-size: 19px;
+  padding: 8px;
+  color: #eee5cc;
+}
+.presidential-vitals small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: #b5b7af;
+}
+.presidency-nav {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  padding: 6px;
+  gap: 6px;
+  border: 1px solid #b7b59c4d;
+  background: #081923ed;
+  backdrop-filter: blur(16px);
+  border-radius: 12px;
+  z-index: 30;
+  box-shadow: 0 12px 40px #0008;
+}
+.presidency-nav button {
+  border: 0;
+  background: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 22px;
+  min-height: 48px;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  border-radius: 7px;
+}
+.presidency-nav button.active {
+  background: #cdb77a20;
+  color: #efcc80;
+}
+.presidency-world {
+  max-width: 1160px;
+  margin: auto;
+  padding: 115px 32px 130px;
+}
+.presidency-world > h1 {
+  margin-bottom: 28px;
+}
+.world-crisis-story {
+  padding: 25px;
+  border-left: 2px solid #d8aa64;
+  background: #b6853420;
+  margin-top: 20px;
+}
+.world-crisis-story h2 {
+  margin: 10px 0;
+}
+.world-crisis-story p {
+  color: #bcc9ca;
+}
+.office-sheet-backdrop,
+.executive-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: #020b13a8;
+  backdrop-filter: blur(9px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px;
+}
+.office-sheet {
+  width: min(1050px, 100%);
+  max-height: calc(100svh - 70px);
+  overflow: auto;
+  border: 1px solid #b8c8bb40;
+  background: linear-gradient(120deg, #162d37, #081923);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 25px 90px #0009;
+  animation: dossier-arrive 0.25s ease-out;
+}
+.office-sheet > header,
+.decision-document > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.office-sheet > header button,
+.decision-document > header button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.office-sheet h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+.office-sheet .panel {
+  background: #06172070;
+}
+.executive-modal {
+  z-index: 65;
+}
+.decision-document {
+  width: min(650px, 100%);
+  max-height: 90svh;
+  overflow: auto;
+  padding: 35px;
+  border: 1px solid #c6b78380;
+  background: linear-gradient(135deg, #eee6cd, #d8d2bc);
+  color: #182c35;
+  box-shadow: 0 30px 100px #000b;
+  animation: dossier-arrive 0.3s ease-out;
+}
+.decision-document h1 {
+  font-size: 39px;
+  line-height: 1.1;
+  margin: 20px 0;
+}
+.decision-document .kicker {
+  color: #716345;
+}
+.decision-document p {
+  line-height: 1.65;
+}
+.document-seal {
+  border: 2px double #897e59;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 22px Georgia;
+}
+.decision-facts {
+  display: flex;
+  gap: 50px;
+  margin: 24px 0;
+  padding: 20px 0;
+  border-block: 1px solid #263a3829;
+}
+.decision-facts span {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.decision-facts b {
+  display: block;
+  font-size: 23px;
+  margin-top: 6px;
+}
+.decision-consequence {
+  font-size: 13px;
+  color: #4b5a58;
+}
+.decision-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 25px 0;
+}
+.decision-document button {
+  min-height: 48px;
+  border-color: #73877c5c;
+  background: #c2c8b9;
+  color: #18303a;
+}
+.decision-document button:hover:not(:disabled) {
+  background: #a5baad;
+  color: #132a31;
+}
+.decision-options button:first-child {
+  background: #18313b;
+  color: #f3e6be;
+}
+.decision-outcome {
+  padding: 14px;
+  background: #54816726;
+  border-left: 3px solid #547b5d;
+}
+.visit-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+}
+.cabinet-security {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+@keyframes dossier-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

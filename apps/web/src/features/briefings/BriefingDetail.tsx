@@ -9,6 +9,7 @@ export function BriefingDetail({
   send,
   busy,
   negotiate,
+  visit,
 }: {
   w: RoomView;
   id: string;
@@ -16,6 +17,7 @@ export function BriefingDetail({
   send: (a: Action) => void;
   busy: boolean;
   negotiate: (id: string, resource?: Commodity) => void;
+  visit?: (id: string) => void;
 }) {
   const now = useActiveTime(w),
     b = w.me.briefings?.find((b) => b.id === id);
@@ -39,6 +41,11 @@ export function BriefingDetail({
         </header>
         <h1>{b.title}</h1>
         <p>{b.description}</p>
+        {b.region && visit && (
+          <button onClick={() => visit(b.region!)}>
+            VIEW DAMAGE · {w.me.regions.find((r) => r.id === b.region)?.name}
+          </button>
+        )}
         <div className="briefing-deadline">
           <TriangleAlert size={17} />
           {resolved ? b.status.toUpperCase() : `RESPONSE WINDOW ${countdown(b.dueAt, now)}`}

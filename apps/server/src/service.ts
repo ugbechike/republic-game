@@ -118,8 +118,11 @@ export class Rooms {
     await this.mutate(session.code, (room) => {
       const p = room.players.find((p) => p.id === session.playerId)!;
       if (p.requests.includes(requestId)) return;
-      if (action.type === 'briefing') {
-        const briefing = room.republics.find((r) => r.id === p.id)?.briefings?.find((b) => b.id === action.id);
+      if (action.type === 'briefing' || action.type === 'officeDecision') {
+        const republic = room.republics.find((r) => r.id === p.id);
+        const briefing = (action.type === 'briefing' ? republic?.briefings : republic?.officeMatters)?.find(
+          (b) => b.id === action.id,
+        );
         const live =
           (room.activeMs ?? 0) +
           (room.paused

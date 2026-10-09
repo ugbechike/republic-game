@@ -1,0 +1,221 @@
+@media (max-width: 760px) {
+  .presidency-header {
+    height: 75px;
+    padding: 0 18px;
+  }
+  .presidency-brand > span {
+    font-size: 17px;
+  }
+  .presidency-brand .flag-banner {
+    width: 28px;
+    height: 32px;
+  }
+  .presidential-vitals {
+    gap: 4px;
+  }
+  .presidential-vitals button {
+    font-size: 14px;
+    padding: 8px 5px;
+  }
+  .presidential-vitals small {
+    font-size: 7px;
+  }
+  .presidency-nav {
+    bottom: 12px;
+    gap: 0;
+    padding: 4px;
+    width: calc(100% - 24px);
+    justify-content: space-between;
+  }
+  .presidency-nav button {
+    flex: 1;
+    padding: 11px 6px;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 8px;
+    min-height: 55px;
+  }
+  .office-environment {
+    min-height: 850px;
+    height: 100svh;
+  }
+  .office-art {
+    background-position: 54% center;
+  }
+  .office-shade {
+    background: linear-gradient(0deg, #03121ce6, transparent 55%, #03121c66);
+  }
+  .office-day {
+    top: 12%;
+    left: 22px;
+  }
+  .office-day h1 {
+    font-size: 36px;
+  }
+  .office-day .kicker {
+    font-size: 8px;
+  }
+  .office-day p {
+    font-size: 10px;
+  }
+  .office-object {
+    padding: 12px;
+    min-height: 58px;
+    gap: 9px;
+  }
+  .office-object small {
+    font-size: 9px;
+  }
+  .office-object span {
+    font-size: 9px;
+  }
+  .wall-map {
+    left: 18px;
+    top: 37%;
+  }
+  .capital-window {
+    left: auto;
+    right: 18px;
+    top: 37%;
+  }
+  .desk-correspondence {
+    left: 18px;
+    top: 73%;
+  }
+  .desk-economy {
+    left: 18px;
+    top: 81%;
+  }
+  .secure-phone {
+    right: 18px;
+    top: 73%;
+  }
+  .cabinet-books {
+    right: 18px;
+    top: 81%;
+  }
+  .office-nameplate {
+    display: none;
+  }
+  .chief-of-staff {
+    top: 45%;
+    left: 18px;
+    width: calc(100% - 36px);
+    padding: 16px;
+  }
+  .chief-of-staff > p {
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .chief-agenda button {
+    min-height: 49px;
+    padding: 10px 0;
+  }
+  .chief-agenda button > span:nth-child(2) {
+    font-size: 12px;
+  }
+  .chief-of-staff footer {
+    display: none;
+  }
+  .chief-recall {
+    bottom: 35%;
+    left: 18px;
+  }
+  .office-world-wire {
+    top: 80px;
+    right: 18px;
+    max-width: calc(100% - 36px);
+    font-size: 8px;
+    padding: 8px;
+  }
+  .office-sheet-backdrop,
+  .executive-modal {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .office-sheet {
+    max-height: 94svh;
+    width: 100%;
+    padding: 22px 17px 30px;
+    border-radius: 16px 16px 0 0;
+  }
+  .office-sheet > header .kicker {
+    font-size: 8px;
+  }
+  .office-sheet h2 {
+    font-size: 30px;
+  }
+  .decision-document {
+    max-height: 95svh;
+    padding: 24px 20px;
+    border-radius: 14px 14px 0 0;
+  }
+  .decision-document h1 {
+    font-size: 32px;
+  }
+  .decision-document p {
+    font-size: 14px;
+  }
+  .presidency-world {
+    padding: 95px 16px 110px;
+  }
+  .correspondence-letter {
+    padding: 16px;
+    gap: 12px;
+  }
+  .correspondence-letter b {
+    font-size: 16px;
+  }
+  .correspondence-letter small {
+    font-size: 8px;
+  }
+  .inbox-categories {
+    gap: 2px;
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+  .inbox-categories button {
+    padding: 10px;
+    flex-shrink: 0;
+  }
+  .visit-caption {
+    top: 110px;
+    left: 20px;
+  }
+  .visit-caption h1 {
+    font-size: 35px;
+  }
+  .visit-outcome {
+    top: auto;
+    bottom: 190px;
+    left: 20px;
+    right: auto;
+    gap: 22px;
+  }
+  .visit-regions {
+    bottom: 100px;
+    justify-content: flex-start;
+    width: calc(100% - 24px);
+  }
+  .visit-condition span {
+    font-size: 11px;
+  }
+  .visit-caption p {
+    font-size: 12px;
+  }
+  .republic-visit {
+    min-height: 750px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .office-sunlight,
+  .office-dust,
+  .attention,
+  .flood-overlay {
+    animation: none;
+  }
+  .office-sheet,
+  .decision-document {
+    animation: none;
+  }
+}

@@ -1,3 +1,4 @@
+import { officeDirector } from './office-director';
 import { advanceDraft } from './world-draft';
 import { gameDirector } from './game-director';
 import { worldDirector } from './world-director';
@@ -41,6 +42,7 @@ export function tick(room: Room) {
     observed(r, 'Emergency facility repayment', () => bankTick(room, r));
   }
   gameDirector(room);
+  officeDirector(room);
   for (const r of room.republics) recordEconomy(room, r);
   if (room.month >= 240) finish(room);
 }

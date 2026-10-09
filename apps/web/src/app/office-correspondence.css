@@ -1,0 +1,192 @@
+.inbox-categories {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 25px 0;
+  border-bottom: 1px solid #ffffff18;
+  padding-bottom: 15px;
+}
+.inbox-categories button {
+  background: none;
+  border: 1px solid transparent;
+  padding: 12px 14px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  min-height: 44px;
+}
+.inbox-categories button.active {
+  border-color: #d2bc7c75;
+  background: #d2bc7c16;
+  color: #e3c88b;
+}
+.correspondence-letter {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 23px;
+  margin-bottom: 12px;
+  background: linear-gradient(100deg, #263d45, #132a33);
+  border: 1px solid #bcb99035;
+  box-shadow: 0 4px 12px #0003;
+  text-align: left;
+}
+.correspondence-letter > span:nth-child(2) {
+  flex: 1;
+}
+.correspondence-letter small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #c4b482;
+  margin-bottom: 7px;
+}
+.correspondence-letter b {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+}
+.correspondence-letter em {
+  display: block;
+  font-size: 12px;
+  color: #a0b3b5;
+  margin-top: 7px;
+  font-style: normal;
+}
+.letter-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 48px;
+  border: 1px solid #c4b48277;
+  color: #c4b482;
+  font: 24px Georgia;
+  flex-shrink: 0;
+}
+.office-archive article {
+  border-bottom: 1px solid #fff2;
+  padding: 20px 0;
+}
+.office-archive small {
+  font-size: 9px;
+  color: #b3a577;
+  letter-spacing: 0.1em;
+}
+.office-archive p {
+  font-size: 14px;
+  color: #bacaca;
+  margin-top: 10px;
+}
+.empty-correspondence {
+  padding: 50px 20px;
+  color: #a5b7ba;
+  text-align: center;
+}
+.republic-visit {
+  position: relative;
+  height: 100svh;
+  min-height: 650px;
+  overflow: hidden;
+}
+.visit-city {
+  position: absolute;
+  inset: 0;
+}
+.visit-caption {
+  position: absolute;
+  top: 130px;
+  left: 5%;
+  text-shadow: 0 2px 10px #0008;
+}
+.visit-caption h1 {
+  font-size: 50px;
+  margin: 10px 0;
+}
+.visit-caption p {
+  color: #dde4d9;
+}
+.visit-caption button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  background: #0e2631dc;
+  min-height: 48px;
+  font-size: 11px;
+}
+.visit-condition {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+.visit-condition span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #112935c7;
+  border: 1px solid #ffe3aa66;
+  padding: 10px 14px;
+  border-radius: 5px;
+  font-size: 12px;
+  width: fit-content;
+}
+.visit-regions {
+  position: absolute;
+  bottom: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  padding: 6px;
+  background: #0b2532db;
+  border-radius: 8px;
+  max-width: 95%;
+  overflow: auto;
+}
+.visit-regions button {
+  border: 0;
+  white-space: nowrap;
+  background: none;
+  font-size: 11px;
+  min-height: 44px;
+}
+.visit-regions button.active {
+  background: #d4bd7a;
+  color: #152b32;
+}
+.visit-outcome {
+  position: absolute;
+  right: 4%;
+  top: 130px;
+  display: flex;
+  gap: 25px;
+}
+.visit-outcome span {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 6px #000;
+}
+.visit-outcome b {
+  display: block;
+  font-size: 19px;
+  letter-spacing: 0;
+  margin-top: 6px;
+}
+.power-strained .visit-city {
+  filter: saturate(0.6) brightness(0.65);
+}
+.flood-overlay {
+  position: absolute;
+  inset: 35% 0 0;
+  background:
+    repeating-linear-gradient(173deg, transparent 0 32px, #4eaac329 34px, transparent 38px),
+    linear-gradient(0deg, #2d809c65, transparent);
+  pointer-events: none;
+  animation: flood-shift 8s linear infinite;
+}
+@keyframes flood-shift {
+  to {
+    background-position: 80px 50px;
+  }
+}

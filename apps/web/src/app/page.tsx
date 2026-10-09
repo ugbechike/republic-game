@@ -4,7 +4,7 @@ import { Landing } from '../features/room/Landing';
 import { Lobby } from '../features/room/Lobby';
 import { Results } from '../features/game/Results';
 import { WorldDraft } from '../features/draft/WorldDraft';
-import { Game } from '../features/game/Game';
+import { Presidency } from '../features/office/Presidency';
 export default function Page() {
   const c = useWorld();
   if (!c.session) return <Landing controller={c} />;
@@ -26,7 +26,7 @@ export default function Page() {
       ) : c.world.phase === 'ended' ? (
         <Results w={c.world} send={c.send} busy={c.busy} leave={c.leave} />
       ) : (
-        <Game controller={c} />
+        <Presidency controller={c} />
       )}
       {c.error && (
         <div className="toast error" role="alert">

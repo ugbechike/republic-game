@@ -1,3 +1,8 @@
+@import './chief-of-staff.css';
+@import './presidency.css';
+@import './office-scene.css';
+@import './office-correspondence.css';
+@import './office-mobile.css';
 @import './world-draft.css';
 @import './draft-mobile.css';
 @import 'tailwindcss';
