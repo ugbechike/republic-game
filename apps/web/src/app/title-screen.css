@@ -209,3 +209,14 @@
   place-items: center;
   padding: 10px;
 }
+
+.game-button.gold:hover:not(:disabled),
+.game-button.gold:focus-visible {
+  background: linear-gradient(#ffedbc, #eac578);
+  color: #12232b;
+  border-color: #ffe4a0;
+}
+.game-button.gold:active:not(:disabled) {
+  background: linear-gradient(#e6c173, #f5d997);
+  color: #12232b;
+}
