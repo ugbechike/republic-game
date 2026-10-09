@@ -2,12 +2,15 @@
 
 ## Your first five minutes
 
-1. Choose up to five resource points. Every Republic starts from the same baseline,
-   with small resource-specific advantages. There is no starting difficulty selection.
+1. Join the World Draft. Each President claims three advantages in a timed snake order.
+   Deposits have limited availability and differing quality; every claim is public.
+   Every Republic starts from the same baseline, with resource-specific advantages.
 2. Watch Presidential Briefings. Ministers identify genuine shortages, required reserves,
    remaining time and Republics that produce a surplus.
-3. Speak to another President, then select **Negotiate** to put the agreed terms in writing.
-   They can accept, reject or counter. Nobody buys from another human automatically.
+3. Speak to another President, then request a bilateral meeting to record the terms.
+   Either participant can edit the shared table before a proposal is submitted. The other
+   President accepts, rejects or counters; both sign before an agreement takes effect.
+   Private chat is optional. Nobody buys from another human automatically.
 4. Open Economy to inspect reserve runway, monthly flows, charts and explanations.
 5. Resolve the urgent need, then negotiate recurring supply before the next shortage.
 
@@ -146,3 +149,22 @@ Five categories each contribute at most 200 points: economy, prosperity, influen
 and stability. Results include awards, debt and diplomacy statistics. The host can rematch
 with the same seats and fresh economies. Balance numbers are explicit V0 tuning parameters,
 not economic forecasts. The social pacing still needs a sustained playtest with friends.
+
+## Presidential workspace
+
+The desk folder opens prioritized correspondence; the phone opens bilateral meetings;
+the window visits your Republic; the wall map opens the World. Cabinet and economic
+reports remain available through objects in the office. Returning from a briefing's
+city visit restores that document. The calendar highlights the nearest decisions.
+
+Governors request full or partial reimbursements, or can be refused. Businesses offer
+factory support or temporary incentives. Accepted construction persists in the landscape
+and takes time to produce returns. Funded flood reconstruction gradually clears the
+visible damage; an expired briefing does not magically repair the region.
+
+Meeting proposals lock the shared terms. Countering reopens editing and clears previous
+signatures. Both Presidents sign the same revision; the second signature validates and
+executes the exchange atomically. An unaffordable exchange leaves both Republics untouched.
+Reloading preserves private chat, proposed terms and existing signatures. Signed records
+remain available in Meetings. Existing pacts, loans and institutional actions are available
+through Foreign Policy; they do not yet use the shared signing table.

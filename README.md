@@ -4,7 +4,7 @@ A playable V0 of a multiplayer political strategy party game. Two to eight frien
 lead separate Republics through twenty simulated years. Negotiate in person or over
 voice; record the agreements in the game. There are no accounts.
 
-![Republic local preview](docs/republic-preview.jpg)
+![Republic local preview](docs/office-preview.jpg)
 
 ## Run locally
 
@@ -21,7 +21,8 @@ in `apps/server/.data/republic`. No Docker or PostgreSQL installation is needed.
 Room state survives frontend refreshes and server restarts. The simulation and adviser deadlines
 pause during server downtime and while every human player is disconnected.
 
-Create a world, choose your resources, then invite at least one friend using the room code.
+Create a Republic, invite at least one friend using the world code, then begin the shared resource draft.
+Claim three scarce advantages in snake order before entering your presidential office.
 All players begin from the same baseline; resources provide different strengths and dependencies.
 For local testing, use localhost and 127.0.0.1 in separate tabs for independent player storage.
 Development delegates are optional test helpers and do not count toward the human minimum.
@@ -50,7 +51,7 @@ Both services bind to `0.0.0.0`. Set `NEXT_PUBLIC_API_URL` in `apps/web/.env.loc
 
 All source files are limited to 250 lines. Transport/API calls live outside UI components.
 See [architecture](docs/architecture.md), [game rules](docs/game-rules.md), and
-[local playtest checklist](docs/playtest.md).
+[local playtest checklist](docs/playtest.md), and [overhaul verification](docs/presidential-overhaul.md).
 
 ## Validate
 
@@ -88,14 +89,16 @@ deployment phase; Docker/Railway/Vercel provisioning is not part of local verifi
 ## V0 boundaries
 
 - Twenty years, three session lengths, one host, two to eight seats; no account system.
-- Ten selectable advantages, eight tradeable commodities, eight policies and six regional scenes.
+- Fourteen draftable advantages, nine tradeable commodities, eight policies and six regional scenes.
+- Interactive presidential office, prioritized correspondence, governors, business opportunities and calendar.
 - Context-aware minister briefings, progressive shortages, real-time deadlines and world crises.
-- Mixed immediate/recurring/future trade, counteroffers, negotiated loans and binding bank conditions.
+- Private bilateral boardrooms with chat, live terms, counteroffers and two-signature binding trade.
+- Mixed immediate/recurring/future trade, negotiated loans and binding bank conditions.
 - Resource/financial embargoes, coordinated sanctions, discussion windows and Yes/No/Abstain votes.
 - Economic charts, resource flow history, event annotations and explained metric changes.
 - Six-month abstract wars with outside support, bounded losses and reparations; no conquest.
 - Five-category score, awards, table-talk statistics and same-seat rematches.
 - Snapshot persistence; one backend replica. No spectator/rejoin-seat recovery after token loss,
-  host transfer, matchmaking, chat, competitive bots or distributed scaling.
+  host transfer, matchmaking, global chat, competitive bots or distributed scaling.
 - Balance values are explicit V0 tuning parameters. Automated testing validates mechanics;
   the 4–8-person, 60–90-minute social hypothesis still requires human playtesting.

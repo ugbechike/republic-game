@@ -21,7 +21,7 @@ The existing room, simulation and city modules support the pressure and negotiat
 
 A Room owns its options, phase, host ID, players, month, next tick deadline, Republics,
 trade proposals/contracts, alliances, loans, wars, assembly vote, event log and result.
-A Republic owns its metrics, policy settings/pending changes, eight commodity stocks and two geographical advantages,
+A Republic owns its metrics, policy settings/pending changes, nine tradeable commodity stocks and five geographical advantages,
 six regions, persistent city plots, political capital, reputation and statistics.
 Money is in billions; resource stocks are abstract strategic units. A session is 240
 months (20 years), starting January 2030, with tick interval duration / 240.
@@ -73,3 +73,27 @@ Adviser needs and stockpiles remain private; other players see estimated product
 The web client keeps briefings, economy charts and diplomatic forms in separate feature modules.
 All transport still goes through `packages/api-client`, including server-initiated reconnects.
 Existing saved rooms receive missing ledger/director fields without replacing identities or plots.
+
+## Presidential experience
+
+Room phases are lobby → draft → playing → ended. The server owns scarce draft deposits,
+turn deadlines, snake order, automatic unattended claims and the shared reveal. Essential
+inputs are represented globally; each Republic receives three quality-adjusted advantages.
+The client never awards itself resources.
+
+`office-director` paces governor and business correspondence alongside need-driven minister
+briefings. At most one ordinary office matter and one ordinary minister briefing are open
+per Republic. `Presidency` maintains the active surface and return-to-document context;
+feature-local dossiers expose existing policy, economy and security modules.
+
+Meetings are private room records projected only to participants. Shared terms carry a
+revision; stale edits and signatures are rejected. Proposing locks terms, countering clears
+signatures, and the second signature invokes existing trade validation on an isolated
+room clone. Only success replaces the authoritative state. Retry IDs are then stored on
+the replacement player record, so duplicate final signatures cannot transfer twice.
+
+Public Republic projections include regions, persistent plots, flood state, energy and
+approval for visits. They exclude private inventories, treasury, needs and policy detail.
+R3F landscapes render persistent construction, flood damage, outages and demonstrations;
+the SVG fallback uses the same plot coordinates and conditions when WebGL is unavailable.
+Office and boardroom environments use original 2.5D assets with accessible React controls.

@@ -92,3 +92,13 @@ request military help, and discuss/abstain on a coordinated sanction resolution.
 A 15–20-minute human conversation test and full 4–8-player balance session remain product
 validation. Automated and browser checks establish that the mechanics work; they cannot
 prove that negotiation prices, interruptions and consequences feel fair or fun.
+
+## Presidential overhaul — 2026-10-09
+
+See [the overhaul verification record](presidential-overhaul.md) for the complete
+observed two-player draft → Office → negotiation → signatures → consequences → ending
+rehearsal, including mobile and reconnect checks. It also distinguishes forced crisis
+and accelerated ending checks from natural simulation and future human balance testing.
+
+For new sessions, resources are selected in the shared scarce draft. Earlier dated
+resource-point checklists above document historical builds, not the current setup flow.
