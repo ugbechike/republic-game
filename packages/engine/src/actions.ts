@@ -1,3 +1,4 @@
+import { meetingAction } from './meeting-actions';
 import { officeDecision } from './office-director';
 import { beginDraft, claimDeposit, finishDraft } from './world-draft';
 import { briefingAction } from './briefing-actions';
@@ -44,6 +45,7 @@ export function act(room: Room, playerId: string, action: Action, development = 
     delete room.draft;
     room.nextTick = 0;
     room.speed = 1;
+    room.meetings = [];
     room.deals = [];
     room.alliances = [];
     room.loans = [];
@@ -70,6 +72,7 @@ export function act(room: Room, playerId: string, action: Action, development = 
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
   if (
+    meetingAction(room, me, action) ||
     officeDecision(room, me, action) ||
     briefingAction(room, me, action) ||
     directorDebug(room, me, action, development) ||

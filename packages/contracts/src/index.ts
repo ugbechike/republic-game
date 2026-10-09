@@ -7,3 +7,5 @@ export * from './pressure';
 export * from './draft';
 
 export * from './office';
+
+export * from './meeting';

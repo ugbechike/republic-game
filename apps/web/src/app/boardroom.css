@@ -1,0 +1,224 @@
+.meeting-room {
+  min-height: 100svh;
+  position: relative;
+  padding: 110px 4% 130px;
+  isolation: isolate;
+}
+.boardroom-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(4, 14, 20, 0.68), rgba(4, 14, 20, 0.16) 45%, rgba(4, 14, 20, 0.88)),
+    url('/art/diplomatic-boardroom.webp') center/cover;
+}
+.meeting-title {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: center;
+}
+.meeting-title > div {
+  max-width: 650px;
+}
+.meeting-title h1 {
+  font-size: clamp(28px, 3.4vw, 48px);
+  letter-spacing: 0.04em;
+  margin: 8px 0;
+}
+.meeting-title p {
+  color: #c3cdd0;
+  font-size: 15px;
+}
+.meeting-title > button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #071923c9;
+  font-size: 11px;
+  min-height: 44px;
+}
+.meeting-confidential {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+  color: #b6c3bd;
+}
+.boardroom-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 30px;
+  max-width: 1500px;
+  margin: 35px auto 0;
+}
+.negotiation-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  align-items: start;
+}
+.president-seat {
+  min-width: 0;
+}
+.table-nameplate {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 17px 20px;
+  margin-bottom: 22px;
+  background: linear-gradient(145deg, #d5b879, #92764a);
+  color: #172224;
+  border: 1px solid #ead092;
+  box-shadow: 0 12px 15px #0006;
+  transform: perspective(600px) rotateX(5deg);
+}
+.table-nameplate .flag-banner {
+  width: 43px;
+  height: 50px;
+}
+.table-nameplate > span {
+  display: grid;
+  gap: 5px;
+}
+.table-nameplate b {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+}
+.table-nameplate small {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+}
+.seat-present,
+.seat-absent {
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.seat-present {
+  background: #14543c;
+  box-shadow: 0 0 10px #52bb6577;
+}
+.seat-absent {
+  background: #675b4a;
+}
+.treaty-leaf {
+  background: linear-gradient(125deg, #f3ead8, #e3d6bd);
+  padding: 25px;
+  color: #263132;
+  min-height: 245px;
+  border: 1px solid #d1c5ad;
+  box-shadow:
+    0 20px 45px #0007,
+    3px 4px 0 #b9ab91;
+  animation: document-arrive 0.5s ease-out;
+}
+.treaty-leaf > .kicker {
+  color: #796445;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+}
+.table-contribution {
+  margin: 20px 0;
+  display: grid;
+  gap: 16px;
+}
+.table-term {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.table-term > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+.table-term b {
+  font-weight: 600;
+  font-size: 19px;
+}
+.table-term small {
+  color: #6b7068;
+  font-size: 12px;
+}
+.money-token {
+  border: 1px solid #8e805d;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  font: 20px Georgia;
+}
+.empty-table {
+  font: italic 21px Georgia;
+  color: #87806f;
+  line-height: 1.4;
+}
+.empty-table small {
+  font: 12px inherit;
+}
+.add-table-term {
+  background: transparent !important;
+  color: #665432 !important;
+  border: 1px dashed #aa936f !important;
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.add-table-term:hover {
+  background: #dfcfac !important;
+}
+.table-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 22px 0;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  color: #e3d4b7;
+  text-shadow: 0 1px 4px #000;
+}
+.table-timeline span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #e3d4b7;
+}
+.meeting-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 60px;
+}
+.meeting-controls > p {
+  background: #061923e8;
+  padding: 16px 25px;
+  border: 1px solid #476064;
+  font-size: 14px;
+}
+.meeting-controls > button {
+  min-height: 50px;
+}
+.meeting-secondary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.meeting-secondary button {
+  background: #071a23cc;
+  font-size: 11px;
+  color: #c1c9c7;
+}

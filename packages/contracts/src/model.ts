@@ -1,3 +1,4 @@
+import type { Meeting } from './meeting';
 import type { OfficeMatter } from './office';
 import type { WorldDraft, ResourceQuality } from './draft';
 import type { EconomyState, FlowLedger, Briefing, BankFacility, WorldCrisis, Sanction, TradeItem } from './pressure';
@@ -175,6 +176,7 @@ export type Room = {
   seed: number;
   players: Player[];
   republics: Republic[];
+  meetings?: Meeting[];
   deals: Deal[];
   alliances: Alliance[];
   loans: Loan[];

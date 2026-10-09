@@ -1,0 +1,213 @@
+@media (max-width: 1000px) {
+  .boardroom-layout {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+  }
+  .meeting-conversation {
+    max-height: 300px;
+    min-height: 220px;
+  }
+  .meeting-messages {
+    max-height: 150px;
+    min-height: 100px;
+  }
+  .meeting-lobby {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .diplomatic-heading {
+    position: static;
+    padding-top: 0;
+  }
+  .diplomatic-heading h1 {
+    font-size: 40px;
+  }
+  .diplomatic-heading h1 br {
+    display: none;
+  }
+  .diplomatic-heading p {
+    max-width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .meeting-room {
+    padding: 98px 16px 115px;
+  }
+  .meeting-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .meeting-title > button {
+    align-self: start;
+  }
+  .meeting-title h1 {
+    font-size: 30px;
+  }
+  .meeting-title p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  .meeting-confidential {
+    display: none;
+  }
+  .boardroom-layout {
+    margin-top: 16px;
+    gap: 22px;
+  }
+  .negotiation-table {
+    gap: 12px;
+  }
+  .table-nameplate {
+    padding: 12px 8px;
+    gap: 8px;
+    margin-bottom: 12px;
+    min-height: 70px;
+  }
+  .table-nameplate .flag-banner {
+    width: 30px;
+    height: 38px;
+  }
+  .table-nameplate b {
+    font-size: 16px;
+    overflow-wrap: anywhere;
+  }
+  .table-nameplate small {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+  }
+  .seat-present,
+  .seat-absent {
+    display: none;
+  }
+  .treaty-leaf {
+    padding: 16px 10px;
+    min-height: 240px;
+  }
+  .treaty-leaf > .kicker {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+  }
+  .table-term {
+    gap: 7px;
+    align-items: start;
+  }
+  .table-term > svg {
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .table-term b {
+    font-size: 15px;
+  }
+  .table-term small {
+    font-size: 11px;
+  }
+  .table-contribution {
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .money-token {
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .empty-table {
+    font-size: 17px;
+  }
+  .add-table-term {
+    font-size: 10px;
+    line-height: 1.5;
+    min-height: 50px;
+    padding: 8px 4px;
+  }
+  .add-table-term svg {
+    display: none;
+  }
+  .table-timeline {
+    font-size: 8px;
+    gap: 7px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .meeting-controls button {
+    flex: 1;
+    padding: 12px;
+  }
+  .meeting-controls > p {
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+  }
+  .meeting-secondary {
+    gap: 10px;
+  }
+  .meeting-secondary button {
+    min-height: 44px;
+    font-size: 10px;
+  }
+  .treaty-signature {
+    gap: 5px;
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
+  .treaty-signature.signed span {
+    font-size: 21px;
+  }
+  .treaty-signature svg {
+    width: 14px;
+  }
+  .meeting-lobby {
+    padding: 108px 18px 110px;
+  }
+  .diplomatic-heading h1 {
+    font-size: 34px;
+  }
+  .diplomatic-heading p {
+    font-size: 15px;
+  }
+  .invitation {
+    padding: 20px;
+    gap: 14px;
+  }
+  .invitation h2 {
+    font-size: 24px;
+  }
+  .invitation-actions {
+    display: grid;
+  }
+  .meeting-request {
+    padding: 22px;
+  }
+  .terms-editor {
+    padding: 20px;
+    max-height: 88svh;
+  }
+  .terms-editor .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .terms-editor .trade-item {
+    grid-template-columns: 1fr 1fr;
+  }
+  .terms-editor .trade-item label:first-child {
+    grid-column: span 2;
+  }
+  .terms-editor .trade-item > button {
+    grid-column: span 2;
+    min-height: 44px;
+  }
+  .term-schedule {
+    gap: 12px;
+  }
+  .meeting-conversation input {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .treaty-leaf,
+  .treaty-seal {
+    animation: none;
+  }
+}

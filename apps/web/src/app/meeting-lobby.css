@@ -1,0 +1,98 @@
+.meeting-lobby {
+  min-height: 100svh;
+  padding: 130px 6% 130px;
+  background:
+    linear-gradient(90deg, rgba(4, 17, 23, 0.96), rgba(4, 17, 23, 0.68)),
+    url('/art/diplomatic-boardroom.webp') center/cover fixed;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 7%;
+  align-items: start;
+}
+.diplomatic-heading {
+  position: sticky;
+  top: 140px;
+  padding-top: 40px;
+}
+.diplomatic-heading h1 {
+  font-size: clamp(36px, 4vw, 66px);
+  line-height: 1.1;
+  margin: 24px 0;
+}
+.diplomatic-heading p {
+  color: #b2c2c5;
+  max-width: 350px;
+  font-size: 18px;
+}
+.meeting-invitations {
+  display: grid;
+  gap: 20px;
+}
+.invitation {
+  padding: 25px;
+  background: linear-gradient(125deg, #18303a, #0a1d26);
+  border: 1px solid #526366;
+  border-top: 2px solid #d6b97a;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 15px 50px #0005;
+}
+.invitation h2 {
+  font-size: 27px;
+  margin: 8px 0;
+}
+.invitation p {
+  color: #b6c8cb;
+  margin: 0;
+}
+.invitation .flag-banner {
+  width: 52px;
+  height: 62px;
+}
+.invitation-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.invitation-actions button {
+  min-height: 44px;
+}
+.meeting-request {
+  padding: 30px;
+  background: #081b24d9;
+  border: 1px solid #36505a;
+  display: grid;
+  gap: 20px;
+}
+.meeting-request label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  color: #b5c4c8;
+}
+.meeting-request select {
+  min-height: 48px;
+}
+.meeting-request .kicker {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.foreign-policy-link {
+  background: transparent !important;
+  color: #d9c48c !important;
+  border: none !important;
+  text-align: left !important;
+}
+.signed-records {
+  display: grid;
+  gap: 10px;
+}
+.signed-records button {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: 15px;
+}

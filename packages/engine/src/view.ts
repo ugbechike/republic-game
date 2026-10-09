@@ -3,6 +3,7 @@ export function view(room: Room, playerId: string, development: boolean): RoomVi
   const { players: _players, seed: _seed, republics, ...publicRoom } = room;
   return structuredClone({
     ...publicRoom,
+    meetings: room.meetings?.filter((m) => m.participants.includes(playerId)),
     playerId,
     development,
     republics: republics.map((r) => ({

@@ -36,6 +36,28 @@ const bundle = z.object({
     .optional(),
 });
 export const actionSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('meetingRequest'),
+    to: id,
+    agenda: z.enum(['Trade', 'Emergency Aid', 'Alliance', 'Security', 'General Discussion']),
+  }),
+  z.object({ type: z.literal('meetingResponse'), id, response: z.enum(['join', 'delay', 'decline', 'close']) }),
+  z.object({ type: z.literal('meetingChat'), id, text: z.string().trim().min(1).max(500) }),
+  z.object({
+    type: z.literal('meetingTerms'),
+    id,
+    revision: z.number().int().min(0),
+    offer: bundle,
+    want: bundle,
+    years: z.number().int().min(1).max(10),
+    startInMonths: z.number().int().min(0).max(12),
+  }),
+  z.object({
+    type: z.literal('meetingProposal'),
+    id,
+    revision: z.number().int().min(0),
+    response: z.enum(['propose', 'accept', 'reject', 'counter', 'sign']),
+  }),
   z.object({ type: z.literal('draftClaim'), deposit: id }),
   z.object({ type: z.literal('draftReady') }),
   z.object({

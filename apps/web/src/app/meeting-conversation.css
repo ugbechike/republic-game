@@ -1,0 +1,139 @@
+.meeting-conversation {
+  background: #071b24ed;
+  border: 1px solid #46606a;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  max-height: 450px;
+  min-height: 330px;
+  box-shadow: 0 20px 50px #0005;
+}
+.meeting-conversation header {
+  padding: 18px 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #354e58;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  color: #d4c08d;
+}
+.meeting-conversation header small {
+  width: 100%;
+  padding-left: 24px;
+  color: #8fa3aa;
+  font-size: 10px;
+}
+.meeting-messages {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 180px;
+  overscroll-behavior: contain;
+}
+.conversation-empty {
+  color: #a2b3b7;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.conversation-empty small {
+  display: block;
+  font-size: 11px;
+  margin-top: 16px;
+  color: #6e909a;
+}
+.message {
+  background: #17313c;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 0 8px 8px 8px;
+  overflow-wrap: anywhere;
+}
+.message.mine {
+  background: #273b3c;
+  margin-left: 18px;
+}
+.message b {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #d5bd85;
+}
+.message p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 5px 0 0;
+  color: #e7ebe5;
+}
+.meeting-conversation form {
+  display: flex;
+  padding: 12px;
+  gap: 6px;
+  border-top: 1px solid #354e58;
+}
+.meeting-conversation input {
+  min-width: 0;
+  width: 100%;
+  font-size: 13px;
+  min-height: 46px;
+}
+.meeting-conversation form button {
+  padding: 10px;
+  min-width: 44px;
+}
+.terms-editor {
+  background: #102832;
+  border: 1px solid #6a7670;
+  max-width: 650px;
+  width: 100%;
+  padding: 30px;
+  max-height: 90svh;
+  overflow: auto;
+  box-shadow: 0 40px 100px #0009;
+}
+.terms-editor header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.terms-editor h2 {
+  font-size: 30px;
+  margin: 15px 0;
+}
+.terms-editor > p {
+  font-size: 14px;
+  color: #afc0c5;
+  line-height: 1.5;
+}
+.terms-editor > .primary {
+  width: 100%;
+  margin-top: 24px;
+  min-height: 48px;
+}
+.term-schedule {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 22px;
+}
+.term-schedule label {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: #afc0c5;
+}
+.term-schedule select {
+  min-height: 44px;
+}
+.terms-editor input,
+.terms-editor select {
+  font-size: 16px;
+  min-height: 44px;
+}
+.terms-editor .bundle-fields {
+  margin-top: 22px;
+}
+.terms-editor .trade-item {
+  border-top: 1px solid #3b525b;
+  padding-top: 12px;
+}

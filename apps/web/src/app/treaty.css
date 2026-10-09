@@ -1,0 +1,58 @@
+.treaty-signature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #99896b;
+  padding-top: 20px;
+  color: #998b76;
+  font-size: 12px;
+}
+.treaty-signature.signed {
+  color: #244e3d;
+}
+.treaty-signature.signed span {
+  font: italic 27px Georgia;
+}
+.treaty-seal {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: #e2c37f;
+  animation: seal-arrive 0.7s ease-out;
+  background: #0a222be8;
+  padding: 20px 36px;
+  border: 1px solid #ad9360;
+}
+.treaty-seal b {
+  letter-spacing: 0.25em;
+}
+.treaty-seal small {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+}
+.treaty-seal button {
+  margin-top: 8px;
+}
+.status-signed .treaty-leaf {
+  border-bottom: 3px solid #578572;
+}
+@keyframes document-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes seal-arrive {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
