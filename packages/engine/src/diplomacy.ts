@@ -1,6 +1,8 @@
+import { loanAction, loansTick } from './loans';
 import type { Action, Republic, Room } from '@republic/contracts';
 import { clamp, notice, other, requireThat, spend, uid } from './helpers';
 export function diplomacy(room: Room, me: Republic, a: Action): boolean {
+  if (loanAction(room, me, a)) return true;
   if (a.type === 'alliance') {
     const target = other(room, me, a.to);
     requireThat(
@@ -37,52 +39,46 @@ export function diplomacy(room: Room, me: Republic, a: Action): boolean {
     notice(room, `${me.name} abandoned a ${p.kind} pact.`);
     return true;
   }
-  if (a.type === 'loan') {
-    other(room, me, a.to);
-    requireThat(
-      room.loans.filter((l) => l.from === me.id && l.status === 'pending').length < 4,
-      'Resolve pending loan offers first',
-    );
-    requireThat(me.metrics.treasury >= a.amount, 'Insufficient reserves to offer this loan');
-    room.loans.push({
+  if (a.type === 'resolution') {
+    const target = other(room, me, a.to);
+    requireThat(!room.vote, 'An Assembly vote is already open');
+    spend(me, 1);
+    room.vote = {
       id: uid(room),
-      from: me.id,
-      to: a.to,
-      amount: a.amount,
-      remaining: a.amount * 1.1,
-      months: 24,
-      status: 'pending',
-    });
-    notice(room, `${me.name} offers a two-year loan at 10% total interest.`, [me.id, a.to]);
-    return true;
-  }
-  if (a.type === 'loanResponse') {
-    const l = room.loans.find((l) => l.id === a.id);
-    requireThat(l && l.to === me.id && l.status === 'pending', 'Loan offer unavailable');
-    if (!a.accept) {
-      l.status = 'rejected';
-      return true;
-    }
-    const lender = room.republics.find((r) => r.id === l.from)!;
-    spend(lender, l.amount);
-    me.metrics.treasury += l.amount;
-    me.metrics.debt += l.remaining;
-    l.status = 'active';
-    notice(room, `${me.name} accepted a bilateral loan.`, [l.from, l.to]);
+      title: `Coordinate sanctions on ${target.name}`,
+      kind: 'sanction',
+      target: a.to,
+      ends: room.month + 12,
+      opensAt: (room.activeMs ?? 0) + 30000,
+      ballots: {},
+    };
+    notice(room, `${me.name} requested discussion of coordinated sanctions on ${target.name}.`);
     return true;
   }
   if (a.type === 'sanction') {
     const target = other(room, me, a.to);
     requireThat(!room.sanctions.some((s) => s.from === me.id && s.to === a.to), 'Sanction already active');
     spend(me, 0.5);
-    room.sanctions.push({ from: me.id, to: a.to, ends: room.month + 24 });
+    requireThat(a.kind !== 'resource' || a.resource, 'Choose the embargoed resource');
+    room.sanctions.push({
+      from: me.id,
+      to: a.to,
+      ends: room.month + 24,
+      kind: a.kind ?? 'trade',
+      resource: a.resource,
+    });
+    if (a.kind === 'condemnation') target.reputation = clamp(target.reputation - 4);
     target.stats.sanctions++;
     me.metrics.gdp *= 0.995;
-    notice(room, `${me.name} imposed two-year sanctions on ${target.name}. Bilateral trade will be disrupted.`);
+    notice(
+      room,
+      `${me.name} imposed two-year ${a.kind ?? 'trade'} sanctions on ${target.name}. Bilateral trade will be disrupted.`,
+    );
     return true;
   }
   if (a.type === 'vote') {
     requireThat(room.vote && room.vote.ends > room.month, 'No open Assembly vote');
+    requireThat((room.activeMs ?? 0) >= (room.vote.opensAt ?? 0), 'Discussion window is still open');
     requireThat(room.vote.ballots[me.id] === undefined, 'Your vote is already recorded');
     room.vote.ballots[me.id] = a.support;
     return true;
@@ -91,22 +87,7 @@ export function diplomacy(room: Room, me: Republic, a: Action): boolean {
 }
 export function diplomacyTick(room: Room) {
   room.sanctions = room.sanctions.filter((s) => s.ends > room.month);
-  for (const l of room.loans.filter((l) => l.status === 'active')) {
-    const lender = room.republics.find((r) => r.id === l.from)!,
-      borrower = room.republics.find((r) => r.id === l.to)!;
-    const due = Math.min(l.remaining, (l.amount * 1.1) / 24),
-      paid = Math.min(borrower.metrics.treasury, due);
-    borrower.metrics.treasury -= paid;
-    borrower.metrics.debt = Math.max(0, borrower.metrics.debt - paid);
-    lender.metrics.treasury += paid;
-    l.remaining -= paid;
-    if (paid < due) {
-      borrower.reputation = clamp(borrower.reputation - 1);
-      if (room.month % 6 === 0) notice(room, `${borrower.name} is in arrears on its bilateral loan.`, [l.from, l.to]);
-    }
-    if (l.remaining < 0.001) l.status = 'paid';
-    l.months = Math.max(0, l.months - 1);
-  }
+  loansTick(room);
   if (room.vote && room.month >= room.vote.ends) {
     const v = room.vote,
       yes = Object.values(v.ballots).filter(Boolean).length,
@@ -138,7 +119,8 @@ export function diplomacyTick(room: Room) {
       kind: 'trade',
       target: room.host,
       title: 'A global open-trade initiative',
-      ends: room.month + 4,
+      ends: room.month + 12,
+      opensAt: (room.activeMs ?? 0) + 30000,
       ballots: {},
     };
 }

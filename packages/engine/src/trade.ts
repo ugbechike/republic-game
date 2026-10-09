@@ -1,35 +1,31 @@
 import type { Action, Bundle, Deal, Republic, Room } from '@republic/contracts';
 import { clamp, notice, other, requireThat, uid } from './helpers';
-const canPay = (r: Republic, b: Bundle) => r.metrics.treasury >= b.money / 12 && r.stocks[b.resource] >= b.amount / 12;
-function transfer(from: Republic, to: Republic, b: Bundle) {
-  from.metrics.treasury -= b.money / 12;
-  to.metrics.treasury += b.money / 12;
-  from.stocks[b.resource] -= b.amount / 12;
-  to.stocks[b.resource] += b.amount / 12;
-}
-export function delivery(room: Room, d: Deal): boolean {
-  const from = room.republics.find((r) => r.id === d.from)!,
-    to = room.republics.find((r) => r.id === d.to)!;
-  if (!canPay(from, d.offer) || !canPay(to, d.want)) return false;
-  transfer(from, to, d.offer);
-  transfer(to, from, d.want);
-  from.stats.deliveries++;
-  to.stats.deliveries++;
-  from.influence = clamp(from.influence + 0.08);
-  to.influence = clamp(to.influence + 0.08);
-  return true;
-}
+export { delivery } from './delivery';
+import { delivery, packageDue, canDeliver, hasRecurring } from './delivery';
+import { embargo } from './embargo';
 export function tradeAction(room: Room, me: Republic, a: Action): boolean {
   if (a.type === 'trade') {
     const target = other(room, me, a.to);
+    const resources = [
+      ...(a.offer.amount ? [a.offer.resource] : []),
+      ...(a.want.amount ? [a.want.resource] : []),
+      ...(a.offer.items ?? []).filter((i) => i.amount > 0).map((i) => i.resource),
+      ...(a.want.items ?? []).filter((i) => i.amount > 0).map((i) => i.resource),
+    ];
     requireThat(
-      !room.sanctions.some(
-        (s) =>
-          s.ends > room.month && ((s.from === me.id && s.to === target.id) || (s.to === me.id && s.from === target.id)),
-      ),
-      'Sanctions block bilateral trade',
+      !embargo(room, me.id, target.id, resources, a.offer.money + a.want.money > 0),
+      'Sanctions block the proposed exchange',
     );
-    requireThat(a.offer.money + a.offer.amount + a.want.money + a.want.amount > 0, 'Offer money or resources');
+    requireThat(
+      a.offer.money +
+        a.offer.amount +
+        a.want.money +
+        a.want.amount +
+        (a.offer.items ?? []).reduce((n, i) => n + i.amount, 0) +
+        (a.want.items ?? []).reduce((n, i) => n + i.amount, 0) >
+        0,
+      'Offer money or resources',
+    );
     requireThat(
       room.deals.filter((d) => d.status === 'pending' && d.from === me.id).length < 8,
       'Resolve your outstanding offers first',
@@ -49,6 +45,8 @@ export function tradeAction(room: Room, me: Republic, a: Action): boolean {
       offer: a.offer,
       want: a.want,
       years: a.years,
+      startInMonths: a.startInMonths,
+      reason: a.reason,
       status: 'pending',
       ends: 0,
       created: room.month,
@@ -68,15 +66,17 @@ export function tradeAction(room: Room, me: Republic, a: Action): boolean {
       return true;
     }
     requireThat(
-      !room.sanctions.some(
-        (s) => s.ends > room.month && [d.from, d.to].includes(s.from) && [d.from, d.to].includes(s.to),
-      ),
-      'Sanctions block this agreement',
+      delivery(room, { ...d, created: room.month }, true),
+      'Both parties must afford all immediate items and the first scheduled delivery; sanctions may block exchange',
     );
-    requireThat(delivery(room, d), 'Both parties must afford the first monthly delivery');
-    d.status = 'active';
-    d.ends = room.month + d.years * 12;
-    notice(room, `${me.name} signed a ${d.years}-year trade agreement.`, [d.from, d.to]);
+    d.status = hasRecurring(d.offer) || hasRecurring(d.want) ? 'active' : 'completed';
+    d.created = room.month;
+    d.ends = room.month + (d.startInMonths ?? 0) + d.years * 12;
+    notice(
+      room,
+      `${me.name} signed ${d.status === 'completed' ? 'an immediate exchange' : `a ${d.years}-year trade agreement`}.`,
+      [d.from, d.to],
+    );
     return true;
   }
   if (a.type === 'breakDeal') {
@@ -100,15 +100,12 @@ export function tradeTick(room: Room) {
       notice(room, 'A trade agreement has completed its term.', [d.from, d.to]);
       continue;
     }
-    const blocked = room.sanctions.some(
-      (s) => s.ends > room.month && [d.from, d.to].includes(s.from) && [d.from, d.to].includes(s.to),
-    );
-    if (blocked || !delivery(room, d)) {
+    if (!delivery(room, d)) {
       d.status = 'broken';
       for (const id of [d.from, d.to]) {
         const r = room.republics.find((r) => r.id === id)!;
         r.metrics.gdp *= 0.99;
-        if (!canPay(r, id === d.from ? d.offer : d.want)) r.reputation = clamp(r.reputation - 8);
+        if (!canDeliver(r, packageDue(id === d.from ? d.offer : d.want, false))) r.reputation = clamp(r.reputation - 8);
       }
       notice(room, 'A trade agreement collapsed: sanctions or insufficient reserves interrupted delivery.', [
         d.from,

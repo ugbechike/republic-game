@@ -18,6 +18,13 @@ export function view(room: Room, playerId: string, development: boolean): RoomVi
       influence: r.influence,
       reputation: r.reputation,
       stats: r.stats,
+      credit: r.credit ?? 70,
+      market: Object.fromEntries(
+        Object.entries(r.economy?.supply ?? {}).map(([k, f]) => [
+          k,
+          Math.round(Math.max(0, f.production - f.consumption) * 10) / 10,
+        ]),
+      ),
     })),
     publicTrades: room.deals.filter((d) => d.status === 'active').map((d) => ({ from: d.from, to: d.to })),
     me: republics.find((r) => r.id === playerId)!,

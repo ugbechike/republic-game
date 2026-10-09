@@ -17,14 +17,52 @@ export const draftSchema = z.object({
 export const optionsSchema = z.object({
   duration: z.union([z.literal(45), z.literal(60), z.literal(90)]),
   maxPlayers: z.number().int().min(2).max(8),
-  difficulty: z.enum(['developing', 'struggling']),
+  difficulty: z.enum(['developing', 'struggling']).optional(),
 });
 const bundle = z.object({
   money: z.number().min(0).max(30),
   resource: z.enum(TRADE_RESOURCES),
   amount: z.number().min(0).max(60),
+  moneyTiming: z.enum(['now', 'annual']).optional(),
+  items: z
+    .array(
+      z.object({
+        resource: z.enum(TRADE_RESOURCES),
+        amount: z.number().min(0).max(60),
+        timing: z.enum(['now', 'annual']),
+      }),
+    )
+    .max(8)
+    .optional(),
 });
 export const actionSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('briefing'),
+    id,
+    choice: z.enum(['resolve', 'assistance', 'delay', 'alternative', 'mediation']),
+  }),
+  z.object({ type: z.literal('requestHelp'), war: id }),
+  z.object({ type: z.literal('neutral'), war: id }),
+  z.object({ type: z.literal('resolution'), to: id }),
+  z.object({
+    type: z.literal('directorDebug'),
+    kind: z.enum([
+      'shortage',
+      'treasury',
+      'flood',
+      'energy',
+      'world',
+      'reserves',
+      'advance',
+      'surplus',
+      'dependency',
+      'tension',
+    ]),
+    target: id.optional(),
+    resource: z.enum(TRADE_RESOURCES).optional(),
+    amount: z.number().min(0).max(240).optional(),
+    crisis: z.enum(['energy', 'food', 'commodities', 'recession']).optional(),
+  }),
   z.object({ type: z.literal('start') }),
   z.object({ type: z.literal('rematch') }),
   z.object({
@@ -46,7 +84,9 @@ export const actionSchema = z.discriminatedUnion('type', [
     to: id,
     offer: bundle,
     want: bundle,
-    years: z.union([z.literal(2), z.literal(5), z.literal(10)]),
+    years: z.number().int().min(1).max(10),
+    startInMonths: z.number().int().min(0).max(12).optional(),
+    reason: z.string().trim().max(160).optional(),
     counter: id.optional(),
   }),
   z.object({ type: z.literal('dealResponse'), id, accept: z.boolean() }),
@@ -54,14 +94,26 @@ export const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('alliance'), to: id, kind: z.enum(['trade', 'defence']) }),
   z.object({ type: z.literal('allianceResponse'), id, accept: z.boolean() }),
   z.object({ type: z.literal('leaveAlliance'), id }),
-  z.object({ type: z.literal('loan'), to: id, amount: z.number().min(1).max(20) }),
+  z.object({
+    type: z.literal('loan'),
+    to: id,
+    amount: z.number().min(1).max(20),
+    repayment: z.number().min(1).max(40).optional(),
+    term: z.number().int().min(12).max(120).optional(),
+    mode: z.enum(['installments', 'bullet']).optional(),
+  }),
   z.object({ type: z.literal('loanResponse'), id, accept: z.boolean() }),
-  z.object({ type: z.literal('sanction'), to: id }),
+  z.object({
+    type: z.literal('sanction'),
+    to: id,
+    kind: z.enum(['trade', 'resource', 'financial', 'condemnation']).optional(),
+    resource: z.enum(TRADE_RESOURCES).optional(),
+  }),
   z.object({ type: z.literal('threat'), to: id }),
   z.object({ type: z.literal('war'), to: id }),
   z.object({ type: z.literal('assist'), id, side: id, kind: z.enum(['military', 'financial']) }),
   z.object({ type: z.literal('institution'), kind: z.enum(['development', 'emergency', 'dispute']) }),
-  z.object({ type: z.literal('vote'), support: z.boolean() }),
+  z.object({ type: z.literal('vote'), support: z.boolean().nullable() }),
   z.object({ type: z.literal('crisis'), choice: z.enum(['intervene', 'appeal', 'market']) }),
   z.object({
     type: z.literal('debug'),

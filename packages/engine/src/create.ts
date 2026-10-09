@@ -1,6 +1,7 @@
 import { startingAdvantages } from './resource-economy';
 import {
   FLAGS,
+  MONTHLY_DEMAND,
   RESOURCES,
   DEFAULT_MIN_PLAYERS,
   type Draft,
@@ -8,8 +9,9 @@ import {
   type Room,
   type Region,
 } from '@republic/contracts';
-export function createRepublic(id: string, draft: Draft, struggling: boolean): Republic {
-  const base = struggling ? 38 : 55;
+export function createRepublic(id: string, draft: Draft, _legacyDifficulty = false): Republic {
+  // Legacy callers may pass difficulty; all new Republics share one baseline.
+  const base = 55;
   const regions: Region[] = [
     'Federal Capital',
     'Northreach',
@@ -24,7 +26,7 @@ export function createRepublic(id: string, draft: Draft, struggling: boolean): R
     development: base + (i === 0 ? 15 : -i),
     economy: 10,
     infrastructure: base,
-    unemployment: struggling ? 18 : 10,
+    unemployment: 10,
     stability: base + 10,
     industry: draft.resources[i % draft.resources.length],
     plots: Array.from({ length: i === 0 ? 49 : 25 }, (_, p) => ({
@@ -49,15 +51,22 @@ export function createRepublic(id: string, draft: Draft, struggling: boolean): R
     id,
     ...draft,
     stocks: Object.fromEntries(
-      RESOURCES.map((k) => [k, ['coastline', 'rivers'].includes(k) ? 0 : draft.resources.includes(k) ? 28 : 10]),
+      RESOURCES.map((k) => [
+        k,
+        ['coastline', 'rivers'].includes(k)
+          ? 0
+          : draft.resources.includes(k)
+            ? 28
+            : (MONTHLY_DEMAND[k as keyof typeof MONTHLY_DEMAND] ?? 0) * 5,
+      ]),
     ) as Republic['stocks'],
     metrics: {
       population: 10,
-      gdp: struggling ? 42 : 68,
-      treasury: struggling ? 6 : 12,
-      debt: struggling ? 25 : 12,
-      inflation: struggling ? 12 : 5,
-      unemployment: struggling ? 18 : 10,
+      gdp: 68,
+      treasury: 12,
+      debt: 12,
+      inflation: 5,
+      unemployment: 10,
       approval: base + 10,
       infrastructure: base,
       education: base,
@@ -83,7 +92,11 @@ export function createRepublic(id: string, draft: Draft, struggling: boolean): R
     reputation: 70,
     influence: 35,
     effects: [],
-    history: [struggling ? 42 : 68],
+    credit: 70,
+    relations: {},
+    briefings: [],
+    nextBriefingAt: 0,
+    history: [68],
     stats: { wars: 0, sanctions: 0, betrayals: 0, deliveries: 0 },
   };
   startingAdvantages(republic);
@@ -105,6 +118,9 @@ export function createRoom(
     version: 0,
     month: 0,
     nextTick: 0,
+    activeMs: 0,
+    nextWorldAt: 720000,
+    paused: false,
     seed: Array.from(code).reduce((n, c) => n * 31 + c.charCodeAt(0), 7) >>> 0,
     players: [{ id: host, tokenHash, requests: [] }],
     republics: [createRepublic(host, draft, options.difficulty === 'struggling')],

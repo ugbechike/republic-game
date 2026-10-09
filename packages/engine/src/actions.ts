@@ -1,3 +1,5 @@
+import { briefingAction } from './briefing-actions';
+import { directorDebug } from './director-debug';
 import type { Action, Room } from '@republic/contracts';
 import { botDraft, createRepublic } from './create';
 import { conflict } from './conflict';
@@ -24,6 +26,9 @@ export function act(room: Room, playerId: string, action: Action, development = 
     );
     room.phase = 'lobby';
     room.month = 0;
+    room.activeMs = 0;
+    room.nextWorldAt = 720000;
+    delete room.worldCrisis;
     room.nextTick = 0;
     room.speed = 1;
     room.deals = [];
@@ -54,6 +59,8 @@ export function act(room: Room, playerId: string, action: Action, development = 
   }
   requireThat(room.phase === 'playing', 'The world is not in session');
   if (
+    briefingAction(room, me, action) ||
+    directorDebug(room, me, action, development) ||
     domestic(room, me, action, development) ||
     tradeAction(room, me, action) ||
     diplomacy(room, me, action) ||

@@ -1,6 +1,27 @@
 import type { Action, Republic, Room, War } from '@republic/contracts';
 import { clamp, notice, other, random, requireThat, spend, uid } from './helpers';
 export function conflict(room: Room, me: Republic, a: Action): boolean {
+  if (a.type === 'neutral') {
+    const war = room.wars.find((w) => w.id === a.war && w.status === 'active');
+    requireThat(war && ![war.attacker, war.defender].includes(me.id), 'Only outside Presidents can declare neutrality');
+    requireThat(!war.support[me.id], 'You have already committed assistance');
+    war.neutral ??= [];
+    requireThat(!war.neutral.includes(me.id), 'Neutrality already recorded');
+    war.neutral.push(me.id);
+    notice(room, `${me.name} remains neutral in the conflict.`);
+    return true;
+  }
+  if (a.type === 'requestHelp') {
+    const war = room.wars.find((w) => w.id === a.war && w.status === 'active' && w.defender === me.id);
+    requireThat(war, 'Only the defender can request help for this conflict');
+    requireThat(!war.requested, 'Assistance has already been requested');
+    war.requested = true;
+    notice(
+      room,
+      `${me.name} requests military units or $2B defence assistance. Presidents may assist either side, negotiate terms or remain neutral.`,
+    );
+    return true;
+  }
   if (a.type === 'threat') {
     const target = other(room, me, a.to);
     requireThat(me.capital >= 5, 'Requires five political capital');
@@ -50,7 +71,8 @@ export function conflict(room: Room, me: Republic, a: Action): boolean {
         title: `Sanction the invasion by ${me.name}`,
         kind: 'sanction',
         target: me.id,
-        ends: room.month + 4,
+        ends: room.month + 12,
+        opensAt: (room.activeMs ?? 0) + 30000,
         ballots: {},
       };
     for (const p of room.alliances.filter(

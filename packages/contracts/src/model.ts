@@ -1,3 +1,4 @@
+import type { EconomyState, FlowLedger, Briefing, BankFacility, WorldCrisis, Sanction, TradeItem } from './pressure';
 import type { Resource, TRADE_RESOURCES } from './resources';
 export * from './resources';
 export const FLAGS = ['🌅', '🌊', '🌲', '☀️', '🏔️', '🌙', '⚡', '🦅'] as const;
@@ -54,6 +55,13 @@ export type Republic = {
   flag: string;
   resources: Resource[];
   stocks: Record<Resource, number>;
+  economy?: EconomyState;
+  flows?: FlowLedger;
+  briefings?: Briefing[];
+  nextBriefingAt?: number;
+  credit?: number;
+  relations?: Record<string, number>;
+  bankFacility?: BankFacility;
   disruptions?: { resource: Resource; ends: number }[];
   metrics: Metrics;
   policies: Record<Policy, number>;
@@ -69,7 +77,13 @@ export type Republic = {
   stats: { wars: number; sanctions: number; betrayals: number; deliveries: number };
 };
 export type Player = { id: string; tokenHash: string; requests: string[] };
-export type Bundle = { money: number; resource: (typeof TRADE_RESOURCES)[number]; amount: number };
+export type Bundle = {
+  money: number;
+  resource: (typeof TRADE_RESOURCES)[number];
+  amount: number;
+  moneyTiming?: 'now' | 'annual';
+  items?: TradeItem[];
+};
 export type Deal = {
   id: string;
   from: string;
@@ -77,6 +91,8 @@ export type Deal = {
   offer: Bundle;
   want: Bundle;
   years: number;
+  startInMonths?: number;
+  reason?: string;
   status: 'pending' | 'active' | 'rejected' | 'broken' | 'completed';
   ends: number;
   created: number;
@@ -95,7 +111,12 @@ export type Loan = {
   amount: number;
   remaining: number;
   months: number;
-  status: 'pending' | 'active' | 'paid' | 'rejected';
+  status: 'pending' | 'active' | 'paid' | 'rejected' | 'defaulted';
+  repayment?: number;
+  term?: number;
+  mode?: 'installments' | 'bullet';
+  due?: number;
+  arrears?: number;
 };
 export type War = {
   id: string;
@@ -105,6 +126,8 @@ export type War = {
   support: Record<string, { side: string; strength: number }>;
   status: 'active' | 'ended';
   winner?: string;
+  requested?: boolean;
+  neutral?: string[];
 };
 export type Vote = {
   id: string;
@@ -112,7 +135,8 @@ export type Vote = {
   kind: 'sanction' | 'aid' | 'trade';
   target: string;
   ends: number;
-  ballots: Record<string, boolean>;
+  ballots: Record<string, boolean | null>;
+  opensAt?: number;
 };
 export type Notice = { id: string; month: number; text: string; audience?: string[] };
 export type Score = {
@@ -133,11 +157,15 @@ export type Room = {
   code: string;
   host: string;
   minPlayers: number;
-  options: { duration: 45 | 60 | 90; maxPlayers: number; difficulty: 'developing' | 'struggling' };
+  options: { duration: 45 | 60 | 90; maxPlayers: number; difficulty?: 'developing' | 'struggling' };
   phase: 'lobby' | 'playing' | 'ended';
   version: number;
   month: number;
   nextTick: number;
+  activeMs?: number;
+  paused?: boolean;
+  worldCrisis?: WorldCrisis;
+  nextWorldAt?: number;
   seed: number;
   players: Player[];
   republics: Republic[];
@@ -145,7 +173,7 @@ export type Room = {
   alliances: Alliance[];
   loans: Loan[];
   wars: War[];
-  sanctions: { from: string; to: string; ends: number }[];
+  sanctions: Sanction[];
   vote?: Vote;
   notices: Notice[];
   results: Score[];
@@ -154,7 +182,14 @@ export type Room = {
 export type PublicRepublic = Pick<
   Republic,
   'id' | 'name' | 'leader' | 'flag' | 'resources' | 'influence' | 'reputation' | 'stats'
-> & { gdp: number; population: number; stability: number; militaryEstimate: number };
+> & {
+  gdp: number;
+  population: number;
+  stability: number;
+  militaryEstimate: number;
+  market?: Partial<Record<(typeof TRADE_RESOURCES)[number], number>>;
+  credit?: number;
+};
 export type RoomView = Omit<Room, 'players' | 'republics' | 'seed'> & {
   playerId: string;
   republics: PublicRepublic[];

@@ -78,7 +78,8 @@ export function resolveCrisis(room: Room, r: Republic, choice: 'intervene' | 'ap
         kind: 'aid',
         target: r.id,
         title: `Emergency assistance for ${r.name}`,
-        ends: room.month + 4,
+        ends: room.month + 12,
+        opensAt: (room.activeMs ?? 0) + 30000,
         ballots: {},
       };
   }
@@ -96,7 +97,7 @@ export function eventsTick(room: Room, r: Republic) {
     notice(room, `${r.name}'s unresolved crisis has damaged public confidence.`, [r.id]);
     delete r.crisis;
   }
-  if (room.month % 18 === 0) triggerCrisis(room, r);
+  // Major new issues are paced by GameDirector; legacy crises still resolve.
   if (room.month % 24 === 0) {
     const s = r.regions[1 + Math.floor(random(room) * 5)];
     notice(

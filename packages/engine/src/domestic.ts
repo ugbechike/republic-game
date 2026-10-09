@@ -1,9 +1,21 @@
 import type { Action, Republic, Room } from '@republic/contracts';
 import { clamp, notice, requireThat, spend } from './helpers';
 import { resolveCrisis, triggerCrisis } from './events';
+import { emergencyFacility } from './bank';
 import { election } from './economy';
 export function domestic(room: Room, r: Republic, a: Action, development: boolean): boolean {
   if (a.type === 'policy') {
+    if (r.bankFacility) {
+      const f = r.bankFacility;
+      requireThat(
+        a.key !== 'corporateTax' || a.value >= f.taxFloor,
+        'Emergency facility requires the corporate-tax floor',
+      );
+      requireThat(
+        f.spendingCaps[a.key] === undefined || a.value <= f.spendingCaps[a.key],
+        'Emergency facility spending cap is binding',
+      );
+    }
     const isTax = a.key.endsWith('Tax');
     requireThat(isTax || a.value <= 20, 'Spending is capped at 20');
     requireThat(!r.pendingPolicies.some((c) => c.key === a.key), 'A change to this policy is already pending');
@@ -20,23 +32,13 @@ export function domestic(room: Room, r: Republic, a: Action, development: boolea
   }
   if (a.type === 'institution') {
     if (a.kind === 'development') {
+      requireThat(!r.bankFacility, 'Development programmes are unavailable during an emergency facility');
       requireThat(r.metrics.debt < r.metrics.gdp, 'Debt burden too high for a development loan');
       r.metrics.treasury += 5;
       r.metrics.debt += 5;
       r.effects.push({ month: room.month + 6, metric: 'infrastructure', amount: 5 });
     }
-    if (a.kind === 'emergency') {
-      requireThat(
-        r.metrics.treasury < 3 && r.policies.social >= 3,
-        'Emergency aid requires reserves below $3B and social spending of at least 3',
-      );
-      r.metrics.treasury += 4;
-      r.metrics.debt += 5;
-      r.policies.incomeTax = Math.min(40, r.policies.incomeTax + 3);
-      r.policies.social -= 3;
-      r.pendingPolicies = r.pendingPolicies.filter((p) => !['social', 'incomeTax'].includes(p.key));
-      r.metrics.approval = clamp(r.metrics.approval - 5);
-    }
+    if (a.kind === 'emergency') emergencyFacility(room, r);
     if (a.kind === 'dispute') {
       requireThat(
         room.sanctions.some((s) => s.to === r.id),
@@ -49,13 +51,14 @@ export function domestic(room: Room, r: Republic, a: Action, development: boolea
         kind: 'trade',
         target: r.id,
         title: `Restore open trade with ${r.name}`,
-        ends: room.month + 4,
+        ends: room.month + 12,
+        opensAt: (room.activeMs ?? 0) + 30000,
         ballots: {},
       };
     }
     notice(
       room,
-      `${r.name} has engaged the ${a.kind === 'development' ? 'Global Development Bank' : a.kind === 'emergency' ? 'International Monetary Authority' : 'World Trade Council'}.`,
+      `${r.name} has engaged the ${a.kind === 'development' ? 'Global Development Bank' : a.kind === 'emergency' ? 'Global Development Bank emergency facility' : 'World Trade Council'}.`,
     );
     return true;
   }
