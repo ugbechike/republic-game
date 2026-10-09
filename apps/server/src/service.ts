@@ -19,6 +19,10 @@ export class Rooms {
     for (const r of await this.store.all()) {
       migrateRoom(r, this.minimum);
       r.nextTick = Date.now() + interval(r);
+      if (r.phase === 'draft' && r.draft) {
+        r.draft.deadline = Date.now() + (r.draft.remainingMs ?? 30000);
+        r.nextTick = r.draft.deadline;
+      }
       this.rooms.set(r.code, r);
     }
   }
@@ -27,10 +31,16 @@ export class Rooms {
       count = Math.max(0, prior + delta);
     this.online.set(code, count);
     const existing = this.rooms.get(code);
-    if (!existing || existing.phase !== 'playing' || (prior > 0 && count > 0)) return;
+    if (!existing || !['playing', 'draft'].includes(existing.phase) || (prior > 0 && count > 0)) return;
     await this.mutate(code, (room) => {
       room.paused = count === 0;
-      if (prior === 0 && count > 0) room.nextTick = Date.now() + interval(room);
+      if (room.phase === 'draft' && room.draft) {
+        if (!count) room.draft.remainingMs = Math.max(0, room.draft.deadline - Date.now());
+        else {
+          room.draft.deadline = Date.now() + (room.draft.remainingMs ?? 30000);
+          room.nextTick = room.draft.deadline;
+        }
+      } else if (prior === 0 && count > 0) room.nextTick = Date.now() + interval(room);
     });
   }
   async serial<T>(code: string, work: () => Promise<T>): Promise<T> {
@@ -62,7 +72,7 @@ export class Rooms {
     } while (this.rooms.has(code));
     const playerId = randomUUID(),
       token = randomBytes(32).toString('hex');
-    const room = createRoom(code, playerId, hash(token), draft, options);
+    const room = createRoom(code, playerId, hash(token), { ...draft, resources: [] }, options);
     room.minPlayers = this.minimum;
     requireThat(options.maxPlayers >= this.minimum, `World capacity must be at least ${this.minimum}`);
     await this.store.save(room);
@@ -80,7 +90,9 @@ export class Rooms {
         'Republic name already taken',
       );
       room.players.push({ id: playerId, tokenHash: hash(token), requests: [] });
-      room.republics.push(createRepublic(playerId, draft, room.options.difficulty === 'struggling'));
+      room.republics.push(
+        createRepublic(playerId, { ...draft, resources: [] }, room.options.difficulty === 'struggling'),
+      );
     });
     return { code, playerId, token };
   }
@@ -125,7 +137,9 @@ export class Rooms {
       [...this.rooms.values()]
         .filter(
           (r) =>
-            r.phase === 'playing' && r.nextTick <= now && (!this.trackPresence || (this.online.get(r.code) ?? 0) > 0),
+            ['playing', 'draft'].includes(r.phase) &&
+            r.nextTick <= now &&
+            (!this.trackPresence || (this.online.get(r.code) ?? 0) > 0),
         )
         .map((r) =>
           this.mutate(r.code, (next) => {

@@ -44,8 +44,8 @@ export function worldDirector(room: Room) {
 export function marketFactor(room: Room, resource: Resource) {
   const k = room.worldCrisis?.kind;
   const energy = ['oil', 'gas'].includes(resource),
-    food = ['agriculture', 'coastline'].includes(resource),
-    mining = ['iron', 'gold', 'rareEarths', 'uranium'].includes(resource);
+    food = ['agriculture', 'coastline', 'fisheries'].includes(resource),
+    mining = ['iron', 'gold', 'rareEarths', 'uranium', 'copper'].includes(resource);
   return {
     production: (k === 'energy' && energy) || (k === 'food' && food) ? 0.75 : 1,
     price: k === 'energy' && energy ? 1.5 : k === 'food' && food ? 1.4 : k === 'commodities' && mining ? 0.6 : 1,

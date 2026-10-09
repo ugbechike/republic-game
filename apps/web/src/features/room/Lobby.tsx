@@ -75,7 +75,7 @@ export function Lobby({ controller: c }: { controller: WorldController }) {
                     </span>
                   ))}
                 </div>
-                <small>Founding member</small>
+                <small>Three natural advantages await your claim</small>
                 <span className={`ready-badge ${r.id.startsWith('bot-') ? 'delegate' : ''}`}>
                   <CheckCircle2 size={13} />
                   {r.id.startsWith('bot-') ? 'TEST DELEGATE' : 'READY'}
@@ -116,7 +116,7 @@ export function Lobby({ controller: c }: { controller: WorldController }) {
               disabled={c.busy || humans < w.minPlayers}
               onClick={() => c.send({ type: 'start' })}
             >
-              START GAME{' '}
+              BEGIN WORLD DRAFT{' '}
               <span>
                 ({humans}/{w.minPlayers})
               </span>

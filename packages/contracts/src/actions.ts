@@ -7,7 +7,7 @@ export const draftSchema = z.object({
   flag: z.enum(['🌅', '🌊', '🌲', '☀️', '🏔️', '🌙', '⚡', '🦅']),
   resources: z
     .array(z.enum(RESOURCES))
-    .min(1)
+    .min(0)
     .max(5)
     .refine(
       (r) => new Set(r).size === r.length && r.reduce((n, k) => n + RESOURCE_COST[k], 0) <= RESOURCE_POINTS,
@@ -36,6 +36,8 @@ const bundle = z.object({
     .optional(),
 });
 export const actionSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('draftClaim'), deposit: id }),
+  z.object({ type: z.literal('draftReady') }),
   z.object({
     type: z.literal('briefing'),
     id,

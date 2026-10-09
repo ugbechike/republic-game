@@ -1,3 +1,4 @@
+import { advanceDraft } from './world-draft';
 import { gameDirector } from './game-director';
 import { worldDirector } from './world-director';
 import { ensureEconomy, observed, recordEconomy, explain } from './economic-history';
@@ -44,6 +45,7 @@ export function tick(room: Room) {
   if (room.month >= 240) finish(room);
 }
 export function advance(room: Room, now: number) {
+  if (room.phase === 'draft') return advanceDraft(room, now);
   if (room.phase !== 'playing' || now < room.nextTick) return false;
   tick(room);
   room.nextTick = now + interval(room);

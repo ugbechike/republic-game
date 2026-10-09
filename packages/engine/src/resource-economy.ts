@@ -1,4 +1,4 @@
-import { RESOURCE_INFO, TRADE_RESOURCES, type Republic, type Room } from '@republic/contracts';
+import { RESOURCE_INFO, QUALITY_FACTOR, TRADE_RESOURCES, type Republic, type Room } from '@republic/contracts';
 import { clamp } from './helpers';
 import { marketFactor } from './world-director';
 import { ensureEconomy } from './economic-history';
@@ -9,7 +9,8 @@ export function resourceEconomy(room: Room, r: Republic) {
   for (const resource of r.resources) {
     const info = RESOURCE_INFO[resource];
     const market = marketFactor(room, resource);
-    const factor = (r.disruptions.some((d) => d.resource === resource) ? 0.5 : 1) * market.production;
+    const quality = QUALITY_FACTOR[r.resourceQuality?.[resource] ?? 'Moderate'];
+    const factor = quality * (r.disruptions.some((d) => d.resource === resource) ? 0.5 : 1) * market.production;
     const industry = r.regions.filter((s) => s.industry === resource).length;
     const produced =
       (info.production + (info.production ? industry * 0.4 + r.metrics.infrastructure / 100 : 0)) * factor;
@@ -23,7 +24,7 @@ export function resourceEconomy(room: Room, r: Republic) {
       const exports = Math.min(info.production * 0.15 * factor * market.demand, Math.max(0, r.stocks[key] - 18));
       r.stocks[key] -= exports;
       flows.exports[key] = (flows.exports[key] ?? 0) + exports;
-      const revenue = exports * info.exportPrice * market.price;
+      const revenue = exports * info.exportPrice * market.price * (r.resources.includes('port') ? 1.2 : 1);
       r.metrics.treasury += revenue;
       e.revenue += revenue;
       flows.received += revenue;
@@ -37,6 +38,11 @@ export function resourceEconomy(room: Room, r: Republic) {
       flows.production.agriculture = (flows.production.agriculture ?? 0) + 0.65 * factor;
       r.metrics.treasury += 0.06 * factor;
       e.revenue += 0.06 * factor;
+    }
+    if (resource === 'fisheries') {
+      const food = 2.7 * factor;
+      r.stocks.agriculture += food;
+      flows.production.agriculture = (flows.production.agriculture ?? 0) + food;
     }
     if (resource === 'rivers') {
       r.stocks.agriculture += 0.45 * factor;

@@ -1,3 +1,4 @@
+import type { WorldDraft, ResourceQuality } from './draft';
 import type { EconomyState, FlowLedger, Briefing, BankFacility, WorldCrisis, Sanction, TradeItem } from './pressure';
 import type { Resource, TRADE_RESOURCES } from './resources';
 export * from './resources';
@@ -55,6 +56,7 @@ export type Republic = {
   flag: string;
   resources: Resource[];
   stocks: Record<Resource, number>;
+  resourceQuality?: Partial<Record<Resource, ResourceQuality>>;
   economy?: EconomyState;
   flows?: FlowLedger;
   briefings?: Briefing[];
@@ -158,7 +160,8 @@ export type Room = {
   host: string;
   minPlayers: number;
   options: { duration: 45 | 60 | 90; maxPlayers: number; difficulty?: 'developing' | 'struggling' };
-  phase: 'lobby' | 'playing' | 'ended';
+  phase: 'lobby' | 'draft' | 'playing' | 'ended';
+  draft?: WorldDraft;
   version: number;
   month: number;
   nextTick: number;

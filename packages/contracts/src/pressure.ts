@@ -98,6 +98,7 @@ export const MONTHLY_DEMAND: Record<Commodity, number> = {
   rareEarths: 0.18,
   uranium: 0.04,
   gold: 0,
+  copper: 0.15,
 };
 export const SHORTAGE_STAGES = [
   'Secure',

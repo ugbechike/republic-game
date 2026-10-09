@@ -10,12 +10,18 @@ import { clamp } from './helpers';
 import { ensureEconomy, observed } from './economic-history';
 export function demand(r: Republic, resource: Commodity) {
   if (resource === 'uranium' && !r.resources.includes('uranium') && r.policies.energy < 12) return 0;
+  if (resource === 'copper' && r.policies.energy < 10 && r.policies.infrastructure < 10) return 0;
   const scale = clamp(r.metrics.population / 10, 0.7, 2);
   const alternative =
     resource === 'oil' || resource === 'gas'
       ? (r.resources.includes('uranium') ? 0.75 : 1) * (r.resources.includes('rivers') ? 0.9 : 1)
       : 1;
-  return MONTHLY_DEMAND[resource] * scale * alternative;
+  return (
+    MONTHLY_DEMAND[resource] *
+    scale *
+    alternative *
+    (resource === 'agriculture' && r.resources.includes('freshWater') ? 0.85 : 1)
+  );
 }
 export function consumeSupply(room: Room, r: Republic, before: Record<string, number>) {
   const e = ensureEconomy(r),

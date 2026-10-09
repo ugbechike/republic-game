@@ -1,3 +1,4 @@
+import { beginDraft, claimDeposit, finishDraft } from './world-draft';
 import { briefingAction } from './briefing-actions';
 import { directorDebug } from './director-debug';
 import type { Action, Room } from '@republic/contracts';
@@ -10,6 +11,16 @@ import { interval, notice, requireThat } from './helpers';
 export function act(room: Room, playerId: string, action: Action, development = false, now = Date.now()) {
   const me = room.republics.find((r) => r.id === playerId);
   requireThat(me, 'Unknown player');
+  if (action.type === 'draftClaim') {
+    claimDeposit(room, playerId, action.deposit, now);
+    return;
+  }
+  if (action.type === 'draftReady') {
+    requireThat(room.phase === 'draft' && room.draft?.complete, 'The world is still being divided');
+    if (!room.draft.ready.includes(playerId)) room.draft.ready.push(playerId);
+    if (room.players.every((p) => room.draft!.ready.includes(p.id))) finishDraft(room, now);
+    return;
+  }
   if (action.type === 'rematch') {
     requireThat(playerId === room.host && room.phase === 'ended', 'Only the host can start a rematch after results');
     room.republics = room.republics.map((r) =>
@@ -29,6 +40,7 @@ export function act(room: Room, playerId: string, action: Action, development = 
     room.activeMs = 0;
     room.nextWorldAt = 720000;
     delete room.worldCrisis;
+    delete room.draft;
     room.nextTick = 0;
     room.speed = 1;
     room.deals = [];
@@ -45,9 +57,7 @@ export function act(room: Room, playerId: string, action: Action, development = 
     requireThat(playerId === room.host && room.phase === 'lobby', 'Only the host can start a lobby');
     const humans = room.players.filter((p) => room.republics.some((r) => r.id === p.id)).length;
     requireThat(humans >= room.minPlayers, `At least ${room.minPlayers} human Republics are required`);
-    room.phase = 'playing';
-    room.nextTick = now + interval(room);
-    notice(room, 'The Assembly is in session. Twenty years. One world.');
+    beginDraft(room, now);
     return;
   }
   if (action.type === 'debug' && action.kind === 'bot') {

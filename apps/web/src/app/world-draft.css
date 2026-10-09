@@ -1,0 +1,241 @@
+.draft-screen,
+.draft-reveal {
+  min-height: 100svh;
+  padding: 36px 5vw;
+  background: radial-gradient(ellipse at 35% 45%, #254b50 0, #102a34 35%, #07151e 78%);
+  color: #eee8d9;
+}
+.draft-heading,
+.draft-title,
+.draft-clock,
+.draft-presidents article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.draft-heading {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #bdb293;
+}
+.draft-heading .kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.draft-title {
+  margin: 35px 0 28px;
+}
+.draft-title h1 {
+  font-size: clamp(36px, 4.5vw, 68px);
+  line-height: 1.06;
+  margin: 12px 0;
+}
+.draft-title em {
+  font-style: normal;
+  color: #e5c683;
+}
+.draft-clock {
+  padding: 16px 24px;
+  border: 1px solid #ffffff25;
+  border-radius: 6px;
+  background: #07151ea6;
+}
+.draft-clock small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+}
+.draft-clock b {
+  font:
+    40px var(--font-display),
+    sans-serif;
+}
+.draft-clock.your-turn {
+  border-color: #e5c683;
+  box-shadow: 0 0 40px #e5c68315;
+}
+.draft-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 25px;
+}
+.draft-table {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  padding: 32px;
+  border: 1px solid #69848655;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 39px, #90beb709 40px),
+    repeating-linear-gradient(90deg, transparent 0 39px, #90beb709 40px), radial-gradient(ellipse, #37636a55, #0c222dcc);
+  box-shadow:
+    inset 0 0 65px #0008,
+    0 20px 50px #0006;
+  border-radius: 12px;
+}
+.draft-compass {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  color: #b4c3b355;
+  text-align: center;
+  font-size: 12px;
+}
+.deposit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  padding: 20px 10px;
+  min-height: 135px;
+  background: linear-gradient(145deg, #28434b, #0e232c);
+  border: 1px solid #a5b4a64d;
+  box-shadow:
+    0 7px 0 #06192380,
+    0 12px 25px #0005;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+.deposit svg {
+  color: #e5c683;
+}
+.deposit span {
+  font-weight: 600;
+}
+.deposit small {
+  color: #b3c1bf;
+  font-size: 11px;
+}
+.deposit.selected {
+  border-color: #e5c683;
+  transform: translateY(-5px);
+  background: #304d52;
+}
+.deposit.claimed {
+  opacity: 0.5;
+  box-shadow: none;
+}
+.deposit.claimed > svg:last-child {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+}
+.claim-dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px;
+  background: #091a23c9;
+  border: 1px solid #a8bdba33;
+  border-radius: 8px;
+}
+.claim-dossier h2 {
+  font-size: 29px;
+}
+.claim-dossier h3 {
+  color: #d8c58e;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  margin: 10px 0 0;
+}
+.claim-dossier p {
+  font-size: 14px;
+  color: #a9bcbf;
+  line-height: 1.6;
+}
+.claim-dossier .game-button {
+  padding: 14px;
+  font-size: 12px;
+  margin-top: auto;
+  min-height: 48px;
+}
+.claim-dossier small {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #91a8ae;
+}
+.quality-stamp {
+  border: 1px solid #c9b47766;
+  width: fit-content;
+  color: #dac38d;
+  padding: 5px 10px;
+  font-size: 11px;
+}
+.draft-seal {
+  font:
+    100px Georgia,
+    serif;
+  text-align: center;
+  color: #cab57933;
+}
+.draft-presidents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.draft-presidents article {
+  flex: 1;
+  min-width: 175px;
+  padding: 15px;
+  justify-content: flex-start;
+  border-top: 2px solid #ffffff20;
+  background: #06182280;
+}
+.draft-presidents article.active {
+  border-color: #e5c683;
+}
+.draft-presidents small {
+  display: block;
+  font-size: 11px;
+  color: #9badaf;
+}
+.draft-presidents article span {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  color: #cfbb82;
+}
+.draft-announcement {
+  color: #e3c88b;
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+.draft-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  text-align: center;
+}
+.draft-reveal h1 {
+  font-size: clamp(44px, 6vw, 86px);
+  line-height: 1.05;
+}
+.reveal-claims {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.reveal-claims > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid #e5c68344;
+}
+.reveal-claims small,
+.draft-reveal > small {
+  color: #a2b3b5;
+}

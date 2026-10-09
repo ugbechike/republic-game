@@ -3,6 +3,7 @@ import { useWorld } from '../features/room/useWorld';
 import { Landing } from '../features/room/Landing';
 import { Lobby } from '../features/room/Lobby';
 import { Results } from '../features/game/Results';
+import { WorldDraft } from '../features/draft/WorldDraft';
 import { Game } from '../features/game/Game';
 export default function Page() {
   const c = useWorld();
@@ -20,6 +21,8 @@ export default function Page() {
     <>
       {c.world.phase === 'lobby' ? (
         <Lobby controller={c} />
+      ) : c.world.phase === 'draft' ? (
+        <WorldDraft controller={c} />
       ) : c.world.phase === 'ended' ? (
         <Results w={c.world} send={c.send} busy={c.busy} leave={c.leave} />
       ) : (

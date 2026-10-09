@@ -20,7 +20,7 @@ it('requires two human seats even when test delegates are present', () => {
   room.players.push({ ...room.players[0], id: 'guest' });
   room.republics.push(createRepublic('guest', { ...draft, name: 'Kantara' }, false));
   act(room, 'host', { type: 'start' });
-  expect(room.phase).toBe('playing');
+  expect(room.phase).toBe('draft');
 });
 it('honors a configured human minimum', () => {
   const room = createRoom('ABCDE', 'host', 'hash', draft, options);

@@ -1,6 +1,8 @@
+import { GEOGRAPHY_INFO } from './geography-catalog';
 import type { Resource, ResourceInfo } from './resources';
 // Values are consumed by the authoritative simulation, not merely marketing copy.
 export const RESOURCE_INFO: Record<Resource, ResourceInfo> = {
+  ...GEOGRAPHY_INFO,
   oil: {
     tagline: 'Black gold. Global leverage.',
     color: '#d9a261',

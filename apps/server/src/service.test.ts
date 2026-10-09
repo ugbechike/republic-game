@@ -37,7 +37,8 @@ describe('authoritative rooms', () => {
     await service.clock(room.nextTick - 1);
     expect(service.rooms.get(host.code)!.month).toBe(0);
     await service.clock(room.nextTick);
-    expect(service.rooms.get(host.code)!.month).toBe(1);
+    expect(service.rooms.get(host.code)!.draft!.turn).toBe(1);
+    expect(service.rooms.get(host.code)!.month).toBe(0);
   });
   it('keeps secrets and internal rival metrics out of public snapshots', async () => {
     const { service } = setup();

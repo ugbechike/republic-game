@@ -1,0 +1,74 @@
+@media (max-width: 760px) {
+  .draft-screen {
+    padding: 22px 16px;
+  }
+  .draft-title {
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .draft-title .kicker {
+    font-size: 9px;
+  }
+  .draft-clock {
+    padding: 12px;
+    gap: 8px;
+  }
+  .draft-clock .flag-banner {
+    display: none;
+  }
+  .draft-clock b {
+    font-size: 30px;
+  }
+  .draft-layout {
+    grid-template-columns: 1fr;
+  }
+  .draft-table {
+    padding: 15px;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .deposit {
+    min-height: 125px;
+  }
+  .claim-dossier {
+    position: sticky;
+    bottom: 8px;
+    z-index: 2;
+    padding: 16px;
+    gap: 8px;
+    box-shadow: 0 -10px 40px #000a;
+    background: #0b202af5;
+  }
+  .claim-dossier > svg,
+  .claim-dossier > .kicker,
+  .claim-dossier h3,
+  .claim-dossier h3 + p,
+  .claim-dossier > .draft-seal {
+    display: none;
+  }
+  .claim-dossier h2 {
+    font-size: 23px;
+  }
+  .claim-dossier .game-button {
+    width: 100%;
+  }
+  .draft-presidents article {
+    min-width: 130px;
+  }
+  .draft-heading {
+    font-size: 9px;
+  }
+  .draft-reveal {
+    padding: 25px 18px;
+  }
+  .reveal-claims {
+    gap: 8px;
+  }
+  .reveal-claims > span {
+    padding: 14px;
+  }
+  .draft-reveal .game-button {
+    font-size: 13px;
+    width: 100%;
+  }
+}

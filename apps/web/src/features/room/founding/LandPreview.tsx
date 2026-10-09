@@ -2,6 +2,10 @@ import { useId } from 'react';
 import { RESOURCE_LABEL, type Resource } from '@republic/contracts';
 import { LandSite } from './LandSites';
 const locations: Record<Resource, [number, number]> = {
+  copper: [62, 38],
+  fisheries: [21, 70],
+  freshWater: [46, 28],
+  port: [30, 66],
   oil: [205, 228],
   gas: [413, 200],
   gold: [179, 136],

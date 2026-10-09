@@ -28,7 +28,7 @@ export function createRepublic(id: string, draft: Draft, _legacyDifficulty = fal
     infrastructure: base,
     unemployment: 10,
     stability: base + 10,
-    industry: draft.resources[i % draft.resources.length],
+    industry: draft.resources[i % draft.resources.length] ?? 'agriculture',
     plots: Array.from({ length: i === 0 ? 49 : 25 }, (_, p) => ({
       id: p,
       x: (p % (i === 0 ? 7 : 5)) - (i === 0 ? 3 : 2),

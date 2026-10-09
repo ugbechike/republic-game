@@ -5,10 +5,8 @@ import type { WorldController } from '../useWorld';
 import { Backdrop, GameBrand } from '../Backdrop';
 import { RepublicForm } from '../RepublicForm';
 import { FlagBanner } from '../../../components/FlagBanner';
-import { ResourceStep } from './ResourceStep';
 import { WorldSettingsStep } from './WorldSettingsStep';
-import { RepublicReveal } from './RepublicReveal';
-const steps = ['Identity', 'Resources', 'World', 'Review'];
+const steps = ['Identity', 'World'];
 export function FoundingWizard({
   c,
   room,
@@ -22,7 +20,6 @@ export function FoundingWizard({
 }) {
   const [step, setStep] = useState(0),
     [busy, setBusy] = useState(false),
-    [ready, setReady] = useState(false),
     [error, setError] = useState('');
   const [draft, setDraft] = useState<Draft>({ name: '', leader: '', flag: '☀️', resources: [] });
   const [options, setOptions] = useState<Room['options']>(
@@ -35,15 +32,11 @@ export function FoundingWizard({
       setError('Give your Republic and its President a name of at least two characters.');
       return;
     }
-    if (step === 1 && !draft.resources.length) {
-      setError('Choose at least one resource to shape your Republic.');
+    if (step === 0) {
+      setStep(1);
       return;
     }
-    if (step < 3) {
-      setStep(step + 1);
-      return;
-    }
-    if (!ready || busy) return;
+    if (busy) return;
     setBusy(true);
     try {
       const identity = draftSchema.parse(draft);
@@ -93,7 +86,7 @@ export function FoundingWizard({
                   <br />
                   AN IDENTITY.
                 </h1>
-                <p>A name to stand behind. A flag your friends will remember.</p>
+                <p>A name to stand behind. An emblem your friends will remember.</p>
                 <RepublicForm draft={draft} setDraft={setDraft} />
               </section>
               <aside className="identity-preview">
@@ -106,8 +99,7 @@ export function FoundingWizard({
               </aside>
             </div>
           )}
-          {step === 1 && <ResourceStep draft={draft} setDraft={setDraft} />}
-          {step === 2 && (
+          {step === 1 && (
             <WorldSettingsStep
               options={options}
               setOptions={setOptions}
@@ -115,7 +107,6 @@ export function FoundingWizard({
               minimum={room?.minPlayers ?? minimum}
             />
           )}
-          {step === 3 && <RepublicReveal draft={draft} options={options} client={c.client} onReady={setReady} />}
         </div>
         {error && (
           <p className="error" role="alert">
@@ -135,19 +126,9 @@ export function FoundingWizard({
           >
             <ArrowLeft size={17} /> Back
           </button>
-          <span>
-            {step === 1
-              ? 'YOU CANNOT EAT YOUR CAKE AND HAVE IT.'
-              : step === 3
-                ? 'YOUR PEOPLE. YOUR CHOICES. YOUR LEGACY.'
-                : `${step + 1} OF 4 · FOUNDING YOUR REPUBLIC`}
-          </span>
-          <button className="game-button gold" disabled={busy || (step === 3 && !ready)}>
-            {busy
-              ? 'Founding your Republic…'
-              : ['Next: Choose your land', 'Next: Set the table', 'Next: Review your Republic', 'FOUND THE REPUBLIC'][
-                  step
-                ]}
+          <span>{step + 1} OF 2 · RESOURCES WILL BE CLAIMED IN THE WORLD DRAFT</span>
+          <button className="game-button gold" disabled={busy}>
+            {busy ? 'Taking your seat…' : step === 0 ? 'Next: Set the table' : 'ENTER WORLD SUMMIT'}
             <ArrowRight size={18} />
           </button>
         </footer>

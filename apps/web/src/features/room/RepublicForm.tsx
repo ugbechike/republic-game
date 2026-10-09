@@ -28,7 +28,7 @@ export function RepublicForm({ draft, setDraft }: { draft: Draft; setDraft: (d: 
         onChange={(e) => setDraft({ ...draft, leader: e.target.value })}
         autoComplete="off"
       />
-      <h3>CHOOSE YOUR FLAG</h3>
+      <h3>CHOOSE YOUR EMBLEM</h3>
       <div className="flag-deck">
         {FLAGS.map((flag) => (
           <button

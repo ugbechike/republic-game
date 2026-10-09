@@ -11,6 +11,10 @@ const icons = {
   coastline: Anchor,
   rivers: Waves,
   uranium: Radiation,
+  copper: CircuitBoard,
+  fisheries: Waves,
+  freshWater: Waves,
+  port: Anchor,
 };
 export function ResourceIcon({ resource, size = 18 }: { resource: Resource; size?: number }) {
   const Icon = icons[resource];

@@ -64,7 +64,7 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     const { draft, difficulty } = z
       .object({ draft: draftSchema, difficulty: z.enum(['developing', 'struggling']).optional() })
       .parse(request.body);
-    const r = createRepublic('preview', draft, difficulty === 'struggling');
+    const r = createRepublic('preview', { ...draft, resources: [] }, difficulty === 'struggling');
     return { metrics: r.metrics, influence: r.influence };
   });
   app.post('/rooms', async (request) => {

@@ -80,11 +80,11 @@ it('broadcasts the same authoritative calendar to four independent players', asy
     const updates = sockets.map((socket) => new Promise<RoomView>((resolve) => socket.once('state', resolve)));
     await sockets[0].timeout(2000).emitWithAck('action', { requestId: randomUUID(), action: { type: 'start' } });
     const started = await Promise.all(updates);
-    expect(started.every((s) => s.phase === 'playing' && s.nextTick === started[0].nextTick)).toBe(true);
+    expect(started.every((s) => s.phase === 'draft' && s.nextTick === started[0].nextTick)).toBe(true);
     const ticks = sockets.map((socket) => new Promise<RoomView>((resolve) => socket.once('state', resolve)));
     await rooms.clock(started[0].nextTick);
     const states = await Promise.all(ticks);
-    expect(states.every((s) => s.month === 1 && s.version === states[0].version)).toBe(true);
+    expect(states.every((s) => s.draft?.turn === 1 && s.month === 0 && s.version === states[0].version)).toBe(true);
     expect(states.map((s) => s.me.id)).toEqual(sessions.map((s) => s.playerId));
   } finally {
     await app.close();
