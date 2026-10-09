@@ -6,6 +6,8 @@ import type { Store } from './store';
 export const hash = (token: string) => createHash('sha256').update(token).digest('hex');
 export class Rooms {
   rooms = new Map<string, Room>();
+  trackPresence = false;
+  online = new Map<string, number>();
   queues = new Map<string, Promise<unknown>>();
   constructor(
     private store: Store,
@@ -19,6 +21,17 @@ export class Rooms {
       r.nextTick = Date.now() + interval(r);
       this.rooms.set(r.code, r);
     }
+  }
+  async presence(code: string, delta: number) {
+    const prior = this.online.get(code) ?? 0,
+      count = Math.max(0, prior + delta);
+    this.online.set(code, count);
+    const existing = this.rooms.get(code);
+    if (!existing || existing.phase !== 'playing' || (prior > 0 && count > 0)) return;
+    await this.mutate(code, (room) => {
+      room.paused = count === 0;
+      if (prior === 0 && count > 0) room.nextTick = Date.now() + interval(room);
+    });
   }
   async serial<T>(code: string, work: () => Promise<T>): Promise<T> {
     const previous = this.queues.get(code) ?? Promise.resolve();
@@ -93,6 +106,15 @@ export class Rooms {
     await this.mutate(session.code, (room) => {
       const p = room.players.find((p) => p.id === session.playerId)!;
       if (p.requests.includes(requestId)) return;
+      if (action.type === 'briefing') {
+        const briefing = room.republics.find((r) => r.id === p.id)?.briefings?.find((b) => b.id === action.id);
+        const live =
+          (room.activeMs ?? 0) +
+          (room.paused
+            ? 0
+            : Math.max(0, Math.min(interval(room), Date.now() - (room.nextTick - interval(room)))) * room.speed);
+        requireThat(briefing && live < briefing.dueAt, 'The response deadline has passed');
+      }
       act(room, p.id, action, this.development);
       p.requests.push(requestId);
       p.requests = p.requests.slice(-200);
@@ -101,7 +123,10 @@ export class Rooms {
   async clock(now: number) {
     await Promise.all(
       [...this.rooms.values()]
-        .filter((r) => r.phase === 'playing' && r.nextTick <= now)
+        .filter(
+          (r) =>
+            r.phase === 'playing' && r.nextTick <= now && (!this.trackPresence || (this.online.get(r.code) ?? 0) > 0),
+        )
         .map((r) =>
           this.mutate(r.code, (next) => {
             advance(next, now);

@@ -59,13 +59,17 @@ export class RepublicClient {
   }
   connect(session: Session, onState: (state: RoomView) => void, onConnection: (status: string) => void) {
     this.socket?.disconnect();
-    this.socket = io(this.baseUrl, { auth: session, reconnection: true });
+    const socket = io(this.baseUrl, { auth: session, reconnection: true });
+    this.socket = socket;
     this.socket.on('state', onState);
     this.socket.on('connect', () => onConnection('Connected'));
-    this.socket.on('disconnect', () => onConnection('Reconnecting…'));
+    socket.on('disconnect', (reason) => {
+      onConnection('Reconnecting…');
+      if (reason === 'io server disconnect') socket.connect();
+    });
     this.socket.on('connect_error', (error) => onConnection(error.message));
     return () => {
-      this.socket?.disconnect();
+      socket.disconnect();
     };
   }
   async action(action: Action): Promise<void> {

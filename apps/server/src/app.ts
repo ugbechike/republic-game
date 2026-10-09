@@ -35,6 +35,7 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     minimum,
   );
   await rooms.load();
+  rooms.trackPresence = true;
   app.setErrorHandler((error, _request, reply) => {
     reply.status(400).send({
       error:
@@ -61,7 +62,7 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
   });
   app.post('/republic-preview', (request) => {
     const { draft, difficulty } = z
-      .object({ draft: draftSchema, difficulty: z.enum(['developing', 'struggling']) })
+      .object({ draft: draftSchema, difficulty: z.enum(['developing', 'struggling']).optional() })
       .parse(request.body);
     const r = createRepublic('preview', draft, difficulty === 'struggling');
     return { metrics: r.metrics, influence: r.influence };
@@ -84,6 +85,10 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
   });
   io.on('connection', (socket) => {
     const session = socket.data.session as Session;
+    void rooms.presence(session.code, 1).catch((e) => app.log.error(e));
+    socket.on('disconnect', () => {
+      void rooms.presence(session.code, -1).catch((e) => app.log.error(e));
+    });
     socket.emit('state', view(rooms.rooms.get(session.code)!, session.playerId, development));
     let count = 0,
       windowStart = Date.now();
