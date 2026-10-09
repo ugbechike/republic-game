@@ -46,8 +46,8 @@ export function Domestic({ w, send, busy }: { w: RoomView; send: (a: Action) => 
           </div>
         ))}
         <p className="muted small">
-          Monthly needs: 1.7 fuel · 1.4 food · 0.7 iron/timber · 0.2 rare earths. Gold creates export revenue. Trade
-          quantities are delivered monthly at 1/12 of their annual amount.
+          Monthly demand scales with population and geography; exact flows and reserve runway appear above. Gold creates
+          export revenue. Trade quantities are delivered monthly at 1/12 of their annual amount.
         </p>
       </section>
       <section className="panel">
@@ -76,8 +76,8 @@ export function Domestic({ w, send, busy }: { w: RoomView; send: (a: Action) => 
             ],
             [
               'emergency',
-              'International Monetary Authority',
-              '$4B relief for $5B debt. Requires reserves below $3B; income tax +3 and social spending −3.',
+              'Global Development Bank · Emergency Facility',
+              '$5B emergency facility at 7% total interest. Requires reserves below $5B. Spending cut at least 8%, corporate tax +3; five-year caps and two-year infrastructure suspension.',
             ],
             ['dispute', 'World Trade Council', 'Spend $1B to open an Assembly vote to remove sanctions.'],
           ] as const

@@ -1,71 +1,50 @@
 import { useState } from 'react';
-import { TRADE_RESOURCES, RESOURCE_LABEL, type Action, type Bundle, type Deal } from '@republic/contracts';
-function BundleFields({ label, value, change }: { label: string; value: Bundle; change: (b: Bundle) => void }) {
-  return (
-    <fieldset>
-      <legend>{label} · PER YEAR</legend>
-      <div className="form-row">
-        <label>
-          Money ($B)
-          <input
-            type="number"
-            min="0"
-            max="30"
-            step="0.1"
-            value={value.money}
-            onChange={(e) => change({ ...value, money: Number(e.target.value) })}
-          />
-        </label>
-        <label>
-          Resource
-          <select
-            value={value.resource}
-            onChange={(e) => change({ ...value, resource: e.target.value as Bundle['resource'] })}
-          >
-            {TRADE_RESOURCES.map((r) => (
-              <option value={r} key={r}>
-                {RESOURCE_LABEL[r]}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Units
-          <input
-            type="number"
-            min="0"
-            max="60"
-            step="0.1"
-            value={value.amount}
-            onChange={(e) => change({ ...value, amount: Number(e.target.value) })}
-          />
-        </label>
-      </div>
-    </fieldset>
-  );
-}
+import type { Action, Bundle, Deal, Commodity } from '@republic/contracts';
+import { BundleFields } from './BundleFields';
 export function TradeForm({
   to,
   send,
   busy,
   counter,
   done,
+  need,
 }: {
   to: string;
   send: (a: Action) => void;
   busy: boolean;
   counter?: Deal;
   done: () => void;
+  need?: Commodity;
 }) {
-  const [offer, setOffer] = useState<Bundle>(counter?.want ?? { money: 1, resource: 'agriculture', amount: 0 });
-  const [want, setWant] = useState<Bundle>(counter?.offer ?? { money: 0, resource: 'oil', amount: 12 });
-  const [years, setYears] = useState<2 | 5 | 10>((counter?.years as 2 | 5 | 10) ?? 2);
+  const [offer, setOffer] = useState<Bundle>(
+    counter?.want ?? { money: 1, resource: 'oil', amount: 0, moneyTiming: 'now', items: [] },
+  );
+  const [want, setWant] = useState<Bundle>(
+    counter?.offer ?? {
+      money: 0,
+      resource: need ?? 'oil',
+      amount: 0,
+      items: [{ resource: need ?? 'oil', amount: 6, timing: 'now' }],
+    },
+  );
+  const [years, setYears] = useState(counter?.years ?? 3),
+    [start, setStart] = useState(counter?.startInMonths ?? 0),
+    [reason, setReason] = useState('');
   return (
     <form
       className="trade-form"
       onSubmit={(e) => {
         e.preventDefault();
-        send({ type: 'trade', to, offer, want, years, counter: counter?.id });
+        send({
+          type: 'trade',
+          to,
+          offer,
+          want,
+          years,
+          startInMonths: start,
+          reason: reason || undefined,
+          counter: counter?.id,
+        });
         done();
       }}
     >
@@ -74,22 +53,41 @@ export function TradeForm({
       <BundleFields label="THEY PROVIDE" value={want} change={setWant} />
       <div className="form-row">
         <label>
-          Term
-          <select value={years} onChange={(e) => setYears(Number(e.target.value) as 2 | 5 | 10)}>
-            {[2, 5, 10].map((n) => (
+          Recurring term
+          <select value={years} onChange={(e) => setYears(Number(e.target.value))}>
+            {[1, 2, 3, 5, 10].map((n) => (
               <option value={n} key={n}>
                 {n} years
               </option>
             ))}
           </select>
         </label>
-        <button className="primary" disabled={busy}>
-          Send {counter ? 'counteroffer' : 'proposal'}
-        </button>
+        <label>
+          Recurring supply starts
+          <select value={start} onChange={(e) => setStart(Number(e.target.value))}>
+            <option value={0}>On acceptance</option>
+            <option value={3}>In 3 months</option>
+            <option value={6}>In 6 months</option>
+            <option value={12}>In 1 year</option>
+          </select>
+        </label>
       </div>
+      <label>
+        Share why you need this (optional)
+        <input
+          maxLength={160}
+          placeholder="Keep your reason private, or make your case."
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
+      </label>
+      <button className="primary full" disabled={busy}>
+        Send {counter ? 'counteroffer' : 'proposal'}
+      </button>
       <p className="muted small">
-        First monthly delivery on acceptance. Both parties must hold enough cash and resources. Broken deals damage
-        reputation and output.
+        Immediate items transfer together only after acceptance. Annual quantities settle monthly. Future promises are
+        binding when their start date arrives. Neither side can spend the other's incoming payment to fund the same
+        exchange.
       </p>
     </form>
   );

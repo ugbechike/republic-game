@@ -13,6 +13,8 @@
 @import './diplomacy.css';
 @import './city.css';
 @import './results.css';
+@import './briefings.css';
+@import './economic-analysis.css';
 :root {
   --bg: #0b141b;
   --panel: #132029;

@@ -23,7 +23,7 @@ export function RepublicReveal({
     onReady(false);
     setError('');
     client
-      .preview(draft, options.difficulty, abort.signal)
+      .preview(draft, undefined, abort.signal)
       .then((result) => {
         setPreview(result);
         onReady(true);
@@ -32,7 +32,7 @@ export function RepublicReveal({
         if (!abort.signal.aborted) setError(e.message);
       });
     return () => abort.abort();
-  }, [client, draft, options.difficulty, onReady]);
+  }, [client, draft, onReady]);
   return (
     <section className="republic-reveal">
       <div className="reveal-heading">
@@ -40,9 +40,7 @@ export function RepublicReveal({
         <div>
           <span className="kicker">04 / A NEW CHAPTER BEGINS</span>
           <h1>THE REPUBLIC OF {draft.name.toUpperCase()}</h1>
-          <p>
-            President {draft.leader} · {options.difficulty === 'developing' ? 'Developing' : 'Struggling'} Republic
-          </p>
+          <p>President {draft.leader} · Founding President</p>
         </div>
       </div>
       <div className="reveal-grid">

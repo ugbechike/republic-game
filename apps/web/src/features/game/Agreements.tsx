@@ -12,7 +12,14 @@ export function Agreements({
   counter: (d: Deal) => void;
 }) {
   const name = (id: string) => w.republics.find((r) => r.id === id)?.name ?? id;
-  const bundle = (b: Deal['offer']) => `${money(b.money)} + ${b.amount} ${RESOURCE_LABEL[b.resource]}`;
+  const bundle = (b: Deal['offer']) =>
+    [
+      ...(b.money ? [`${money(b.money)} ${b.moneyTiming === 'now' ? 'now' : '/year'}`] : []),
+      ...(b.amount ? [`${b.amount} ${RESOURCE_LABEL[b.resource]}/year`] : []),
+      ...(b.items ?? []).map(
+        (i) => `${i.amount} ${RESOURCE_LABEL[i.resource]} ${i.timing === 'now' ? 'now' : '/year'}`,
+      ),
+    ].join(' + ') || 'No payment';
   return (
     <section className="panel">
       <div className="section-label">YOUR DIPLOMATIC LEDGER</div>
@@ -36,8 +43,16 @@ export function Agreements({
               {bundle(d.offer)} <span className="muted">for</span> {bundle(d.want)}
             </p>
             <small className="muted">
-              Per year · {d.years} years {d.status === 'active' ? `· Ends ${date(d.ends)}` : ''}
+              {[d.offer, d.want].some(
+                (b) =>
+                  (b.money > 0 && b.moneyTiming !== 'now') ||
+                  b.amount > 0 ||
+                  b.items?.some((i) => i.amount > 0 && i.timing === 'annual'),
+              )
+                ? `Recurring term · ${d.years} years · starts after ${d.startInMonths ?? 0} months${d.status === 'active' ? ` · Ends ${date(d.ends)}` : ''}`
+                : 'One-time exchange on acceptance'}
             </small>
+            {d.reason && <p className="muted small">Shared reason: {d.reason}</p>}
             <div className="actions">
               {d.status === 'pending' && d.to === w.playerId && (
                 <>
@@ -90,14 +105,16 @@ export function Agreements({
           </article>
         ))}
       {w.loans
-        .filter((l) => l.status === 'pending' || l.status === 'active')
+        .filter((l) => l.status !== 'rejected')
         .map((l) => (
           <article className="agreement" key={l.id}>
             <h3>
               {name(l.from)} lends {money(l.amount)} to {name(l.to)}
             </h3>
             <p className="muted">
-              {l.status} · {money(l.remaining)} owed · 10% total interest · 24 monthly payments
+              {l.status} · {money(l.remaining)} owed · {money(l.repayment ?? l.amount * 1.1)} total repayment ·{' '}
+              {(l.term ?? 24) / 12} years · {l.mode === 'bullet' ? 'due at maturity' : 'monthly payments'} · credit
+              consequences on default
             </p>
             {l.to === w.playerId && l.status === 'pending' && (
               <div className="actions">

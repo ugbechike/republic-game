@@ -1,3 +1,8 @@
+import type { Commodity } from '@republic/contracts';
+import { BriefingQueue } from '../briefings/BriefingQueue';
+import { BriefingDetail } from '../briefings/BriefingDetail';
+import { DirectorControls } from '../briefings/DirectorControls';
+import { EconomicAnalysis } from '../economy/EconomicAnalysis';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Globe2, Landmark, Handshake, Building2, Radio, Settings2, X, Swords, MapPin, ArrowRight } from 'lucide-react';
@@ -36,8 +41,21 @@ export function Game({ controller: c }: { controller: WorldController }) {
   const [tab, setTab] = useState('capital'),
     [selected, setSelected] = useState(w.republics.find((p) => p.id !== w.playerId)?.id ?? w.playerId),
     [regionId, setRegion] = useState(r.regions[0].id);
+  const [briefing, setBriefing] = useState<string>(),
+    [need, setNeed] = useState<Commodity>();
+  function negotiate(id: string, resource?: Commodity) {
+    setBriefing(undefined);
+    setNeed(resource);
+    setSelected(id);
+    setTab('diplomacy');
+  }
   const region = r.regions.find((s) => s.id === regionId) ?? r.regions[0];
-  const alerts = Number(!!r.crisis) + Number(!!w.vote) + w.wars.filter((war) => war.status === 'active').length;
+  const alerts =
+    (r.briefings?.filter((b) => b.status === 'open').length ?? 0) +
+    w.deals.filter((d) => d.to === w.playerId && d.status === 'pending').length +
+    Number(!!r.crisis) +
+    Number(!!w.vote) +
+    w.wars.filter((war) => war.status === 'active').length;
   function select(id: string) {
     if (id === w.playerId) setTab('capital');
     else {
@@ -51,7 +69,7 @@ export function Game({ controller: c }: { controller: WorldController }) {
         <CityCanvas region={region} republic={r} />
       </div>
       <div className="world-vignette" />
-      <GameHud w={w} leave={c.leave} />
+      <GameHud w={w} leave={c.leave} explain={() => setTab('economy')} />
       <nav className="world-nav" aria-label="Game navigation">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)} title={label}>
@@ -73,36 +91,7 @@ export function Game({ controller: c }: { controller: WorldController }) {
               explore · Scroll to zoom
             </p>
           </div>
-          <aside className="world-wire">
-            <div className="section-label">
-              WORLD WIRE <i className="live-dot" />
-            </div>
-            <div className="wire-notices" role="log" aria-live="polite">
-              {w.notices.slice(0, 4).map((n) => (
-                <article key={n.id}>
-                  <time>{date(n.month)}</time>
-                  <p>{n.text}</p>
-                </article>
-              ))}
-              {!w.notices.length && <p className="muted">The first decisions are yours. Your world is watching.</p>}
-            </div>
-            <button className="wire-link" onClick={() => setTab('events')}>
-              View all events <ArrowRight size={14} />
-            </button>
-            <h3>AT THE TABLE</h3>
-            {w.republics
-              .filter((p) => p.id !== w.playerId)
-              .map((p) => (
-                <button className="wire-republic" key={p.id} onClick={() => select(p.id)}>
-                  <FlagBanner flag={p.flag} />
-                  <span>
-                    {p.name}
-                    <small>{money(p.gdp)} GDP</small>
-                  </span>
-                  <ArrowRight size={13} />
-                </button>
-              ))}
-          </aside>
+          <BriefingQueue w={w} open={setBriefing} diplomacy={(id) => negotiate(id)} events={() => setTab('events')} />
           <footer className="region-dock">
             <div className="region-switcher">
               {r.regions.map((s) => (
@@ -132,7 +121,10 @@ export function Game({ controller: c }: { controller: WorldController }) {
         <button className="urgent-alert" onClick={() => setTab('events')}>
           <Radio size={16} />
           {alerts} live {alerts === 1 ? 'decision' : 'decisions'} ·{' '}
-          {r.crisis?.title ?? w.vote?.title ?? 'Conflict underway'}
+          {r.briefings?.find((b) => b.status === 'open')?.title ??
+            r.crisis?.title ??
+            w.vote?.title ??
+            'Diplomatic decisions awaiting you'}
           <ArrowRight size={15} />
         </button>
       )}
@@ -148,13 +140,45 @@ export function Game({ controller: c }: { controller: WorldController }) {
           </header>
           {tab === 'world' && <WorldMap w={w} select={select} />}{' '}
           {tab === 'policy' && <Policies r={r} send={c.send} busy={c.busy} />}{' '}
-          {tab === 'economy' && <Domestic w={w} send={c.send} busy={c.busy} />}{' '}
+          {tab === 'economy' && (
+            <>
+              <EconomicAnalysis w={w} />
+              <Domestic w={w} send={c.send} busy={c.busy} />
+            </>
+          )}{' '}
           {(tab === 'diplomacy' || tab === 'military') && (
-            <Diplomacy w={w} selected={selected} select={setSelected} send={c.send} busy={c.busy} />
+            <Diplomacy
+              key={`${selected}-${need}`}
+              need={need}
+              w={w}
+              selected={selected}
+              select={setSelected}
+              send={c.send}
+              busy={c.busy}
+            />
           )}
           {tab === 'events' && (
             <>
               <h2>YOUR WORLD IN MOTION</h2>
+              {w.worldCrisis && (
+                <section className="panel">
+                  <h3>{w.worldCrisis.title}</h3>
+                  <p>{w.worldCrisis.description}</p>
+                </section>
+              )}
+              <section className="panel">
+                <h3>PRESIDENTIAL BRIEFINGS</h3>
+                {w.me.briefings
+                  ?.slice()
+                  .reverse()
+                  .map((b) => (
+                    <button className="briefing-history" key={b.id} onClick={() => setBriefing(b.id)}>
+                      {b.title}
+                      <small>{b.status}</small>
+                    </button>
+                  ))}
+              </section>
+              <DirectorControls w={w} send={c.send} busy={c.busy} />
               <Conflicts w={w} send={c.send} busy={c.busy} />
               <Assembly w={w} send={c.send} busy={c.busy} />
               {r.crisis && <Crisis crisis={r.crisis} send={c.send} busy={c.busy} />}{' '}
@@ -179,6 +203,16 @@ export function Game({ controller: c }: { controller: WorldController }) {
             </>
           )}
         </section>
+      )}
+      {briefing && (
+        <BriefingDetail
+          w={w}
+          id={briefing}
+          close={() => setBriefing(undefined)}
+          send={c.send}
+          busy={c.busy}
+          negotiate={negotiate}
+        />
       )}
     </main>
   );

@@ -75,7 +75,7 @@ export function Lobby({ controller: c }: { controller: WorldController }) {
                     </span>
                   ))}
                 </div>
-                <small>{w.options.difficulty === 'developing' ? 'Developing' : 'Struggling'} Republic</small>
+                <small>Founding member</small>
                 <span className={`ready-badge ${r.id.startsWith('bot-') ? 'delegate' : ''}`}>
                   <CheckCircle2 size={13} />
                   {r.id.startsWith('bot-') ? 'TEST DELEGATE' : 'READY'}

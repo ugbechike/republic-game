@@ -1,0 +1,220 @@
+.briefing-queue {
+  position: absolute;
+  top: 108px;
+  right: 18px;
+  width: 260px;
+  max-height: calc(100% - 145px);
+  overflow: auto;
+  padding: 15px;
+  background: #061b29ed;
+  border: 1px solid #6b91a14a;
+  border-radius: 7px;
+  backdrop-filter: blur(15px);
+}
+.briefing-queue > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d9c28c;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  margin: 4px 0 16px;
+}
+.briefing-alert {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 10px;
+  text-align: left;
+  background: #cf91381a;
+  border-color: #d6a04d65;
+  border-left: 3px solid #d9ae64;
+}
+.briefing-alert small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  color: #d3b98b;
+}
+.briefing-alert b {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 7px 0 10px;
+}
+.briefing-alert > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #acbdc7;
+}
+.briefing-alert time {
+  margin-left: auto;
+  color: #f5d08b;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+}
+.briefing-alert.critical {
+  border-color: #d17d69;
+  background: #b154421c;
+}
+.briefing-alert.diplomatic {
+  border-color: #79afc9;
+  background: #32677d25;
+}
+.briefing-alert.world {
+  border-color: #8d83bf;
+  background: #6b558d22;
+}
+.briefing-quiet {
+  color: #94aeb9;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.briefing-history {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  gap: 15px;
+  margin: 7px 0;
+}
+.briefing-history small {
+  color: #c1af87;
+  text-transform: uppercase;
+}
+.briefing-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #010f1bbd;
+  backdrop-filter: blur(7px);
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+.briefing-detail {
+  background: linear-gradient(135deg, #12323f, #061924);
+  border: 1px solid #77929c70;
+  border-radius: 9px;
+  width: min(800px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 30px;
+  box-shadow: 0 25px 80px #0008;
+}
+.briefing-detail > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.briefing-detail h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px;
+  margin: 15px 0;
+}
+.briefing-detail > p {
+  color: #b6cad2;
+  line-height: 1.6;
+}
+.briefing-deadline {
+  color: #eac082;
+  background: #ddb25e12;
+  border: 1px solid #d6ad5f44;
+  padding: 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.briefing-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 22px 0;
+}
+.briefing-facts span {
+  color: #91a9b4;
+  font-size: 11px;
+}
+.briefing-facts b {
+  color: #ede6cf;
+  font-size: 17px;
+  display: block;
+  margin-top: 5px;
+}
+.briefing-consequence {
+  font-size: 12px;
+  border-left: 2px solid #cf967c;
+  padding-left: 12px;
+}
+.briefing-detail h3 {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.supplier-list {
+  display: grid;
+  gap: 8px;
+  margin: 15px 0 24px;
+}
+.supplier-list button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-size: 11px;
+}
+.supplier-list button > span:nth-child(2) {
+  flex: 1;
+}
+.supplier-list b {
+  display: block;
+  font-size: 17px;
+}
+.supplier-list small {
+  display: block;
+  color: #99b0b9;
+  margin-top: 6px;
+}
+.briefing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.briefing-actions button {
+  font-size: 11px;
+}
+.director-controls {
+  margin: 20px 0;
+}
+.director-controls .form-row {
+  margin: 18px 0;
+}
+@media (max-width: 1000px) {
+  .briefing-queue {
+    width: 215px;
+  }
+}
+@media (max-width: 700px) {
+  .briefing-queue {
+    top: auto;
+    bottom: 145px;
+    right: 12px;
+    width: 220px;
+    max-height: 220px;
+    padding: 10px;
+  }
+  .briefing-detail {
+    padding: 20px;
+  }
+  .briefing-detail h1 {
+    font-size: 29px;
+  }
+}

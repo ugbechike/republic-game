@@ -3,7 +3,7 @@ import { LogOut, Timer, TrendingUp, Landmark, Users, Zap } from 'lucide-react';
 import type { RoomView } from '@republic/contracts';
 import { FlagBanner } from '../../components/FlagBanner';
 import { date, money } from './format';
-export function GameHud({ w, leave }: { w: RoomView; leave: () => void }) {
+export function GameHud({ w, leave, explain }: { w: RoomView; leave: () => void; explain: () => void }) {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
@@ -36,13 +36,18 @@ export function GameHud({ w, leave }: { w: RoomView; leave: () => void }) {
         ].map(([Icon, label, value]) => {
           const Glyph = Icon as typeof Users;
           return (
-            <div key={String(label)}>
+            <button
+              className="hud-metric"
+              aria-label={`${label}: ${value}. Explain changes`}
+              onClick={explain}
+              key={String(label)}
+            >
               <Glyph size={19} />
               <span>
                 <b>{String(value)}</b>
                 <small>{String(label)}</small>
               </span>
-            </div>
+            </button>
           );
         })}
       </div>

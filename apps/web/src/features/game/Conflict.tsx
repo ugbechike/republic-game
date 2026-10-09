@@ -61,6 +61,11 @@ export function Conflicts({ w, send, busy }: { w: RoomView; send: (a: Action) =>
             {name(war.attacker)} → {name(war.defender)}
           </h3>
           <p className="muted">Settlement in {war.ends - w.month} months. Outside support can change the outcome.</p>
+          {war.defender === w.playerId && (
+            <button disabled={busy || war.requested} onClick={() => send({ type: 'requestHelp', war: war.id })}>
+              {war.requested ? 'Assistance requested' : 'Request military / financial help'}
+            </button>
+          )}
           {![war.attacker, war.defender].includes(w.playerId) && !war.support[w.playerId] && (
             <div className="actions wrap">
               {[war.attacker, war.defender].map((side) => (
@@ -75,6 +80,14 @@ export function Conflicts({ w, send, busy }: { w: RoomView; send: (a: Action) =>
                 </div>
               ))}
             </div>
+          )}
+          {![war.attacker, war.defender].includes(w.playerId) && !war.support[w.playerId] && (
+            <button
+              disabled={busy || war.neutral?.includes(w.playerId)}
+              onClick={() => send({ type: 'neutral', war: war.id })}
+            >
+              {war.neutral?.includes(w.playerId) ? 'Neutrality recorded' : 'Decline assistance / remain neutral'}
+            </button>
           )}
           {Object.entries(war.support).map(([id, s]) => (
             <p className="small muted" key={id}>

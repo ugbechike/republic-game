@@ -1,3 +1,6 @@
+import { LoanForm } from './LoanForm';
+import { SanctionControls } from './SanctionControls';
+import type { Commodity } from '@republic/contracts';
 import { useState } from 'react';
 import { FlagBanner } from '../../components/FlagBanner';
 import { RESOURCE_LABEL, type Action, type Deal, type RoomView } from '@republic/contracts';
@@ -11,16 +14,17 @@ export function Diplomacy({
   select,
   send,
   busy,
+  need,
 }: {
   w: RoomView;
   selected: string;
   select: (id: string) => void;
   send: (a: Action) => void;
   busy: boolean;
+  need?: Commodity;
 }) {
-  const [offer, setOffer] = useState(false),
-    [counter, setCounter] = useState<Deal | undefined>(),
-    [amount, setAmount] = useState(3);
+  const [offer, setOffer] = useState(!!need),
+    [counter, setCounter] = useState<Deal | undefined>();
   const target = w.republics.find((r) => r.id === selected && r.id !== w.playerId);
   return (
     <div className="diplomacy-layout">
@@ -92,37 +96,18 @@ export function Diplomacy({
               <button disabled={busy} onClick={() => send({ type: 'alliance', to: target.id, kind: 'defence' })}>
                 Defence pact
               </button>
-              <button disabled={busy} onClick={() => send({ type: 'sanction', to: target.id })}>
-                Sanction · $0.5B
-              </button>
             </div>
             <p className="muted small">
               Trade alliances improve growth. Defence pacts invite mutual assistance. Sanctions reduce both sides’
               output and block bilateral trade for two years.
             </p>
             <ConflictControls key={target.id} target={target.id} w={w} send={send} busy={busy} />
-            <form
-              className="loan-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                send({ type: 'loan', to: target.id, amount });
-              }}
-            >
-              <label>
-                Offer a loan ($B)
-                <input
-                  type="number"
-                  min="1"
-                  max="20"
-                  value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value))}
-                />
-              </label>
-              <button disabled={busy}>Offer loan</button>
-            </form>
+            <SanctionControls to={target.id} send={send} busy={busy} />
+            <LoanForm to={target.id} send={send} busy={busy} credit={target.credit ?? 70} />
             {offer && (
               <TradeForm
                 key={`${target.id}-${counter?.id ?? 'new'}`}
+                need={need}
                 to={target.id}
                 send={send}
                 busy={busy}

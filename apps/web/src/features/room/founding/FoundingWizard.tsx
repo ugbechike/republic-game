@@ -6,9 +6,9 @@ import { Backdrop, GameBrand } from '../Backdrop';
 import { RepublicForm } from '../RepublicForm';
 import { FlagBanner } from '../../../components/FlagBanner';
 import { ResourceStep } from './ResourceStep';
-import { ChallengeStep } from './ChallengeStep';
+import { WorldSettingsStep } from './WorldSettingsStep';
 import { RepublicReveal } from './RepublicReveal';
-const steps = ['Identity', 'Resources', 'Challenge', 'Review'];
+const steps = ['Identity', 'Resources', 'World', 'Review'];
 export function FoundingWizard({
   c,
   room,
@@ -26,7 +26,7 @@ export function FoundingWizard({
     [error, setError] = useState('');
   const [draft, setDraft] = useState<Draft>({ name: '', leader: '', flag: '☀️', resources: [] });
   const [options, setOptions] = useState<Room['options']>(
-    room?.options ?? { duration: 60, maxPlayers: Math.max(6, minimum), difficulty: 'developing' },
+    room?.options ?? { duration: 60, maxPlayers: Math.max(6, minimum) },
   );
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -108,7 +108,7 @@ export function FoundingWizard({
           )}
           {step === 1 && <ResourceStep draft={draft} setDraft={setDraft} />}
           {step === 2 && (
-            <ChallengeStep
+            <WorldSettingsStep
               options={options}
               setOptions={setOptions}
               room={room}
@@ -145,12 +145,9 @@ export function FoundingWizard({
           <button className="game-button gold" disabled={busy || (step === 3 && !ready)}>
             {busy
               ? 'Founding your Republic…'
-              : [
-                  'Next: Choose your land',
-                  'Next: Choose your challenge',
-                  'Next: Review your Republic',
-                  'FOUND THE REPUBLIC',
-                ][step]}
+              : ['Next: Choose your land', 'Next: Set the table', 'Next: Review your Republic', 'FOUND THE REPUBLIC'][
+                  step
+                ]}
             <ArrowRight size={18} />
           </button>
         </footer>
