@@ -18,12 +18,14 @@ npm run dev
 Open **http://localhost:3000**. The authoritative API listens on **http://localhost:4000**.
 Development automatically creates a persistent PostgreSQL-compatible PGlite database
 in `apps/server/.data/republic`. No Docker or PostgreSQL installation is needed.
-Room state survives frontend refreshes and server restarts. Server downtime pauses the clock.
+Room state survives frontend refreshes and server restarts. The simulation and adviser deadlines
+pause during server downtime and while every human player is disconnected.
 
-Create a world, choose your Republic, then invite three friends using the room code.
-For a solo smoke test, use **Add development delegate** three times and start the Assembly.
-Delegates accept affordable offers, sign pacts, vote and resolve crises. They are deterministic
-test helpers, not competitive AI. Production cannot create delegates or use debug actions.
+Create a world, choose your resources, then invite at least one friend using the room code.
+All players begin from the same baseline; resources provide different strengths and dependencies.
+For local testing, use localhost and 127.0.0.1 in separate tabs for independent player storage.
+Development delegates are optional test helpers and do not count toward the human minimum.
+Production cannot create delegates or use debug actions.
 
 Use different browsers/profiles for independent local players. A tab refresh resumes its
 saved seat. Returning to the title retains a Resume button. Creating/joining another world
@@ -86,8 +88,11 @@ deployment phase; Docker/Railway/Vercel provisioning is not part of local verifi
 ## V0 boundaries
 
 - Twenty years, three session lengths, one host, two to eight seats; no account system.
-- Seven strategic resources, eight policies, six persistent regional scenes per Republic.
-- Bilateral recurring deals, counters, pacts, loans, sanctions, votes and six crisis templates.
+- Ten selectable advantages, eight tradeable commodities, eight policies and six regional scenes.
+- Context-aware minister briefings, progressive shortages, real-time deadlines and world crises.
+- Mixed immediate/recurring/future trade, counteroffers, negotiated loans and binding bank conditions.
+- Resource/financial embargoes, coordinated sanctions, discussion windows and Yes/No/Abstain votes.
+- Economic charts, resource flow history, event annotations and explained metric changes.
 - Six-month abstract wars with outside support, bounded losses and reparations; no conquest.
 - Five-category score, awards, table-talk statistics and same-seat rematches.
 - Snapshot persistence; one backend replica. No spectator/rejoin-seat recovery after token loss,

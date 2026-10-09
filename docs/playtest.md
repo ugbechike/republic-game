@@ -47,3 +47,48 @@ Avoid adding more systems until this test identifies a concrete problem in the s
 - Local development explicitly allows the two loopback origins for independent storage during browser QA. No deployment performed.
 
 Remaining product validation: a full social session with friends to assess resource balance and pacing.
+
+## Pressure loop verification — 2026-10-08
+
+- Automated: 49 tests across engine, server and API client; typechecks and source limits pass.
+- Natural two-Republic test: oil/farmland versus gas/iron develops reciprocal needs, selects
+  a real supplier, counters a mixed immediate/recurring proposal, transfers funds/resources,
+  eases shortage stages and records economic history without exposing another player's stocks.
+- Additional coverage: every legal resource selection has unmet essential production;
+  deadline/delay penalties, funded flood response, equal starting difficulty inputs, bank
+  restrictions, negotiated loan default, future deliveries, atomic failure, embargoes,
+  world prices/output, discussion/abstention, offline pause/persistence and restart reconnect.
+- Browser world MUU48: Solara Lab (oil/farmland) and Kantara Lab (gas/iron) started as two humans.
+  Their energy ministers independently raised gas and oil needs. Solara's briefing showed
+  required reserves, available stock, consequences, deadline and Kantara's estimated surplus.
+- Opened Negotiate from that supplier. Sent $1B for six gas units, countered from Kantara to
+  $1.5B, accepted as Solara. Treasury transferred, gas reserves replenished, the adviser request
+  resolved, energy began recovering, and Economy recorded the signed deal and secured supply.
+- Triggered development energy and flood events, verified the iron/cash reconstruction briefing,
+  and recorded an Assembly abstention after discussion.
+- Inspected GDP, flow, fiscal, debt and employment charts, event history, shortage stages and
+  monthly cause details. Reloaded both sessions without losing their seats or agreements.
+- Actual hovered states for both Create Republic and Next: Choose your land retained dark
+  text over the gold gradient. This fixes the generic hover rule overriding their background.
+- Browser uses the existing persistent 2D city fallback when WebGL is unavailable; this
+  iteration does not change city rendering. No deployment performed.
+
+### Reproduce the pressure scenario
+
+Use two independent profiles (or localhost and 127.0.0.1). Create A with oil/farmland and B with
+gas/iron. Start at normal speed. Ministers surface the first dependency in about 30–45 seconds.
+Negotiate immediate reserves plus recurring supply before the three-minute deadline. Counter
+from the other profile, accept, and watch the monthly supply table and stage recovery.
+
+Under Events, the development host can expand GameDirector controls to target a Republic,
+resource and quantity: shortage, treasury, flood, energy, world crisis, reserve adjustment,
+advance 1–24 months, supplier surplus, trade dependency and security tension. These actions
+are server-rejected in production and for non-host players.
+
+Use the controls to check less frequent situations: miss a flood deadline, accept a bank
+facility and try to bypass its policy ceilings, default a loan, embargo your supplier,
+request military help, and discuss/abstain on a coordinated sanction resolution.
+
+A 15–20-minute human conversation test and full 4–8-player balance session remain product
+validation. Automated and browser checks establish that the mechanics work; they cannot
+prove that negotiation prices, interruptions and consequences feel fair or fun.
