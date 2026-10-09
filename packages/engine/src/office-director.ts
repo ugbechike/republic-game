@@ -52,6 +52,7 @@ export function officeDecision(room: Room, r: Republic, a: Action) {
       spend(r, 0.62 * scale);
       region.stability = clamp(region.stability + (scale ? 4 * scale : -4));
       region.development = clamp(region.development + scale);
+      if (scale && region.flood) region.flood.recovering = true;
       r.metrics.approval = clamp(r.metrics.approval + (scale ? scale : -1));
       m.outcome = scale
         ? `Reimbursement approved: $${(0.62 * scale).toFixed(2)}B. Regional confidence improves.`

@@ -88,6 +88,28 @@ export function WorldDraft({ controller: c }: { controller: WorldController }) {
           </div>
         </div>
       </div>
+      <footer className="draft-presidents">
+        {d.order.map((id) => {
+          const r = w.republics.find((r) => r.id === id)!;
+          return (
+            <article key={id} className={who.id === id ? 'active' : ''}>
+              <FlagBanner flag={r.flag} />
+              <div>
+                <b>{r.name}</b>
+                <small>
+                  {r.resources.length}/3 claims · {r.leader}
+                </small>
+                <span>
+                  {r.resources.map((k) => (
+                    <ResourceIcon key={k} resource={k} size={15} />
+                  ))}
+                </span>
+              </div>
+              {r.resources.length === 3 && <Check size={16} />}
+            </article>
+          );
+        })}
+      </footer>
       <div className="draft-layout">
         <section className="draft-table" aria-label="Available world deposits">
           <div className="draft-compass">
@@ -142,28 +164,6 @@ export function WorldDraft({ controller: c }: { controller: WorldController }) {
           <small>Three claims each · snake order · no duplicate advantages. Unanswered turns delegate a claim.</small>
         </aside>
       </div>
-      <footer className="draft-presidents">
-        {d.order.map((id) => {
-          const r = w.republics.find((r) => r.id === id)!;
-          return (
-            <article key={id} className={who.id === id ? 'active' : ''}>
-              <FlagBanner flag={r.flag} />
-              <div>
-                <b>{r.name}</b>
-                <small>
-                  {r.resources.length}/3 claims · {r.leader}
-                </small>
-                <span>
-                  {r.resources.map((k) => (
-                    <ResourceIcon key={k} resource={k} size={15} />
-                  ))}
-                </span>
-              </div>
-              {r.resources.length === 3 && <Check size={16} />}
-            </article>
-          );
-        })}
-      </footer>
       <p className="draft-announcement" role="status">
         {w.notices[0]?.text}
       </p>

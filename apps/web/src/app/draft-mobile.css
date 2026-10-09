@@ -41,10 +41,28 @@
   }
   .claim-dossier > svg,
   .claim-dossier > .kicker,
-  .claim-dossier h3,
-  .claim-dossier h3 + p,
   .claim-dossier > .draft-seal {
     display: none;
+  }
+  .claim-dossier h3 {
+    font-size: 10px;
+    margin: 5px 0 0;
+  }
+  .claim-dossier h3 + p {
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .claim-dossier {
+    max-height: 55svh;
+    overflow: auto;
+  }
+  .draft-title {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: #081b25f5;
+    padding: 10px 0;
   }
   .claim-dossier h2 {
     font-size: 23px;

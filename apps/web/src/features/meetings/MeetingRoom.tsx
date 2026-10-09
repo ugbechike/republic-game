@@ -14,7 +14,7 @@ export function MeetingRoom({
 }: {
   m: Meeting;
   w: RoomView;
-  send: (a: Action) => Promise<void>;
+  send: (a: Action) => Promise<boolean>;
   busy: boolean;
   back: () => void;
   policy: () => void;
@@ -45,7 +45,7 @@ export function MeetingRoom({
               : concluded
                 ? 'This meeting has concluded.'
                 : m.status === 'signed'
-                  ? 'Both governments are bound. The first exchange has settled.'
+                  ? 'Both governments are bound. Agreed transfers are now in effect.'
                   : m.status === 'agreed'
                     ? 'Review the terms. Both Presidents must sign.'
                     : 'Two governments. One table. Find common ground.'}

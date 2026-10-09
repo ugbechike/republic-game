@@ -1,3 +1,4 @@
+import { MapRelationships } from '../world/MapRelationships';
 import type { RoomView } from '@republic/contracts';
 import { FlagBanner } from '../../components/FlagBanner';
 import { money } from './format';
@@ -18,11 +19,11 @@ export function WorldMap({ w, select }: { w: RoomView; select: (id: string) => v
       <span className="kicker">RIVALS. PARTNERS. OPPORTUNITIES.</span>
       <h2>THE WORLD AWAITS</h2>
       <p className="muted">
-        Select a Republic to open its diplomatic table. Territories are a visual arrangement of this world's players.
+        The world is a web of promises. Select a territory or nameplate to open its public profile.
       </p>
       <svg
         viewBox={w.republics.length <= 2 ? '0 0 500 270' : '0 0 1000 490'}
-        role="img"
+        role="group"
         aria-label="Republic territories"
       >
         <defs>
@@ -33,7 +34,20 @@ export function WorldMap({ w, select }: { w: RoomView; select: (id: string) => v
         <rect width="1000" height="490" fill="#103440" />
         <rect width="1000" height="490" fill="url(#map-grid)" />
         {w.republics.map((r, i) => (
-          <g key={r.id}>
+          <g
+            key={r.id}
+            role="button"
+            tabIndex={0}
+            aria-label={`Open ${r.name} profile`}
+            onClick={() => select(r.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                select(r.id);
+              }
+            }}
+            className="map-territory"
+          >
             <polygon points={territories[i]} fill={colors[i]} stroke="#e0cc9466" strokeWidth="2" />
             <text
               x={[145, 355, 575, 150, 360, 585, 835, 845][i]}
@@ -46,7 +60,14 @@ export function WorldMap({ w, select }: { w: RoomView; select: (id: string) => v
             </text>
           </g>
         ))}
+        <MapRelationships w={w} />
       </svg>
+      <div className="map-legend">
+        <span>━ Trade routes</span>
+        <span>━ Alliances</span>
+        <span>━ Conflicts</span>
+        <span>┄ Sanctions</span>
+      </div>
       <div className="map-republics">
         {w.republics.map((r) => (
           <button key={r.id} onClick={() => select(r.id)}>

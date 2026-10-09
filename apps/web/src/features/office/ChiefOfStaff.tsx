@@ -33,7 +33,7 @@ export function ChiefOfStaff({
       <header>
         <span className="adviser-portrait">CS</span>
         <div>
-          <small>YOUR FIRST BRIEFING</small>
+          <small>YOUR DAILY BRIEFING</small>
           <b>Chief of Staff</b>
         </div>
         <button aria-label="Review later" onClick={() => setLater(true)}>

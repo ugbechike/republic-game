@@ -9,7 +9,7 @@ export function MeetingChat({
 }: {
   m: Meeting;
   w: RoomView;
-  send: (a: Action) => Promise<void>;
+  send: (a: Action) => Promise<boolean>;
   busy: boolean;
 }) {
   const [text, setText] = useState(''),
@@ -44,8 +44,7 @@ export function MeetingChat({
           onSubmit={async (e) => {
             e.preventDefault();
             if (text.trim()) {
-              await send({ type: 'meetingChat', id: m.id, text });
-              setText('');
+              if (await send({ type: 'meetingChat', id: m.id, text })) setText('');
             }
           }}
         >

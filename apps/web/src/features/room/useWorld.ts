@@ -24,8 +24,10 @@ export function useWorld() {
     setBusy(true);
     try {
       await client.action(action);
+      return true;
     } catch (e) {
       setError((e as Error).message);
+      return false;
     } finally {
       setBusy(false);
     }

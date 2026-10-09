@@ -78,6 +78,7 @@ export function makeBriefing(
             ? 'Recent negotiations failed while supplies remained insecure. Seek another supplier, mediation or alternative inputs before considering economic or military pressure.'
             : `Domestic output cannot cover ${RESOURCE_LABEL[resource].toLowerCase()} demand. Secure eight months of reserves or enough recurring supply to cover the monthly deficit. Your suppliers set their own terms.`,
   };
+  if (kind === 'flood') region.flood = { severity: 1, recovering: false, started: room.month };
   r.briefings!.push(b);
   r.briefings = r.briefings!.slice(-18);
   r.nextBriefingAt = now + briefingCadence(room);

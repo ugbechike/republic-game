@@ -110,6 +110,10 @@ export function economy(room: Room, r: Republic) {
   m.population *= 1 + (0.0006 + (m.healthcare - 50) / 100000);
   r.capital = clamp(r.capital + (m.approval > 45 ? 0.7 : 0.2));
   for (const [i, s] of r.regions.entries()) {
+    if (s.flood?.recovering) {
+      s.flood.severity = Math.max(0, s.flood.severity - 1 / 6);
+      if (s.flood.severity < 0.01) delete s.flood;
+    }
     s.development = clamp(
       s.development +
         growth * 15 +

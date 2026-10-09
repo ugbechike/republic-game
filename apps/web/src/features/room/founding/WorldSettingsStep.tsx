@@ -13,7 +13,7 @@ export function WorldSettingsStep({
 }) {
   return (
     <section className="challenge-step">
-      <span className="kicker">03 / SET THE TABLE</span>
+      <span className="kicker">02 / SET THE TABLE</span>
       <h1>ONE WORLD. DIFFERENT ADVANTAGES.</h1>
       <p>
         Every President begins with the same national baseline. Your land determines what you can offer—and what you

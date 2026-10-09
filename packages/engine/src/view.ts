@@ -19,6 +19,7 @@ export function view(room: Room, playerId: string, development: boolean): RoomVi
       influence: r.influence,
       reputation: r.reputation,
       stats: r.stats,
+      landscape: { regions: r.regions, energy: r.metrics.energy, approval: r.metrics.approval },
       credit: r.credit ?? 70,
       market: Object.fromEntries(
         Object.entries(r.economy?.supply ?? {}).map(([k, f]) => [

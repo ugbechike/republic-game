@@ -22,7 +22,7 @@ export function Block({
     </mesh>
   );
 }
-function Tower({ height, variant }: { height: number; variant: number }) {
+function Tower({ height, variant, powered }: { height: number; variant: number; powered: boolean }) {
   return (
     <>
       <Block
@@ -37,12 +37,12 @@ function Tower({ height, variant }: { height: number; variant: number }) {
           <Block
             at={[0.329, 0.16 + i * 0.2, 0]}
             size={[0.015, 0.08, 0.48]}
-            color={i % 3 === 0 ? '#e9d292' : '#324f54'}
+            color={powered && i % 3 === 0 ? '#e9d292' : '#324f54'}
           />
           <Block
             at={[0, 0.16 + i * 0.2, 0.319]}
             size={[0.5, 0.08, 0.015]}
-            color={i % 4 === 0 ? '#e9d292' : '#324f54'}
+            color={powered && i % 4 === 0 ? '#e9d292' : '#324f54'}
           />
         </group>
       ))}
@@ -50,7 +50,7 @@ function Tower({ height, variant }: { height: number; variant: number }) {
     </>
   );
 }
-function Home({ variant }: { variant: number }) {
+function Home({ variant, powered }: { variant: number; powered: boolean }) {
   return (
     <>
       <Block at={[0, 0.24, 0]} size={[0.66, 0.48, 0.6]} color={variant % 3 ? '#c5c3a5' : '#ded3b1'} castShadow />
@@ -58,7 +58,7 @@ function Home({ variant }: { variant: number }) {
         <coneGeometry args={[0.56, 0.27, 4]} />
         <meshStandardMaterial color={variant % 2 ? '#ac7252' : '#637c79'} />
       </mesh>
-      <Block at={[0.16, 0.24, 0.306]} size={[0.14, 0.18, 0.015]} color="#e5c978" />
+      <Block at={[0.16, 0.24, 0.306]} size={[0.14, 0.18, 0.015]} color={powered ? '#e5c978' : '#324f54'} />
       <Block at={[-0.14, 0.18, 0.306]} size={[0.12, 0.35, 0.018]} color="#4b635d" />
     </>
   );
@@ -102,10 +102,18 @@ function Farm() {
     </>
   );
 }
-export function Building({ plot }: { plot: Plot }) {
+export function Building({
+  plot,
+  powered = true,
+  reducedMotion = false,
+}: {
+  plot: Plot;
+  powered?: boolean;
+  reducedMotion?: boolean;
+}) {
   const group = useRef<Group>(null);
   useFrame((_state, dt) => {
-    if (group.current) group.current.scale.y += (1 - group.current.scale.y) * Math.min(1, dt * 2);
+    if (group.current && !reducedMotion) group.current.scale.y += (1 - group.current.scale.y) * Math.min(1, dt * 2);
   });
   return (
     <group position={[plot.x * 1.4, 0.18, plot.z * 1.4]}>
@@ -124,7 +132,7 @@ export function Building({ plot }: { plot: Plot }) {
       ) : (
         <group ref={group} scale={[1, 0.98, 1]}>
           {plot.kind === 'tower' ? (
-            <Tower height={plot.height} variant={plot.id} />
+            <Tower height={plot.height} variant={plot.id} powered={powered} />
           ) : plot.kind === 'factory' ? (
             <Factory />
           ) : plot.kind === 'civic' ? (
@@ -132,7 +140,7 @@ export function Building({ plot }: { plot: Plot }) {
           ) : plot.kind === 'farm' ? (
             <Farm />
           ) : (
-            <Home variant={plot.id} />
+            <Home variant={plot.id} powered={powered} />
           )}
         </group>
       )}

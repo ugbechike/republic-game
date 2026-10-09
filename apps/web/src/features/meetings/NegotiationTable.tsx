@@ -14,7 +14,7 @@ function Contribution({ bundle }: { bundle: Bundle }) {
           <span className="money-token">$</span>
           <span>
             <b>${bundle.money.toFixed(2)}B</b>
-            <small>{bundle.moneyTiming === 'annual' ? 'Each year' : 'Immediate payment'}</small>
+            <small>{bundle.moneyTiming !== 'now' ? 'Each year' : 'Immediate payment'}</small>
           </span>
         </div>
       )}

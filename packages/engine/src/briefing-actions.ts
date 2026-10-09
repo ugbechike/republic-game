@@ -23,7 +23,10 @@ export function briefingAction(room: Room, r: Republic, a: Action) {
         r.stocks[b.resource] -= b.amount;
         r.metrics.infrastructure = clamp(r.metrics.infrastructure + 4);
         const region = r.regions.find((s) => s.id === b.region);
-        if (region) region.infrastructure = clamp(region.infrastructure + 6);
+        if (region) {
+          region.infrastructure = clamp(region.infrastructure + 6);
+          if (region.flood) region.flood.recovering = true;
+        }
       }
       r.metrics.approval = clamp(r.metrics.approval + 2);
       b.status = 'resolved';

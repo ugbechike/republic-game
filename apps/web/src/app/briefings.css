@@ -88,9 +88,9 @@
   text-transform: uppercase;
 }
 .briefing-backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 70;
   background: #010f1bbd;
   backdrop-filter: blur(7px);
   display: grid;

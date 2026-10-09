@@ -15,7 +15,7 @@ export function MeetingLobby({
   w: RoomView;
   selected: string;
   select: (id: string) => void;
-  send: (a: Action) => Promise<void>;
+  send: (a: Action) => Promise<boolean>;
   busy: boolean;
   enter: (id: string) => void;
   policy: () => void;
@@ -66,7 +66,7 @@ export function MeetingLobby({
                   className="primary"
                   disabled={busy}
                   onClick={async () => {
-                    if (invited) await send({ type: 'meetingResponse', id: m.id, response: 'join' });
+                    if (invited && !(await send({ type: 'meetingResponse', id: m.id, response: 'join' }))) return;
                     enter(m.id);
                   }}
                 >

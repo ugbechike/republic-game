@@ -1,3 +1,4 @@
+import { PresidentialCalendar } from './PresidentialCalendar';
 import { useState } from 'react';
 import { ArrowUpRight, MailOpen } from 'lucide-react';
 import type { RoomView } from '@republic/contracts';
@@ -35,6 +36,7 @@ export function OfficeInbox({
       <span className="kicker">OFFICIAL CORRESPONDENCE</span>
       <h2>On your desk.</h2>
       <p className="muted">A decision, a conversation, a consequence.</p>
+      <PresidentialCalendar w={w} brief={brief} matter={matter} meetings={foreign} />
       <nav className="inbox-categories" aria-label="Correspondence categories">
         {['URGENT', 'FOREIGN', 'CABINET', 'GOVERNORS', 'BUSINESS', 'SECURITY', 'ARCHIVE'].map((k) => (
           <button key={k} className={category === k ? 'active' : ''} onClick={() => setCategory(k)}>

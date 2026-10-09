@@ -74,6 +74,13 @@ export function DirectorControls({ w, send, busy }: { w: RoomView; send: (a: Act
           </button>
         ))}
       </div>
+      <div className="actions wrap">
+        {(['speed', 'money', 'approval', 'election', 'recession', 'end'] as const).map((kind) => (
+          <button key={kind} disabled={busy} onClick={() => send({ type: 'debug', kind })}>
+            Session: {kind}
+          </button>
+        ))}
+      </div>
     </details>
   );
 }

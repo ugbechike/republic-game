@@ -31,10 +31,10 @@ function Car({ index, activity }: { index: number; activity: number }) {
     </group>
   );
 }
-function Windmill({ x, z }: { x: number; z: number }) {
+function Windmill({ x, z, reducedMotion }: { x: number; z: number; reducedMotion: boolean }) {
   const rotor = useRef<Group>(null);
   useFrame((_s, dt) => {
-    if (rotor.current) rotor.current.rotation.z += dt * 0.6;
+    if (rotor.current && !reducedMotion) rotor.current.rotation.z += dt * 0.6;
   });
   return (
     <group position={[x, 0, z]}>
@@ -49,10 +49,10 @@ function Windmill({ x, z }: { x: number; z: number }) {
     </group>
   );
 }
-function Water() {
+function Water({ reducedMotion }: { reducedMotion: boolean }) {
   const water = useRef<Mesh>(null);
   useFrame(({ clock }) => {
-    if (water.current) water.current.position.y = -0.16 + Math.sin(clock.elapsedTime * 0.5) * 0.015;
+    if (water.current && !reducedMotion) water.current.position.y = -0.16 + Math.sin(clock.elapsedTime * 0.5) * 0.015;
   });
   return (
     <mesh ref={water} position={[0, -0.16, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
@@ -77,7 +77,7 @@ export function Landscape({
   const width = capital ? 11 : 8;
   return (
     <>
-      <Water />
+      <Water reducedMotion={reducedMotion} />
       <Block at={[0, -0.15, 0]} size={[width, 0.6, width]} color="#667e67" receiveShadow />
       <Block at={[0, 0.16, 0]} size={[width - 0.12, 0.025, width - 0.12]} color="#344b49" receiveShadow />
       {Array.from({ length: capital ? 8 : 6 }, (_, i) => {
@@ -112,7 +112,7 @@ export function Landscape({
       {[-1, 1].map((z) => (
         <Block key={z} at={[-width / 2 - 1.3, -0.2, -1.4 + z * 0.19]} size={[0.13, 0.5, 0.1]} color="#768575" />
       ))}
-      {energy > 35 && <Windmill x={width / 2 - 0.5} z={-width / 2 + 0.5} />}
+      {energy > 35 && <Windmill reducedMotion={reducedMotion} x={width / 2 - 0.5} z={-width / 2 + 0.5} />}
       {capital && (
         <>
           <mesh position={[-8, -0.15, -7]}>

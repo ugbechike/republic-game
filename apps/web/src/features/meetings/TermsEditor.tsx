@@ -15,7 +15,7 @@ export function TermsEditor({
   w: RoomView;
   side: 'offer' | 'want';
   close: () => void;
-  send: (a: Action) => Promise<void>;
+  send: (a: Action) => Promise<boolean>;
   busy: boolean;
 }) {
   const [bundle, setBundle] = useState(structuredClone(m.terms[side]));
@@ -66,7 +66,7 @@ export function TermsEditor({
           className="primary"
           disabled={busy || revision !== m.revision || m.status !== 'active'}
           onClick={async () => {
-            await send({
+            const ok = await send({
               type: 'meetingTerms',
               id: m.id,
               revision,
@@ -75,7 +75,7 @@ export function TermsEditor({
               years,
               startInMonths: delay,
             });
-            close();
+            if (ok) close();
           }}
         >
           PLACE ON TABLE →

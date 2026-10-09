@@ -1,18 +1,18 @@
+import { PresidencyChrome } from './PresidencyChrome';
+import { useOfficeAudio } from './useOfficeAudio';
+import { WorldExperience } from '../world/WorldExperience';
 import { OfficeDossier } from './OfficeDossier';
 import { MeetingLobby } from '../meetings/MeetingLobby';
 import { MeetingRoom } from '../meetings/MeetingRoom';
-import { useState } from 'react';
-import { Building2, Globe2, Landmark, Handshake, X, LogOut, ArrowLeft, Shield } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 import type { Commodity } from '@republic/contracts';
 import type { WorldController } from '../room/useWorld';
-import { FlagBanner } from '../../components/FlagBanner';
 import { OfficeScene, type OfficeArea } from './OfficeScene';
 import { ChiefOfStaff } from './ChiefOfStaff';
 import { MatterDetail } from './MatterDetail';
 import { BriefingDetail } from '../briefings/BriefingDetail';
 import { Diplomacy } from '../game/Diplomacy';
-import { Assembly } from '../game/Assembly';
-import { WorldMap } from '../game/WorldMap';
 import { RepublicVisit } from './RepublicVisit';
 export function Presidency({ controller: c }: { controller: WorldController }) {
   const w = c.world!;
@@ -24,17 +24,34 @@ export function Presidency({ controller: c }: { controller: WorldController }) {
     [selected, select] = useState(w.republics.find((r) => r.id !== w.playerId)?.id ?? w.playerId),
     [need, setNeed] = useState<Commodity>(),
     [meetingId, enter] = useState<string>(),
-    [foreignPolicy, setForeignPolicy] = useState(false);
+    [foreignPolicy, setForeignPolicy] = useState(false),
+    [visiting, setVisiting] = useState<string>();
+  const [returnContext, saveContext] = useState<{ brief?: string; matter?: string; area?: OfficeArea }>();
+  useOfficeAudio(w, view);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [view]);
   const meeting = w.meetings?.find((m) => m.id === meetingId);
-  const invitations = (w.meetings ?? []).filter((m) => m.status === 'requested' && m.requestedBy !== w.playerId);
+  const invitations = (w.meetings ?? []).filter(
+    (m) =>
+      (m.status === 'requested' && m.requestedBy !== w.playerId) ||
+      (m.status === 'proposed' && m.proposedBy !== w.playerId) ||
+      (m.status === 'agreed' && !m.signatures.includes(w.playerId)),
+  );
   const meetingTitle = invitations[0]
-    ? `${w.republics.find((r) => r.id === invitations[0].requestedBy)?.name} requests a meeting`
+    ? invitations[0].status === 'agreed'
+      ? 'Your signature is requested'
+      : invitations[0].status === 'proposed'
+        ? 'A proposal awaits your response'
+        : `${w.republics.find((r) => r.id === invitations[0].requestedBy)?.name} requests a meeting`
     : undefined;
   const count =
     (w.me.briefings ?? []).filter((b) => b.status === 'open').length +
     (w.me.officeMatters ?? []).filter((m) => m.status === 'open').length;
   const chosenMatter = w.me.officeMatters?.find((m) => m.id === matter);
   function visit(id?: string) {
+    saveContext({ brief, matter, area });
+    setVisiting(undefined);
     if (id) setRegion(id);
     setView('republic');
     open(undefined);
@@ -43,7 +60,14 @@ export function Presidency({ controller: c }: { controller: WorldController }) {
   }
   function navigate(next: string) {
     setView(next);
+    if (next === 'republic') setVisiting(undefined);
     open(undefined);
+    if (next === 'office' && returnContext) {
+      setBrief(returnContext.brief);
+      setMatter(returnContext.matter);
+      open(returnContext.area);
+      saveContext(undefined);
+    }
   }
   function negotiate(id: string, resource?: Commodity) {
     select(id);
@@ -66,45 +90,9 @@ export function Presidency({ controller: c }: { controller: WorldController }) {
         />
       )}
       {view === 'republic' && (
-        <RepublicVisit w={w} regionId={region} select={setRegion} back={() => navigate('office')} />
+        <RepublicVisit w={w} target={visiting} regionId={region} select={setRegion} back={() => navigate('office')} />
       )}
-      <header className="presidency-header">
-        <button className="presidency-brand" onClick={() => navigate('office')}>
-          <FlagBanner flag={w.me.flag} />
-          <span>
-            {w.me.name}
-            <small>THE PRESIDENCY</small>
-          </span>
-        </button>
-        <div className="presidential-vitals">
-          <button onClick={() => open('economy')}>
-            <small>TREASURY</small>${w.me.metrics.treasury.toFixed(1)}B
-          </button>
-          <button onClick={() => open('economy')}>
-            <small>APPROVAL</small>
-            {w.me.metrics.approval.toFixed(0)}%
-          </button>
-          <button aria-label="Return to title" onClick={c.leave}>
-            <LogOut size={17} />
-          </button>
-        </div>
-      </header>
-      <nav className="presidency-nav" aria-label="Presidential navigation">
-        {[
-          ['office', 'OFFICE', Landmark],
-          ['republic', 'REPUBLIC', Building2],
-          ['world', 'WORLD', Globe2],
-          ['meetings', 'MEETINGS', Handshake],
-        ].map(([id, label, Icon]) => {
-          const Glyph = Icon as typeof Landmark;
-          return (
-            <button key={String(id)} className={view === id ? 'active' : ''} onClick={() => navigate(String(id))}>
-              <Glyph size={18} />
-              <span>{String(label)}</span>
-            </button>
-          );
-        })}
-      </nav>
+      <PresidencyChrome w={w} view={view} navigate={navigate} economy={() => open('economy')} leave={c.leave} />
       {view === 'office' && !area && (
         <ChiefOfStaff
           w={w}
@@ -128,17 +116,21 @@ export function Presidency({ controller: c }: { controller: WorldController }) {
         </button>
       )}
       {view === 'world' && (
-        <div className="presidency-world">
-          <WorldMap w={w} select={(id) => (id === w.playerId ? visit() : negotiate(id))} />
-          <Assembly w={w} send={c.send} busy={c.busy} />
-          {w.worldCrisis && (
-            <article className="world-crisis-story">
-              <span className="kicker">WORLD SERVICE</span>
-              <h2>{w.worldCrisis.title}</h2>
-              <p>{w.worldCrisis.description}</p>
-            </article>
-          )}
-        </div>
+        <WorldExperience
+          w={w}
+          send={c.send}
+          busy={c.busy}
+          meet={negotiate}
+          visit={(id) => {
+            setVisiting(id);
+            setView('republic');
+            open(undefined);
+          }}
+          policy={(id) => {
+            select(id);
+            setForeignPolicy(true);
+          }}
+        />
       )}
       {view === 'meetings' &&
         (meeting ? (
@@ -151,7 +143,10 @@ export function Presidency({ controller: c }: { controller: WorldController }) {
               enter(undefined);
               navigate('office');
             }}
-            policy={() => setForeignPolicy(true)}
+            policy={() => {
+              select(meeting.participants.find((id) => id !== w.playerId)!);
+              setForeignPolicy(true);
+            }}
           />
         ) : (
           <MeetingLobby

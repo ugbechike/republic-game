@@ -1,4 +1,6 @@
 'use client';
+import { CityFallback } from './CityFallback';
+import { CityConsequences } from './CityConsequences';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Component, useEffect, useState, type ReactNode } from 'react';
@@ -16,34 +18,33 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
     return this.state.failed ? this.props.fallback : this.props.children;
   }
 }
-function Fallback({ region }: { region: Region }) {
-  return (
-    <div className="city-fallback">
-      <div className="fallback-plots">
-        {region.plots.map((p) => (
-          <i key={p.id} style={{ height: 15 + p.height * 25, opacity: p.stage / 5 + 0.2 }} />
-        ))}
-      </div>
-      <p>{region.name} · persistent 2D city map</p>
-    </div>
-  );
-}
 function FitCamera({ capital }: { capital: boolean }) {
   const { camera, size } = useThree();
   useEffect(() => {
     const orthographic = camera as OrthographicCamera;
-    orthographic.zoom = Math.min(size.width / (capital ? 26 : 21), size.height / (capital ? 17 : 14));
+    orthographic.zoom = Math.min(
+      size.width / (size.width < 600 ? 19 : capital ? 26 : 21),
+      size.height / (capital ? 17 : 14),
+    );
     orthographic.updateProjectionMatrix();
   }, [camera, size.width, size.height, capital]);
   return null;
 }
-export default function CityCanvas({ region, republic }: { region: Region; republic: Republic }) {
+export default function CityCanvas({
+  region,
+  republic,
+}: {
+  region: Region;
+  republic: Pick<Republic, 'resources'> & { metrics: Pick<Republic['metrics'], 'energy' | 'approval'> };
+}) {
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
     setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }, []);
   const capital = region.id.endsWith('-0');
-  const fallback = <Fallback region={region} />;
+  const fallback = (
+    <CityFallback region={region} energy={republic.metrics.energy} approval={republic.metrics.approval} />
+  );
   return (
     <SceneBoundary fallback={fallback}>
       <Canvas
@@ -77,9 +78,20 @@ export default function CityCanvas({ region, republic }: { region: Region; repub
           activity={region.development}
           reducedMotion={reducedMotion}
         />
+        <CityConsequences
+          region={region}
+          energy={republic.metrics.energy}
+          approval={republic.metrics.approval}
+          reducedMotion={reducedMotion}
+        />
         <ResourceLandmarks resources={republic.resources} capital={capital} />
         {region.plots.map((plot) => (
-          <Building key={`${region.id}-${plot.id}-${plot.stage}`} plot={plot} />
+          <Building
+            powered={republic.metrics.energy >= 45}
+            reducedMotion={reducedMotion}
+            key={`${region.id}-${plot.id}-${plot.stage}`}
+            plot={plot}
+          />
         ))}
         <OrbitControls
           makeDefault

@@ -41,6 +41,7 @@ export type Region = {
   stability: number;
   industry: Resource;
   plots: Plot[];
+  flood?: { severity: number; recovering: boolean; started: number };
 };
 export type Crisis = {
   id: string;
@@ -195,6 +196,7 @@ export type PublicRepublic = Pick<
   population: number;
   stability: number;
   militaryEstimate: number;
+  landscape?: { regions: Region[]; energy: number; approval: number };
   market?: Partial<Record<(typeof TRADE_RESOURCES)[number], number>>;
   credit?: number;
 };

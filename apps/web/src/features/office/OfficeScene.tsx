@@ -55,7 +55,10 @@ export function OfficeScene({
       >
         <BookOpen />
         <span>
-          CORRESPONDENCE<small>{urgent ? `${urgent} matters on your desk` : 'Your presidential inbox'}</small>
+          CORRESPONDENCE
+          <small>
+            {urgent ? `${urgent} ${urgent === 1 ? 'matter' : 'matters'} on your desk` : 'Your presidential inbox'}
+          </small>
         </span>
         {urgent > 0 && <b>{urgent}</b>}
       </button>
