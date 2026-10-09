@@ -131,8 +131,9 @@ export class Rooms {
         requireThat(briefing && live < briefing.dueAt, 'The response deadline has passed');
       }
       act(room, p.id, action, this.development);
-      p.requests.push(requestId);
-      p.requests = p.requests.slice(-200);
+      const current = room.players.find((player) => player.id === session.playerId)!;
+      current.requests.push(requestId);
+      current.requests = current.requests.slice(-200);
     });
   }
   async clock(now: number) {
