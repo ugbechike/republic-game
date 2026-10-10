@@ -1,10 +1,12 @@
-# Republic — First Assembly
+# Republic — The Canal Crisis
 
-A playable V0 of a multiplayer political strategy party game. Two to eight friends
-lead separate Republics through twenty simulated years. Negotiate in person or over
-voice; record the agreements in the game. There are no accounts.
+**Five minutes to win your people's trust and the world's respect.**
 
-![Republic local preview](docs/office-preview.jpg)
+A multiplayer negotiation party game for **2–6 friends**. Random advantages, scarce supplies,
+private diplomatic calls, binding deals and one shared crisis. No accounts. Talk across the
+room or use private chat. Every President stays until the end.
+
+![Republic presidential office](docs/party-office.jpg)
 
 ## Run locally
 
@@ -18,15 +20,13 @@ npm run dev
 Open **http://localhost:3000**. The authoritative API listens on **http://localhost:4000**.
 Development automatically creates a persistent PostgreSQL-compatible PGlite database
 in `apps/server/.data/republic`. No Docker or PostgreSQL installation is needed.
-Room state survives frontend refreshes and server restarts. The simulation and adviser deadlines
-pause during server downtime and while every human player is disconnected.
+Room state survives frontend refreshes and server restarts. The five-minute deadline continues during disconnects and server downtime; overdue outcomes
+settle on recovery. Refreshing never restarts the match.
 
-Create a Republic, invite at least one friend using the world code, then begin the shared resource draft.
-Claim three scarce advantages in snake order before entering your presidential office.
-All players begin from the same baseline; resources provide different strengths and dependencies.
-For local testing, use localhost and 127.0.0.1 in separate tabs for independent player storage.
-Development delegates are optional test helpers and do not count toward the human minimum.
-Production cannot create delegates or use debug actions.
+Create a game, invite one to five friends with the room code, then deal the advantages.
+Everyone receives one randomly assigned role in the Canal Crisis. Read your national goal,
+call another President, negotiate terms, sign together and fulfill your promise. At 2:30,
+a shared crisis opens another opportunity; at 5:00 the server reveals the results.
 
 Use different browsers/profiles for independent local players. A tab refresh resumes its
 saved seat. Returning to the title retains a Resume button. Creating/joining another world
@@ -43,27 +43,30 @@ Both services bind to `0.0.0.0`. Set `NEXT_PUBLIC_API_URL` in `apps/web/.env.loc
 
 | Location | Responsibility |
 | --- | --- |
-| `apps/web` | Next.js, React, Tailwind, feature-local UI and React Three Fiber scenes |
-| `apps/server` | Fastify, Socket.IO, secure sessions, authoritative queues and database |
-| `packages/contracts` | Shared types and Zod request schemas |
-| `packages/engine` | Seeded monthly simulation, diplomacy, war and scoring |
-| `packages/api-client` | HTTP calls, socket lifecycle, action retries and session storage |
+| `apps/web` | Next.js and feature-local cinematic React UI |
+| `apps/server` | Fastify, Socket.IO, authenticated seats, room queues and persistence |
+| `packages/contracts` | Shared types, validation, assets and balancing constants |
+| `packages/engine/src/party` | Pure Canal Crisis rules, escrow, evaluation, scoring and deadlines |
+| `packages/api-client` | HTTP, sockets, retries and browser session storage |
 
-All source files are limited to 250 lines. Transport/API calls live outside UI components.
-See [architecture](docs/architecture.md), [game rules](docs/game-rules.md), and
-[local playtest checklist](docs/playtest.md), and [overhaul verification](docs/presidential-overhaul.md).
+Source files stay below 250 lines. Components do not call transport APIs directly.
+The prior simulator is isolated for saved-data compatibility and regression coverage;
+its draft, policies, charts and war are absent from the active game.
+
+See [game rules](docs/game-rules.md), [architecture](docs/architecture.md),
+[migration plan](docs/party-migration.md) and [playtest record](docs/playtest.md).
 
 ## Validate
 
 ```sh
-npm run check     # TypeScript, unit/integration tests, source-file limit
-npm run build     # Production frontend build (Webpack)
-npm audit
+npm run check         # types, unit/integration tests, 250-line limit
+npm run format:check
+npm run build         # production frontend, Webpack
 ```
 
-Integration tests use temporary local sockets and an in-memory PostgreSQL database.
-The frontend uses Webpack for production builds because the local sandbox's Turbopack
-CSS worker could not bind its process port. Development uses the Next.js default bundler.
+Integration tests open local sockets and use embedded PostgreSQL. Development controls in
+World can advance time, force the twist, adjust inventory, add a need or end the round.
+They require host ownership and are rejected by the production server.
 
 ## Deployment preparation (not deployed)
 
@@ -88,17 +91,11 @@ deployment phase; Docker/Railway/Vercel provisioning is not part of local verifi
 
 ## V0 boundaries
 
-- Twenty years, three session lengths, one host, two to eight seats; no account system.
-- Fourteen draftable advantages, nine tradeable commodities, eight policies and six regional scenes.
-- Interactive presidential office, prioritized correspondence, governors, business opportunities and calendar.
-- Context-aware minister briefings, progressive shortages, real-time deadlines and world crises.
-- Private bilateral boardrooms with chat, live terms, counteroffers and two-signature binding trade.
-- Mixed immediate/recurring/future trade, negotiated loans and binding bank conditions.
-- Resource/financial embargoes, coordinated sanctions, discussion windows and Yes/No/Abstain votes.
-- Economic charts, resource flow history, event annotations and explained metric changes.
-- Six-month abstract wars with outside support, bounded losses and reparations; no conquest.
-- Five-category score, awards, table-talk statistics and same-seat rematches.
-- Snapshot persistence; one backend replica. No spectator/rejoin-seat recovery after token loss,
-  host transfer, matchmaking, global chat, competitive bots or distributed scaling.
-- Balance values are explicit V0 tuning parameters. Automated testing validates mechanics;
-  the 4–8-person, 60–90-minute social hypothesis still requires human playtesting.
+- One scenario, three seeded midpoint twists, unique roles for every player count from two to six.
+- Immediate or 15/30-second escrowed deliveries; no unenforceable future promises in treaties.
+- One primary national obligation and one optional crisis response. Neutral relief prevents deadlock.
+- Support and Influence are explained in a server ledger; final Legacy uses 70% / 30% weights.
+- No matchmaking, spectators, host migration, competitive bots or recovery after losing a seat token.
+- One backend replica. No deployment has been performed.
+- Automated and browser checks validate mechanics. A session with friends is still needed to judge
+  whether negotiating prices, role balance and five-minute pacing are fun.

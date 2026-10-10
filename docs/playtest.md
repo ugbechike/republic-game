@@ -1,104 +1,84 @@
-# Local playtest checklist
+# Canal Crisis verification and playtest guide
 
-## Automated coverage
+## Automated validation — 2026-10-10
 
-`npm run check` covers scarce resource consequences, policy lag, nonnegative inventories,
-elections, persistent plots, recurring settlements, failed acceptance, counters, sanctions,
-pacts, loans, majority rules, war costs/outcomes, assistance, score caps, deadlines and rematches.
-Service tests exercise token checks, privacy, parallel joins, capacity, persistence and the clock.
-HTTP/Socket.IO integration uses embedded PostgreSQL to verify schemas, authentication,
-action deduplication, saved request IDs and reconnect snapshots.
+77 tests across 22 files; TypeScript and the 250-line source limit pass.
+Party coverage includes:
 
-## Multiplayer rehearsal
+- 100 seeded deals across 2–6 players; correct role sets, reveal readiness and five-minute duration.
+- Every 2–6-player primary objective fulfilled through actual trades; independent neutral fallback.
+- Every role has a foreign supplier for all three midpoint variants; twists preserve inventory.
+- Shared terms, stale revisions, counters, two signatures, escrow, insufficient stock and atomic failure.
+- Expiry, delayed settlement, exact cutoff, duplicate signatures, rematch match IDs and offline completion.
+- Fair/Weak/Excellent/Strategically Justified/Uncertain evaluations, bounded scoring and exact ledger changes.
+- Gift reversals, circular trades, split transfers, clamp/refund exploits and no reward for messages/no-ops.
+- Persist/restart between signatures; serialized duplicate final signatures; production debug denial.
+- Independent **three- and six-client HTTP/Socket.IO** sessions, real role-dependent trades and fulfillment,
+  private projections, reconnect, synchronized deadlines, midpoint, identical results and clean rematch.
+- Existing simulator and shared transport regression tests remain green.
 
-- Use two to eight independent browsers/profiles. Create a room and join the displayed code.
-- Start as host. Check that all players’ calendars and public GDP figures agree.
-- Reload the host and another player. Their seats, stocks and plots must be unchanged.
-- Offer food for fuel. Counter, accept, inspect both ledgers and wait for monthly delivery.
-- Deliberately create an unaffordable deal; acceptance must fail without a partial transfer.
-- Sign a trade pact, take a bilateral loan, impose sanctions and inspect the economic consequences.
-- Use development tools to trigger a crisis and force an election. Pass a policy under a hostile House.
-- Declare war, invite outside assistance, vote on sanctions and wait for bounded settlement.
-- Switch between capital and states, then return. Existing plots must retain position and progress.
-- Jump near the ending. Inspect all five score categories, awards and rematch with the same seats.
-- Restart the backend during play. After reconnect, the world should resume from the saved month.
+Larger groups were verified over real network clients, not six simultaneous visual browser windows.
+The production frontend build and formatter are also part of the final checks.
 
-## Human hypothesis test
+## Observed two-browser rehearsal
 
-Run a full 60-minute session with 4–8 friends before tuning or deployment. Record:
+Separate storage origins: localhost:3000 and 127.0.0.1:3000. World **8W5G2**.
+Solara / Morgan received Oil; Kanto / Ada received Canal.
 
-1. When did each person first need another player?
-2. Which proposals prompted an actual spoken negotiation?
-3. Did sanctions, votes and wars create choices for uninvolved players?
-4. Did anyone feel effectively eliminated while still owning a Republic?
-5. Were resource shortages, policy delays and failed agreements understandable?
-6. Which decisions felt too cheap, too punishing or irrelevant?
-7. Did the final ranking feel explainable? Did the group want another game?
+1. Created and joined as two humans; random reveal showed actual stocks and reciprocal needs.
+2. Readiness started synchronized five-minute clocks; no resource draft or simulator setup.
+3. Solara called Kanto. Both entered the same private boardroom and exchanged chat.
+4. Proposed 2 oil for 3 passage; Kanto countered to 3 oil for 3 passage. Adviser updated independently.
+5. Solara accepted and signed. Reloaded Kanto between signatures; seat, deadline, chat, revision
+   and first signature survived. Kanto signed; exactly one agreement delivered the actual assets.
+6. Both fulfilled primary needs. Each showed 82 Support and 24 Influence; no points merely for signing.
+7. The natural 2:30 machinery incident appeared with reachable foreign-supply needs.
+8. At the natural 5:00 cutoff both showed identical results: 82 Support / 24 Influence / **64.6 Legacy**.
+   The documented stable-ID tie-break ranked Kanto first. Same-room Play Again cleared gameplay.
 
-Avoid adding more systems until this test identifies a concrete problem in the social loop.
+## Mobile rematch and crisis response
 
-## Redesign verification — 2026-10-08
+Kanto ran at **390×844**, Solara at desktop width. Checked Office, terms editor, meeting actions,
+sticky countdown, inventory, readable controls and fixed navigation.
 
-- Automated: 33 tests; contracts, engine, service persistence and HTTP/Socket.IO integration. TypeScript and the 250-line source limit pass.
-- Desktop browser: created Solara with oil, coastline and farmland (5/5 points), checked the land preview and exact starting values, and reached the summit. Start was disabled with one human.
-- Independent origin: joined the same world as Kantara using gold, farmland, rivers and timber; the host's challenge was locked. Both seats appeared live, and two humans could start.
-- Reloaded both browser sessions: each recovered its own President, resources and the same running calendar.
-- Inspected the city HUD, resource landmarks, world view, economy and diplomacy overlays. Production client build passed.
-- Local development explicitly allows the two loopback origins for independent storage during browser QA. No deployment performed.
+- From the phone, requested a call and composed 3 passage for 3 oil with a **15-second delivery**.
+- Both accepted and signed. Stocks left available inventory into escrow; the signed record first
+  read “delivery secured in escrow,” then “assets delivered.” Both offices received the assets.
+- Both fulfilled their primary obligations and reached 82/24 again.
+- At the next natural midpoint, shipping disruption changed reference prices (passage 5, oil 4).
+- The phone initiated another call and exchanged 2 passage for 2 oil. Adviser used the new prices.
+- Both signed, returned to Office and fulfilled the optional response: **90 Support / 28 Influence**.
+- Both devices finished the rematch at **71.4 Legacy** (90 Support / 28 Influence). The phone’s
+  Why These Scores record showed the +32 primary, +24 delivery and +8/+4 crisis entries.
+- A transient local socket disconnect blocked submission with a clear error, retained the local
+  edited terms, reconnected, and allowed the proposal to be submitted. No partial action occurred.
 
-Remaining product validation: a full social session with friends to assess resource balance and pacing.
+Screenshots: [desktop Office](party-office.jpg), [phone Office](party-mobile-office.jpg),
+[phone treaty editor](party-mobile-terms.jpg), [boardroom](party-meeting.jpg), [results](party-results.jpg).
+The original source artwork is reused; no new external assets or infrastructure were added.
 
-## Pressure loop verification — 2026-10-08
+## Reproduce locally
 
-- Automated: 49 tests across engine, server and API client; typechecks and source limits pass.
-- Natural two-Republic test: oil/farmland versus gas/iron develops reciprocal needs, selects
-  a real supplier, counters a mixed immediate/recurring proposal, transfers funds/resources,
-  eases shortage stages and records economic history without exposing another player's stocks.
-- Additional coverage: every legal resource selection has unmet essential production;
-  deadline/delay penalties, funded flood response, equal starting difficulty inputs, bank
-  restrictions, negotiated loan default, future deliveries, atomic failure, embargoes,
-  world prices/output, discussion/abstention, offline pause/persistence and restart reconnect.
-- Browser world MUU48: Solara Lab (oil/farmland) and Kantara Lab (gas/iron) started as two humans.
-  Their energy ministers independently raised gas and oil needs. Solara's briefing showed
-  required reserves, available stock, consequences, deadline and Kantara's estimated surplus.
-- Opened Negotiate from that supplier. Sent $1B for six gas units, countered from Kantara to
-  $1.5B, accepted as Solara. Treasury transferred, gas reserves replenished, the adviser request
-  resolved, energy began recovering, and Economy recorded the signed deal and secured supply.
-- Triggered development energy and flood events, verified the iron/cash reconstruction briefing,
-  and recorded an Assembly abstention after discussion.
-- Inspected GDP, flow, fiscal, debt and employment charts, event history, shortage stages and
-  monthly cause details. Reloaded both sessions without losing their seats or agreements.
-- Actual hovered states for both Create Republic and Next: Choose your land retained dark
-  text over the gold gradient. This fixes the generic hover rule overriding their background.
-- Browser uses the existing persistent 2D city fallback when WebGL is unavailable; this
-  iteration does not change city rendering. No deployment performed.
+Run `npm run dev`. Use separate browsers/profiles (or the two loopback origins above).
+Create a game, join its code, deal, read the role cards and enter Office. For the two-role
+scenario, exchange 3 oil for 3 passage, sign from both seats, and fulfill each primary need.
+Negotiate again when the midpoint crisis arrives. Let five minutes elapse; compare results and rematch.
 
-### Reproduce the pressure scenario
+Also try: refuse a call, let an offer expire, counter after one signature, reserve too much,
+refresh each participant, stay offline through the ending and submit an old revision.
+World's development tools can accelerate time or force edge cases. Production rejects them.
 
-Use two independent profiles (or localhost and 127.0.0.1). Create A with oil/farmland and B with
-gas/iron. Start at normal speed. Ministers surface the first dependency in about 30–45 seconds.
-Negotiate immediate reserves plus recurring supply before the three-minute deadline. Counter
-from the other profile, accept, and watch the monthly supply table and stage recovery.
+## Human social playtest still needed
 
-Under Events, the development host can expand GameDirector controls to target a Republic,
-resource and quantity: shortage, treasury, flood, energy, world crisis, reserve adjustment,
-advance 1–24 months, supplier surplus, trade dependency and security tension. These actions
-are server-rejected in production and for non-host players.
+Run several five-minute rounds with 2, 3 and 6 friends before tuning or deployment. Record:
 
-Use the controls to check less frequent situations: miss a flood deadline, accept a bank
-facility and try to bypass its policy ceilings, default a loan, embargo your supplier,
-request military help, and discuss/abstain on a coordinated sanction resolution.
+1. Did everyone understand their first need within 20 seconds?
+2. How quickly did they begin talking to another President?
+3. Were bargaining prices and Finance Adviser explanations understandable?
+4. Did the fallback keep an uncooperative partner from blocking participation?
+5. Did the midpoint create another conversation without overwhelming the table?
+6. Were any roles consistently stronger or less interesting?
+7. Did the final ledger explain the result, and did players want a rematch?
 
-A 15–20-minute human conversation test and full 4–8-player balance session remain product
-validation. Automated and browser checks establish that the mechanics work; they cannot
-prove that negotiation prices, interruptions and consequences feel fair or fun.
-
-## Presidential overhaul — 2026-10-09
-
-See [the overhaul verification record](presidential-overhaul.md) for the complete
-observed two-player draft → Office → negotiation → signatures → consequences → ending
-rehearsal, including mobile and reconnect checks. It also distinguishes forced crisis
-and accelerated ending checks from natural simulation and future human balance testing.
-
-For new sessions, resources are selected in the shared scarce draft. Earlier dated
-resource-point checklists above document historical builds, not the current setup flow.
+Automated checks establish mechanics; they cannot establish fun or competitive role balance.
+No deployment was performed. Prior simulator history remains in [the previous overhaul record](presidential-overhaul.md).
