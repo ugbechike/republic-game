@@ -1,3 +1,4 @@
+import { partyActionSchema } from './party-actions';
 import { z } from 'zod';
 import { RESOURCES, RESOURCE_COST, RESOURCE_POINTS, TRADE_RESOURCES } from './model';
 const id = z.string().min(1).max(80);
@@ -15,7 +16,7 @@ export const draftSchema = z.object({
     ),
 });
 export const optionsSchema = z.object({
-  duration: z.union([z.literal(45), z.literal(60), z.literal(90)]),
+  duration: z.union([z.literal(5), z.literal(45), z.literal(60), z.literal(90)]),
   maxPlayers: z.number().int().min(2).max(8),
   difficulty: z.enum(['developing', 'struggling']).optional(),
 });
@@ -36,6 +37,7 @@ const bundle = z.object({
     .optional(),
 });
 export const actionSchema = z.discriminatedUnion('type', [
+  partyActionSchema,
   z.object({
     type: z.literal('meetingRequest'),
     to: id,

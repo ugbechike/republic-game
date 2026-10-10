@@ -29,7 +29,8 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
     (room) => {
       for (const socket of io.sockets.sockets.values()) {
         const session = socket.data.session as Session;
-        if (session?.code === room.code) socket.emit('state', view(room, session.playerId, development));
+        if (session?.code === room.code)
+          socket.emit('state', view(room, session.playerId, development, rooms.onlineIds()));
       }
     },
     minimum,
@@ -85,11 +86,11 @@ export async function createApp(store: Store, development = process.env.NODE_ENV
   });
   io.on('connection', (socket) => {
     const session = socket.data.session as Session;
-    void rooms.presence(session.code, 1).catch((e) => app.log.error(e));
+    void rooms.presence(session.code, 1, session.playerId).catch((e) => app.log.error(e));
     socket.on('disconnect', () => {
-      void rooms.presence(session.code, -1).catch((e) => app.log.error(e));
+      void rooms.presence(session.code, -1, session.playerId).catch((e) => app.log.error(e));
     });
-    socket.emit('state', view(rooms.rooms.get(session.code)!, session.playerId, development));
+    socket.emit('state', view(rooms.rooms.get(session.code)!, session.playerId, development, rooms.onlineIds()));
     let count = 0,
       windowStart = Date.now();
     socket.on('action', async (input, ack) => {

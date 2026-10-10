@@ -1,6 +1,18 @@
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import type { Draft, Room, Session } from '@republic/contracts';
-import { act, migrateRoom, advance, createRepublic, createRoom, interval, requireThat } from '@republic/engine';
+import {
+  act,
+  migrateRoom,
+  advance,
+  createRepublic,
+  createRoom,
+  interval,
+  requireThat,
+  newParty,
+  newPresident,
+  partyAction,
+  partyClock,
+} from '@republic/engine';
 import { DEFAULT_MIN_PLAYERS, envelopeSchema } from '@republic/contracts';
 import type { Store } from './store';
 export const hash = (token: string) => createHash('sha256').update(token).digest('hex');
@@ -8,6 +20,10 @@ export class Rooms {
   rooms = new Map<string, Room>();
   trackPresence = false;
   online = new Map<string, number>();
+  presidents = new Map<string, number>();
+  onlineIds() {
+    return new Set([...this.presidents.entries()].filter(([, n]) => n > 0).map(([id]) => id));
+  }
   queues = new Map<string, Promise<unknown>>();
   constructor(
     private store: Store,
@@ -17,6 +33,12 @@ export class Rooms {
   ) {}
   async load() {
     for (const r of await this.store.all()) {
+      if (r.party) {
+        partyClock(r, Date.now());
+        await this.store.save(r);
+        this.rooms.set(r.code, r);
+        continue;
+      }
       migrateRoom(r, this.minimum);
       r.nextTick = Date.now() + interval(r);
       if (r.phase === 'draft' && r.draft) {
@@ -26,11 +48,16 @@ export class Rooms {
       this.rooms.set(r.code, r);
     }
   }
-  async presence(code: string, delta: number) {
+  async presence(code: string, delta: number, playerId?: string) {
+    if (playerId) this.presidents.set(playerId, Math.max(0, (this.presidents.get(playerId) ?? 0) + delta));
     const prior = this.online.get(code) ?? 0,
       count = Math.max(0, prior + delta);
     this.online.set(code, count);
     const existing = this.rooms.get(code);
+    if (existing?.party) {
+      await this.mutate(code, () => {});
+      return;
+    }
     if (!existing || !['playing', 'draft'].includes(existing.phase) || (prior > 0 && count > 0)) return;
     await this.mutate(code, (room) => {
       room.paused = count === 0;
@@ -73,8 +100,12 @@ export class Rooms {
     const playerId = randomUUID(),
       token = randomBytes(32).toString('hex');
     const room = createRoom(code, playerId, hash(token), { ...draft, resources: [] }, options);
-    room.minPlayers = this.minimum;
-    requireThat(options.maxPlayers >= this.minimum, `World capacity must be at least ${this.minimum}`);
+    room.minPlayers = options.duration === 5 ? 2 : this.minimum;
+    if (options.duration === 5) {
+      requireThat(options.maxPlayers <= 6, 'Party games allow 2–6 humans');
+      room.party = newParty(room);
+    }
+    requireThat(options.maxPlayers >= room.minPlayers, `World capacity must be at least ${this.minimum}`);
     await this.store.save(room);
     this.rooms.set(code, room);
     return { code, playerId, token };
@@ -93,6 +124,7 @@ export class Rooms {
       room.republics.push(
         createRepublic(playerId, { ...draft, resources: [] }, room.options.difficulty === 'struggling'),
       );
+      if (room.party) room.party.players.push(newPresident(room.republics.at(-1)!));
     });
     return { code, playerId, token };
   }
@@ -118,6 +150,13 @@ export class Rooms {
     await this.mutate(session.code, (room) => {
       const p = room.players.find((p) => p.id === session.playerId)!;
       if (p.requests.includes(requestId)) return;
+      if (room.party) {
+        requireThat(action.type === 'party', 'Simulator actions are retired for this match.');
+        partyAction(room, p.id, action.match, action.intent, this.development, Date.now(), this.onlineIds());
+        room.players.find((player) => player.id === p.id)!.requests = [...p.requests, requestId].slice(-200);
+        return;
+      }
+      requireThat(action.type !== 'party', 'Create a new five-minute game to play the Canal Crisis.');
       if (action.type === 'briefing' || action.type === 'officeDecision') {
         const republic = room.republics.find((r) => r.id === p.id);
         const briefing = (action.type === 'briefing' ? republic?.briefings : republic?.officeMatters)?.find(
@@ -139,15 +178,17 @@ export class Rooms {
   async clock(now: number) {
     await Promise.all(
       [...this.rooms.values()]
-        .filter(
-          (r) =>
-            ['playing', 'draft'].includes(r.phase) &&
-            r.nextTick <= now &&
-            (!this.trackPresence || (this.online.get(r.code) ?? 0) > 0),
+        .filter((r) =>
+          r.party
+            ? ['reveal', 'active'].includes(r.party.stage)
+            : ['playing', 'draft'].includes(r.phase) &&
+              r.nextTick <= now &&
+              (!this.trackPresence || (this.online.get(r.code) ?? 0) > 0),
         )
         .map((r) =>
           this.mutate(r.code, (next) => {
-            advance(next, now);
+            if (next.party) partyClock(next, now);
+            else advance(next, now);
           }),
         ),
     );

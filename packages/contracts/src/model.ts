@@ -1,3 +1,4 @@
+import type { PartyMatch, PartyView } from './party';
 import type { Meeting } from './meeting';
 import type { OfficeMatter } from './office';
 import type { WorldDraft, ResourceQuality } from './draft';
@@ -162,9 +163,10 @@ export type Score = {
 };
 export type Room = {
   code: string;
+  party?: PartyMatch;
   host: string;
   minPlayers: number;
-  options: { duration: 45 | 60 | 90; maxPlayers: number; difficulty?: 'developing' | 'struggling' };
+  options: { duration: 5 | 45 | 60 | 90; maxPlayers: number; difficulty?: 'developing' | 'struggling' };
   phase: 'lobby' | 'draft' | 'playing' | 'ended';
   draft?: WorldDraft;
   version: number;
@@ -200,7 +202,8 @@ export type PublicRepublic = Pick<
   market?: Partial<Record<(typeof TRADE_RESOURCES)[number], number>>;
   credit?: number;
 };
-export type RoomView = Omit<Room, 'players' | 'republics' | 'seed'> & {
+export type RoomView = Omit<Room, 'players' | 'republics' | 'seed' | 'party'> & {
+  party?: PartyView;
   playerId: string;
   republics: PublicRepublic[];
   me: Republic;

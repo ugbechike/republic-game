@@ -1,8 +1,10 @@
+import { partyView } from './party/view';
 import type { Room, RoomView } from '@republic/contracts';
-export function view(room: Room, playerId: string, development: boolean): RoomView {
+export function view(room: Room, playerId: string, development: boolean, online = new Set<string>()): RoomView {
   const { players: _players, seed: _seed, republics, ...publicRoom } = room;
   return structuredClone({
     ...publicRoom,
+    party: room.party ? partyView(room.party, playerId, Date.now(), online) : undefined,
     meetings: room.meetings?.filter((m) => m.participants.includes(playerId)),
     playerId,
     development,
