@@ -1,0 +1,230 @@
+.party-shell {
+  min-height: 100svh;
+  background: #081b24;
+  padding-bottom: 100px;
+}
+.party-hud {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 4%;
+  background: #071721ed;
+  border-bottom: 1px solid #d7c48b33;
+}
+.party-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font: 21px Georgia;
+}
+.party-brand small {
+  display: block;
+  font:
+    10px 'Barlow',
+    sans-serif;
+  letter-spacing: 0.08em;
+  color: #ceb978;
+  margin-top: 6px;
+}
+.party-countdown {
+  margin-left: auto;
+  font-size: 32px;
+  font-variant-numeric: tabular-nums;
+  color: #ebd298;
+  text-align: center;
+}
+.party-countdown small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+.party-scores {
+  display: flex;
+  gap: 8px;
+}
+.party-scores button {
+  border: 0;
+  background: none;
+  padding: 5px 12px;
+  text-align: center;
+}
+.party-scores b {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.party-scores small {
+  display: block;
+  font-size: 8px;
+  margin-top: 4px;
+  letter-spacing: 0.1em;
+}
+.party-stock {
+  position: relative;
+  z-index: 10;
+  padding: 9px 4%;
+  background: #0a202bdc;
+  border-bottom: 1px solid #fff1;
+}
+.party-office {
+  min-height: calc(100svh - 130px);
+  position: relative;
+  overflow: hidden;
+  padding: 40px 5% 135px;
+}
+.party-office-art,
+.party-office-shade,
+.party-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.party-office-art {
+  background: url('/art/presidential-office.webp') center 52% / cover;
+}
+.party-office-shade {
+  background: linear-gradient(90deg, #06182299, transparent 75%), linear-gradient(0deg, #061822ee, transparent 50%);
+}
+.party-light {
+  z-index: 1;
+  background: linear-gradient(115deg, transparent 45%, #f7ce6d15 55%, transparent 65%);
+  animation: party-light 12s ease-in-out infinite alternate;
+}
+@keyframes party-light {
+  to {
+    transform: translateX(6%);
+    opacity: 0.5;
+  }
+}
+.party-greeting {
+  position: relative;
+  max-width: 660px;
+  margin-bottom: 28px;
+}
+.party-greeting h1 {
+  font:
+    clamp(32px, 3.3vw, 52px)/1.18 Georgia,
+    serif;
+  text-shadow: 0 3px 30px #000;
+  margin: 15px 0;
+}
+.party-greeting em {
+  font-style: normal;
+  color: #e4d09b;
+}
+.party-desk {
+  position: relative;
+  z-index: 2;
+  width: min(450px, 100%);
+  margin-top: 36px;
+}
+.party-brief {
+  background: linear-gradient(145deg, #122e3af5, #0b202bee);
+  border: 1px solid #dec58577;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 15px 50px #0006;
+}
+.party-brief header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.party-initials {
+  background: #a49b79;
+  color: #132b35;
+  padding: 15px 11px;
+  border-radius: 50% 50% 4px 4px;
+  font: 20px Georgia;
+}
+.party-brief header p {
+  margin: 5px 0;
+  font-size: 11px;
+}
+.party-brief time {
+  margin-left: auto;
+  color: #e9c988;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+.party-brief h2 {
+  font: 27px/1.2 Georgia;
+  margin: 22px 0 10px;
+}
+.party-brief p {
+  line-height: 1.6;
+  color: #cbd4cd;
+}
+.party-requirements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+.party-requirements > span {
+  padding: 9px 12px;
+  border: 1px solid #e7c88966;
+  font-size: 12px;
+}
+.party-requirements small {
+  display: block;
+  color: #c6b798;
+  margin-top: 3px;
+}
+.party-requirements .secured {
+  border-color: #92c6a4;
+  background: #6bc69712;
+}
+.party-stakes {
+  font-size: 11px;
+}
+.party-brief .party-actions button {
+  font-size: 11px;
+}
+.party-options {
+  border-top: 1px solid #fff2;
+  margin-top: 18px;
+  padding-top: 8px;
+}
+.party-options small {
+  display: block;
+  line-height: 1.5;
+  margin-top: 8px;
+  color: #cdbb99;
+}
+.party-office-objects {
+  position: absolute;
+  right: 5%;
+  bottom: 160px;
+  display: flex;
+  gap: 14px;
+  z-index: 2;
+}
+.party-office-objects button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #0c2732e8;
+  border-color: #d4bd7966;
+  padding: 17px;
+  text-align: left;
+}
+.party-office-objects small {
+  display: block;
+  font-size: 10px;
+  color: #b0c1bb;
+  margin-top: 7px;
+}
+.party-office-objects span {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.party-office-objects svg {
+  color: #dbbe79;
+  width: 20px;
+}

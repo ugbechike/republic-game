@@ -1,0 +1,213 @@
+.party-boardroom {
+  position: relative;
+  padding: 35px 4% 80px;
+  min-height: calc(100svh - 120px);
+  isolation: isolate;
+}
+.party-boardroom-art {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(#071c2666, #071c2699),
+    url('/art/diplomatic-boardroom.webp') center / cover;
+}
+.party-meeting-heading {
+  text-align: center;
+  position: relative;
+  margin-bottom: 32px;
+}
+.party-meeting-heading > button:first-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+  background: #0a202bcc;
+}
+.party-meeting-heading h1 {
+  font: 40px Georgia;
+  margin: 16px 0;
+}
+.party-meeting-heading p {
+  color: #c7d2cc;
+}
+.party-leave {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 10px;
+}
+.party-negotiation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 25px;
+}
+.party-documents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.party-documents > article {
+  min-width: 0;
+}
+.party-documents header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  background: linear-gradient(110deg, #c9b77f, #958158);
+  color: #16282a;
+  box-shadow: 0 8px 20px #0004;
+}
+.party-documents h2 {
+  font: 23px Georgia;
+  margin: 0 0 6px;
+  overflow-wrap: anywhere;
+}
+.party-documents header small {
+  font-size: 9px;
+  letter-spacing: 0.09em;
+}
+.party-document {
+  min-height: 250px;
+  margin-top: 16px;
+  padding: 25px;
+  background: linear-gradient(120deg, #eee9d6, #d9d0b4);
+  color: #213334;
+  border-bottom: 6px double #968364;
+  box-shadow: 0 14px 35px #0005;
+}
+.party-document > .kicker {
+  color: #6c5c3f;
+  font-size: 9px;
+}
+.party-document p {
+  font-size: 17px;
+  margin: 20px 0;
+}
+.party-document footer {
+  border-top: 1px solid #9d917866;
+  margin-top: 28px;
+  padding-top: 18px;
+  font-size: 11px;
+  color: #6d715f;
+}
+.party-signature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: italic 25px Georgia;
+  color: #345c43;
+}
+.party-empty-terms {
+  color: #6d7769;
+  font-size: 13px !important;
+}
+.party-term-caption {
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #dfd0a7;
+  margin: 20px 0;
+}
+.party-adviser {
+  padding: 18px;
+  margin-bottom: 18px;
+  background: #102a35ef;
+  border-left: 3px solid #d6c080;
+}
+.party-adviser p {
+  line-height: 1.6;
+  margin: 9px 0;
+  color: #cfdbd4;
+}
+.party-adviser summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: #e1c485;
+}
+.party-adviser details p {
+  font-size: 12px;
+}
+.party-treaty > .party-actions {
+  justify-content: center;
+}
+.party-ratified {
+  border: 1px solid #d7c079;
+  background: #0b2631ed;
+  padding: 24px;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  animation: party-seal 0.35s ease;
+}
+.party-ratified > svg {
+  display: block;
+  margin: 0 auto 12px;
+  color: #b5d5ac;
+}
+.party-ratified details {
+  text-align: left;
+  margin-top: 15px;
+  letter-spacing: 0;
+}
+@keyframes party-seal {
+  from {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+.party-chat {
+  background: #0c2632ed;
+  border: 1px solid #cfbe8255;
+  align-self: start;
+}
+.party-chat summary {
+  padding: 18px;
+  color: #e4ce95;
+  cursor: pointer;
+}
+.party-chat summary small {
+  display: block;
+  margin-top: 7px;
+  color: #9facab;
+  font-size: 10px;
+}
+.party-chat-log {
+  max-height: 320px;
+  min-height: 120px;
+  overflow: auto;
+  padding: 12px;
+}
+.party-chat-log p {
+  background: #ffffff09;
+  margin: 5px 0 12px;
+  padding: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.party-chat-log .mine {
+  background: #d8bb7019;
+}
+.party-chat-log small {
+  display: block;
+  color: #dfc891;
+  margin-bottom: 5px;
+}
+.party-chat form {
+  display: flex;
+  padding: 10px;
+  gap: 6px;
+  border-top: 1px solid #fff2;
+}
+.party-chat input {
+  min-width: 0;
+  flex: 1;
+}
+.party-chat button {
+  min-width: 44px;
+}

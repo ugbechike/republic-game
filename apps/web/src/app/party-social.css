@@ -1,0 +1,209 @@
+.party-world,
+.party-calls {
+  max-width: 1100px;
+  margin: auto;
+  padding: 45px 30px 35px;
+}
+.party-world h1,
+.party-calls h1 {
+  font: clamp(36px, 4vw, 60px)/1.1 Georgia;
+  margin: 18px 0 32px;
+}
+.party-presidents,
+.party-call-list {
+  display: grid;
+  gap: 12px;
+}
+.party-presidents article,
+.party-call-list article {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #d1bd8044;
+  background: linear-gradient(100deg, #17313d, #0b202a);
+}
+.party-presidents article > div,
+.party-call-list article > div {
+  flex: 1;
+}
+.party-presidents h2,
+.party-call-list h2 {
+  font: 23px Georgia;
+  margin: 0;
+}
+.party-presidents p,
+.party-call-list p {
+  font-size: 12px;
+  color: #b6c7c0;
+}
+.party-presidents strong {
+  font-size: 12px;
+  color: #e2c88b;
+}
+.party-presidents small {
+  display: block;
+  font-size: 10px;
+  color: #aebdb3;
+  margin-top: 8px;
+}
+.party-presidents button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+  min-height: 48px;
+}
+.party-reference {
+  margin-top: 28px;
+  border: 1px solid #d5bc7d44;
+  padding: 20px;
+}
+.party-reference summary {
+  cursor: pointer;
+  color: #dec98e;
+  margin-bottom: 16px;
+}
+.party-reference p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #aec1bc;
+}
+.party-call-targets {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.party-call-targets button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+}
+.party-call-targets small {
+  color: #a0beae;
+  font-size: 10px;
+}
+.party-calls > p {
+  margin-top: 30px;
+  color: #aebdb6;
+}
+.party-record h1 {
+  font: 36px Georgia;
+  margin: 22px 0;
+}
+.party-record article {
+  border-top: 1px solid #d3bc7b44;
+  padding: 16px 0;
+}
+.party-record strong {
+  color: #e1c98c;
+}
+.party-record p {
+  line-height: 1.6;
+  color: #c3cec4;
+}
+.party-dev {
+  margin: 25px auto;
+  max-width: 900px;
+  padding: 20px;
+  border: 1px dashed #ffffff35;
+}
+.party-dev summary {
+  cursor: pointer;
+}
+.party-results {
+  min-height: 100svh;
+  padding: 65px 20px;
+  text-align: center;
+  background: radial-gradient(ellipse at top, #28434d, #061824 70%);
+}
+.party-results > .kicker {
+  display: block;
+  margin-bottom: 25px;
+}
+.party-results > svg {
+  color: #dec580;
+}
+.party-ranking {
+  max-width: 730px;
+  margin: 35px auto;
+  text-align: left;
+}
+.party-ranking article {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid #cdb77555;
+  background: #102c39;
+}
+.party-ranking article:first-child {
+  background: linear-gradient(100deg, #3b443c, #18333b);
+  border: 1px solid #dac181;
+}
+.party-rank {
+  font: 25px Georgia;
+  color: #ccb878;
+}
+.party-ranking h2 {
+  font: 24px Georgia;
+  margin: 0;
+}
+.party-ranking h2 small {
+  display: block;
+  font: 8px sans-serif;
+  margin-top: 8px;
+  letter-spacing: 0.1em;
+}
+.party-ranking p {
+  font-size: 11px;
+  color: #afc0b8;
+  margin: 8px 0 0;
+}
+.party-ranking strong {
+  margin-left: auto;
+  font-size: 32px;
+  color: #e4ce90;
+}
+.party-ranking strong small {
+  display: block;
+  font: 8px sans-serif;
+  letter-spacing: 0.1em;
+}
+.party-awards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  max-width: 800px;
+  margin: 30px auto;
+}
+.party-awards article {
+  flex: 1;
+  min-width: 240px;
+  padding: 20px;
+  border: 1px solid #d5bd7333;
+}
+.party-awards h2 {
+  font: 23px Georgia;
+}
+.party-awards p {
+  font-size: 12px;
+  color: #b8c6bc;
+  line-height: 1.6;
+}
+.party-results .party-actions {
+  justify-content: center;
+  margin: 35px 0;
+}
+.party-results > small {
+  color: #a4b9b0;
+}
+.party-legacy {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  padding: 30px;
+  text-align: center;
+}

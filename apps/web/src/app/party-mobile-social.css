@@ -1,0 +1,154 @@
+@media (max-width: 700px) {
+  .party-boardroom {
+    padding: 25px 14px 40px;
+  }
+  .party-meeting-heading h1 {
+    font-size: 31px;
+  }
+  .party-meeting-heading p {
+    font-size: 12px;
+  }
+  .party-documents {
+    gap: 10px;
+  }
+  .party-documents header {
+    padding: 12px 9px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .party-documents h2 {
+    font-size: 18px;
+  }
+  .party-documents header small {
+    font-size: 7px;
+  }
+  .party-document {
+    padding: 14px 10px;
+    min-height: 210px;
+    margin-top: 10px;
+  }
+  .party-document > .kicker {
+    font-size: 7px;
+    letter-spacing: 0.07em;
+  }
+  .party-document p {
+    font-size: 14px;
+  }
+  .party-document footer {
+    font-size: 9px;
+  }
+  .party-signature {
+    font-size: 20px;
+  }
+  .party-term-caption {
+    font-size: 8px;
+    line-height: 1.7;
+  }
+  .party-adviser {
+    padding: 14px;
+  }
+  .party-adviser p {
+    font-size: 12px;
+  }
+  .party-treaty .party-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .party-treaty .party-actions > button {
+    width: 100%;
+  }
+  .party-overlay {
+    padding: 12px;
+  }
+  .party-composer,
+  .party-record {
+    padding: 24px 18px;
+    max-height: 94svh;
+  }
+  .party-composer > .kicker,
+  .party-record > .kicker {
+    display: block;
+    padding-right: 38px;
+    font-size: 8px;
+  }
+  .party-composer h2 {
+    font-size: 30px;
+  }
+  .party-tabs button {
+    padding: 10px 7px;
+    font-size: 12px;
+  }
+  .party-lobby {
+    padding: 22px 16px;
+  }
+  .party-lobby .republic-brand small {
+    display: none;
+  }
+  .party-lobby .republic-brand {
+    font-size: 18px;
+  }
+  .party-lobby > section {
+    margin-top: 45px;
+  }
+  .party-seats {
+    gap: 10px;
+  }
+  .party-seats article {
+    width: calc(50% - 5px);
+    padding: 20px 10px;
+  }
+  .party-seats h2 {
+    font-size: 21px;
+  }
+  .party-lobby .party-actions {
+    flex-direction: column;
+  }
+  .party-lobby .game-button {
+    width: 100%;
+    font-size: 12px;
+  }
+  .party-reveal {
+    padding: 28px 16px;
+  }
+  .party-role-card {
+    padding: 25px 20px;
+  }
+  .party-role-card h1 {
+    font-size: 32px;
+  }
+  .party-reveal > button {
+    font-size: 11px;
+    width: 100%;
+  }
+  .party-results {
+    padding: 40px 14px;
+  }
+  .party-ranking article {
+    gap: 11px;
+    padding: 16px 12px;
+  }
+  .party-ranking h2 {
+    font-size: 19px;
+  }
+  .party-ranking strong {
+    font-size: 24px;
+  }
+  .party-rank {
+    font-size: 18px;
+  }
+  .party-ranking .party-emblem {
+    width: 30px;
+    height: 36px;
+  }
+  .party-results .party-actions {
+    flex-direction: column;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .party-role-card,
+  .party-light,
+  .party-ratified {
+    animation: none;
+  }
+}

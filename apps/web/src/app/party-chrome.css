@@ -1,0 +1,68 @@
+.party-hud-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.party-nav {
+  position: fixed;
+  z-index: 30;
+  bottom: 17px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  padding: 6px;
+  border: 1px solid #d1bd8044;
+  border-radius: 10px;
+  background: #071c27f5;
+  box-shadow: 0 8px 24px #0006;
+}
+.party-nav button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  padding: 16px 28px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.party-nav button[aria-current] {
+  background: #d7b77322;
+  color: #edcf89;
+}
+.party-incoming {
+  position: fixed;
+  z-index: 25;
+  right: 20px;
+  bottom: 106px;
+  background: #173f49;
+  border-color: #dec684;
+  box-shadow: 0 5px 30px #0008;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  min-height: 60px;
+}
+.party-incoming span {
+  font-size: 9px;
+  color: #e7ca86;
+}
+.party-news {
+  position: relative;
+  z-index: 3;
+  background: #382b20;
+  border-top: 1px solid #d7b071;
+  padding: 16px 5%;
+  margin-bottom: 20px;
+}
+.party-news summary {
+  cursor: pointer;
+  color: #f3d394;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.party-final .party-countdown {
+  color: #ffaf84;
+}
+.party-final .party-hud {
+  border-bottom-color: #d98f60;
+}

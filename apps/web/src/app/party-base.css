@@ -1,0 +1,241 @@
+.party-title .title-menu h1 {
+  font-size: clamp(52px, 6.4vw, 105px);
+}
+.party-title .title-menu {
+  padding-top: 13vh;
+}
+.party-entry {
+  position: relative;
+  width: min(520px, 92%);
+  margin: 130px 8% 50px auto;
+  padding: 38px;
+  background: #0b202aef;
+  border: 1px solid #d7bd7a44;
+  border-radius: 10px;
+}
+.party-entry h1 {
+  font:
+    42px Georgia,
+    serif;
+  margin: 18px 0 25px;
+}
+.party-entry label,
+.party-composer > label,
+.party-dev label {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+.party-entry input {
+  min-height: 48px;
+}
+.party-entry fieldset {
+  padding: 0;
+  border: 0;
+  margin: 22px 0;
+}
+.party-entry legend {
+  margin-bottom: 10px;
+}
+.party-entry p,
+.party-entry li {
+  color: #bcc9c7;
+  line-height: 1.7;
+}
+.party-entry ol {
+  padding-left: 20px;
+}
+.party-entry li {
+  margin-bottom: 12px;
+}
+.party-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.party-emblems {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.party-emblems button {
+  padding: 7px;
+  display: grid;
+  place-items: center;
+}
+.party-emblems button[aria-pressed='true'] {
+  outline: 2px solid #e5c77f;
+  background: #e5c77f18;
+}
+.party-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 48px;
+  border: 1px solid #ffffff33;
+  border-radius: 3px 3px 17px 3px;
+  flex-shrink: 0;
+  box-shadow: 0 5px 15px #0003;
+}
+.party-emblem svg {
+  width: 28px;
+  height: 28px;
+}
+.party-emblem.large {
+  width: 74px;
+  height: 84px;
+}
+.party-emblem.large svg {
+  width: 50px;
+  height: 50px;
+}
+.party-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.party-actions button {
+  min-height: 46px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.party-inventory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.party-inventory span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 11px;
+  color: #c5d0c8;
+}
+.party-inventory b {
+  color: #f1d58d;
+  font-size: 17px;
+}
+.party-lobby {
+  min-height: 100svh;
+  position: relative;
+  padding: 35px 5%;
+}
+.party-lobby > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.party-lobby > section {
+  text-align: center;
+  max-width: 1100px;
+  margin: 70px auto 30px;
+}
+.party-lobby h1,
+.party-results h1 {
+  font:
+    clamp(40px, 5vw, 74px)/1.1 Georgia,
+    serif;
+  margin: 22px 0;
+}
+.party-lobby h1 em,
+.party-results h1 em,
+.party-world h1 em,
+.party-calls h1 em {
+  color: #e4c982;
+  font-style: normal;
+}
+.party-code {
+  font-size: 32px;
+  letter-spacing: 0.2em;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  border-color: #e4c98288;
+  background: #102a35dc;
+}
+.party-seats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 35px 0;
+}
+.party-seats article {
+  width: 220px;
+  padding: 24px 16px;
+  background: #0a202bef;
+  border: 1px solid #d3c38b44;
+  border-radius: 6px;
+}
+.party-seats h2 {
+  margin: 18px 0 8px;
+  font: 24px Georgia;
+}
+.party-seats small {
+  color: #a7d2ad;
+  letter-spacing: 0.12em;
+}
+.party-lobby .party-actions {
+  justify-content: center;
+  margin: 25px 0;
+}
+.party-reveal {
+  min-height: 100svh;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+  background: radial-gradient(ellipse at 50% 35%, #295361, #081b25 70%);
+}
+.party-role-card {
+  width: min(480px, 100%);
+  padding: 32px;
+  border: 1px solid #d9bb70;
+  background: linear-gradient(145deg, #294652, #0b222e);
+  box-shadow: 0 35px 100px #0008;
+  text-align: center;
+  animation: party-reveal-in 0.6s ease both;
+}
+.party-role-card > .kicker {
+  display: block;
+  margin-top: 18px;
+}
+.party-role-card h1 {
+  font: 38px Georgia;
+  margin: 20px 0;
+}
+.party-role-card p {
+  line-height: 1.65;
+  color: #cbd6cb;
+}
+.party-role-card .party-inventory {
+  justify-content: center;
+}
+.party-role-card hr {
+  border: 0;
+  border-top: 1px solid #d7c59344;
+  margin: 24px 0;
+}
+.party-role-card small {
+  line-height: 1.6;
+  color: #c7c7b3;
+}
+@keyframes party-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

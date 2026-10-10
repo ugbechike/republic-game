@@ -5,8 +5,8 @@ import '@fontsource/barlow-condensed/600.css';
 import './globals.css';
 import { InteractionFeedback } from '../components/InteractionFeedback';
 export const metadata: Metadata = {
-  title: 'Republic — The world is negotiable',
-  description: 'A multiplayer political strategy game. Build a nation. Negotiate a world.',
+  title: 'Republic — Five minutes. No easy deals.',
+  description: 'A five-minute multiplayer negotiation party game. Win your people’s trust and the world’s respect.',
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

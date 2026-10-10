@@ -1,0 +1,214 @@
+@media (max-width: 1000px) {
+  .party-office-objects {
+    flex-direction: column;
+    bottom: 160px;
+  }
+  .party-negotiation {
+    grid-template-columns: 1fr;
+  }
+  .party-chat-log {
+    max-height: 180px;
+  }
+  .party-meeting-heading > button:first-child,
+  .party-leave {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+  .party-meeting-heading > .kicker {
+    display: block;
+  }
+}
+@media (max-width: 700px) {
+  .party-title .title-menu {
+    padding-top: 8vh;
+  }
+  .party-title .title-menu h1 {
+    font-size: clamp(44px, 11vw, 70px);
+  }
+  .party-entry {
+    margin: 100px auto 30px;
+    padding: 25px;
+  }
+  .party-entry h1 {
+    font-size: 34px;
+  }
+  .party-hud {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .party-brand {
+    font-size: 17px;
+    max-width: 66%;
+  }
+  .party-brand > span:last-child {
+    overflow-wrap: anywhere;
+  }
+  .party-brand .party-emblem {
+    width: 30px;
+    height: 36px;
+  }
+  .party-brand .party-emblem svg {
+    width: 22px;
+    height: 22px;
+  }
+  .party-brand small {
+    font-size: 8px;
+  }
+  .party-countdown {
+    font-size: 27px;
+  }
+  .party-countdown small {
+    font-size: 7px;
+  }
+  .party-scores {
+    width: 100%;
+    border-top: 1px solid #ffffff14;
+    justify-content: center;
+    margin-top: 7px;
+    padding-top: 6px;
+  }
+  .party-scores button {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    padding: 4px 10px;
+    min-height: 36px;
+  }
+  .party-scores b {
+    font-size: 20px;
+  }
+  .party-scores small {
+    font-size: 8px;
+    margin: 0;
+  }
+  .party-exit {
+    display: none;
+  }
+  .party-stock {
+    padding: 8px 14px;
+  }
+  .party-inventory {
+    gap: 5px 12px;
+  }
+  .party-inventory span {
+    font-size: 10px;
+  }
+  .party-inventory b {
+    font-size: 14px;
+  }
+  .party-office {
+    padding: 24px 16px 115px;
+    min-height: calc(100svh - 165px);
+  }
+  .party-office-art {
+    background-position: 59% center;
+  }
+  .party-office-shade {
+    background: linear-gradient(0deg, #051924f5, transparent 70%), #07192335;
+  }
+  .party-greeting {
+    margin-bottom: 25px;
+  }
+  .party-greeting .kicker {
+    font-size: 8px;
+  }
+  .party-greeting h1 {
+    font-size: 30px;
+  }
+  .party-desk {
+    margin-top: 0;
+    width: 100%;
+  }
+  .party-brief {
+    padding: 18px;
+  }
+  .party-brief h2 {
+    font-size: 25px;
+  }
+  .party-brief header .kicker {
+    font-size: 8px;
+  }
+  .party-brief header p {
+    font-size: 10px;
+  }
+  .party-brief p {
+    font-size: 12px;
+  }
+  .party-brief time {
+    font-size: 20px;
+  }
+  .party-office-objects {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .party-office-objects button {
+    flex: 1;
+    padding: 13px;
+    gap: 7px;
+    min-height: 50px;
+  }
+  .party-office-objects small {
+    display: none;
+  }
+  .party-office-objects span {
+    font-size: 8px;
+  }
+  .party-office-objects svg {
+    width: 16px;
+  }
+  .party-nav {
+    width: calc(100% - 24px);
+    bottom: 10px;
+    justify-content: space-between;
+  }
+  .party-nav button {
+    flex: 1;
+    padding: 12px 7px;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 54px;
+    font-size: 9px;
+  }
+  .party-incoming {
+    left: 12px;
+    right: 12px;
+    bottom: 90px;
+    min-height: 50px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .party-incoming span {
+    margin-left: auto;
+    font-size: 8px;
+  }
+  .party-world,
+  .party-calls {
+    padding: 30px 16px;
+  }
+  .party-world h1,
+  .party-calls h1 {
+    font-size: 38px;
+  }
+  .party-presidents article,
+  .party-call-list article {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px;
+  }
+  .party-presidents article button {
+    width: 100%;
+    justify-content: center;
+  }
+  .party-presidents h2,
+  .party-call-list h2 {
+    font-size: 21px;
+  }
+}

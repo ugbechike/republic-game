@@ -28,6 +28,14 @@
 @import './results.css';
 @import './briefings.css';
 @import './economic-analysis.css';
+@import './party-base.css';
+@import './party-office.css';
+@import './party-chrome.css';
+@import './party-table.css';
+@import './party-forms.css';
+@import './party-social.css';
+@import './party-mobile.css';
+@import './party-mobile-social.css';
 :root {
   --bg: #0b141b;
   --panel: #132029;
