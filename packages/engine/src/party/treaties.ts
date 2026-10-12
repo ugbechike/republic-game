@@ -1,3 +1,5 @@
+import { fulfill } from './needs';
+import { requirementBundle } from './inventory';
 import {
   emptyInventory,
   PARTY_RULES,
@@ -33,6 +35,12 @@ export function settle(m: PartyMatch, now: number) {
     reconcileBargaining(a, `${agreement.id}-settled`, now);
     reconcileBargaining(b, `${agreement.id}-settled`, now);
     agreement.status = 'settled';
+    if (m.players.length === 2) {
+      const canal = m.players.find((p) => p.role === 'canal')!;
+      const need = canal.needs[0];
+      if (need && ['open', 'late'].includes(need.status) && requirementBundle(canal, need.requirements))
+        fulfill(m, canal, need.id, false, now);
+    }
     m.news.unshift({
       id: `${agreement.id}-news`,
       at: now,

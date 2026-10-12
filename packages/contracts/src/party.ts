@@ -12,6 +12,7 @@ export type NationalNeed = {
   dueAt: number;
   status: 'open' | 'late' | 'fulfilled' | 'missed';
   optional?: boolean;
+  shipment?: boolean;
 };
 export type ScoreEntry = { id: string; at: number; support: number; influence: number; reason: string };
 export type StockLot = { asset: Asset; amount: number; origin: string };
@@ -48,6 +49,7 @@ export type DealEvaluation = {
   projectedSupport: number;
 };
 export type PartyMeeting = {
+  purpose?: string;
   id: string;
   participants: [string, string];
   status: 'requested' | 'open' | 'proposed' | 'accepted' | 'signed' | 'closed';
@@ -88,6 +90,15 @@ export type PartyMatch = {
   startedAt: number;
   endsAt: number;
   offsetMs: number;
+  durationMs?: number;
+  endedEarly?: boolean;
+  endedAt?: number;
+  canal?: {
+    maintenance: 'pending' | 'restricted' | 'repaired';
+    dueAt: number;
+    restrictedUntil: number;
+    emergency: boolean;
+  };
   players: PartyPlayer[];
   meetings: PartyMeeting[];
   agreements: PartyAgreement[];

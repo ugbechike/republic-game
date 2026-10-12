@@ -1,8 +1,10 @@
+import { endParty } from './ending';
+import { canalCheckpoint } from './canal';
 import { ROLE_INFO, PARTY_RULES, type PartyMatch, type Asset, type Room } from '@republic/contracts';
 import { activate } from './scenario';
 import { expireMeetings } from './meetings';
-import { release, settle } from './treaties';
-import { finishScores, score } from './scoring';
+import { settle } from './treaties';
+import { score } from './scoring';
 export function twist(m: PartyMatch, now: number) {
   if (m.twist) return;
   const roles = m.players.map((p) => p.role);
@@ -61,9 +63,10 @@ export function partyClock(room: Room, wallNow: number) {
   const now = wallNow + m.offsetMs;
   if (m.stage === 'reveal' && (now >= m.revealEndsAt || m.players.every((p) => p.ready))) activate(m, now);
   if (m.stage !== 'active') return;
-  if (now >= m.startedAt + PARTY_RULES.twist) twist(m, m.startedAt + PARTY_RULES.twist);
+  if (m.players.length !== 2 && now >= m.startedAt + PARTY_RULES.twist) twist(m, m.startedAt + PARTY_RULES.twist);
   settle(m, Math.min(now, m.endsAt));
   expireMeetings(m, now);
+  if (now < m.endsAt) canalCheckpoint(m, now);
   for (const p of m.players)
     for (const n of p.needs)
       if (!n.optional && n.status === 'open' && now >= n.dueAt) {
@@ -77,20 +80,5 @@ export function partyClock(room: Room, wallNow: number) {
           `National deadline missed: ${n.title}. Late recovery is still possible.`,
         );
       }
-  if (now >= m.endsAt) {
-    for (const meeting of m.meetings)
-      if (!['signed', 'closed'].includes(meeting.status)) {
-        release(m, meeting);
-        meeting.status = 'closed';
-      }
-    for (const p of m.players) for (const n of p.needs) if (n.status !== 'fulfilled') n.status = 'missed';
-    m.stage = 'ended';
-    room.phase = 'ended';
-    finishScores(m);
-    m.news.unshift({
-      id: `${m.id}-end`,
-      at: m.endsAt,
-      text: 'The world has spoken. All signed deliveries settled; unsigned reservations released.',
-    });
-  }
+  if (now >= m.endsAt) endParty(room, m.endsAt);
 }

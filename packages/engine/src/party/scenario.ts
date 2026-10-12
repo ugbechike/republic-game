@@ -103,6 +103,7 @@ export function dealRoles(room: Room, now: number) {
                     : 'Mobilize your engineers',
         description: ROLE_INFO[p.role].headline,
         requirements: nationalRequirements(p.role, deck.length),
+        shipment: p.role === 'oil' && deck.length === 2,
         dueAt: 0,
         status: 'open',
       },
@@ -115,8 +116,12 @@ export function dealRoles(room: Room, now: number) {
 export function activate(m: PartyMatch, now: number) {
   m.stage = 'active';
   m.startedAt = now;
-  m.endsAt = now + PARTY_RULES.duration;
-  m.players.forEach((p) => p.needs.forEach((n) => (n.dueAt = now + PARTY_RULES.needDeadline)));
+  m.endsAt = now + (m.durationMs ?? PARTY_RULES.duration);
+  m.players.forEach((p) =>
+    p.needs.forEach(
+      (n) => (n.dueAt = now + Math.min(PARTY_RULES.needDeadline, (m.durationMs ?? PARTY_RULES.duration) * 0.8)),
+    ),
+  );
   m.news.unshift({
     id: `${m.id}-start`,
     at: now,

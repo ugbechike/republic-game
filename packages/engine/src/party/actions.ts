@@ -1,3 +1,5 @@
+import { endParty } from './ending';
+import { maintenance, ship, canalCheckpoint } from './canal';
 import { ASSETS, type Room, type PartyIntent } from '@republic/contracts';
 import { requireThat } from '../helpers';
 import { activate, dealRoles, newParty } from './scenario';
@@ -31,6 +33,24 @@ function apply(
   const p = m.players.find((p) => p.id === playerId)!;
   requireThat(p, 'President not found.');
   const now = wallNow + m.offsetMs;
+  if (intent.kind === 'resetMatch' || intent.kind === 'duration') {
+    requireThat(development && room.host === playerId, 'Development controls are unavailable.');
+    if (intent.kind === 'duration') {
+      requireThat(m.stage === 'lobby', 'Choose duration in the lobby.');
+      m.durationMs = intent.seconds * 1000;
+    } else {
+      room.party = newParty(room, m.round + 1);
+      room.phase = 'lobby';
+    }
+    return;
+  }
+  if (intent.kind === 'endGame') {
+    requireThat(room.host === playerId, 'Only the host can end the game.');
+    requireThat(['reveal', 'active'].includes(m.stage), 'There is no running game to end.');
+    partyClock(room, wallNow);
+    endParty(room, now, true);
+    return;
+  }
   if (intent.kind === 'rematch') {
     requireThat(room.host === playerId && m.stage === 'ended', 'Only the host can rematch after results.');
     room.party = newParty(room, m.round + 1);
@@ -75,7 +95,20 @@ function apply(
     partyClock(room, wallNow);
     return;
   }
+  if (intent.kind === 'ship') {
+    ship(m, p, intent.need, now);
+    return;
+  }
+  if (intent.kind === 'maintenance') {
+    maintenance(m, p, intent.choice, now);
+    return;
+  }
+  if (intent.kind === 'fulfill' && p.needs.find((n) => n.id === intent.need)?.shipment) {
+    ship(m, p, intent.need, now);
+    return;
+  }
   if (intent.kind === 'fulfill' || intent.kind === 'fallback')
     fulfill(m, p, intent.need, intent.kind === 'fallback', now);
   else meetingAction(m, p, intent, now, online);
+  canalCheckpoint(m, now);
 }

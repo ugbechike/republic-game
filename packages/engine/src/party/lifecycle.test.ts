@@ -33,7 +33,8 @@ describe('five-minute Canal Crisis lifecycle', () => {
     const oil = r.party!.players.find((p) => p.role === 'oil')!,
       canal = r.party!.players.find((p) => p.role === 'canal')!;
     trade(r, oil.id, canal.id, { oil: 3 }, { passage: 3 });
-    for (const p of r.party!.players) command(r, p.id, { kind: 'fulfill', need: p.needs[0].id });
+    for (const p of r.party!.players)
+      if (p.needs[0].status !== 'fulfilled') command(r, p.id, { kind: 'fulfill', need: p.needs[0].id });
     expect(r.party!.players.every((p) => p.support === 82)).toBe(true);
     expect(r.party!.players.every((p) => p.influence === 24)).toBe(true);
     expect(() => command(r, oil.id, { kind: 'fulfill', need: oil.needs[0].id })).toThrow('already');
@@ -61,7 +62,8 @@ describe('five-minute Canal Crisis lifecycle', () => {
           );
         }
       }
-      for (const p of r.party!.players) command(r, p.id, { kind: 'fulfill', need: p.needs[0].id });
+      for (const p of r.party!.players)
+        if (p.needs[0].status !== 'fulfilled') command(r, p.id, { kind: 'fulfill', need: p.needs[0].id });
       expect(r.party!.players.every((p) => p.needs[0].status === 'fulfilled')).toBe(true);
       const fallback = fixture(n);
       begin(fallback);
@@ -93,7 +95,7 @@ describe('five-minute Canal Crisis lifecycle', () => {
     expect(() => partyAction(r, 'p0', old, { kind: 'start' }, true, START, new Set())).toThrow('earlier');
   });
   it('every midpoint variant creates a reachable foreign-supply need for every role', () => {
-    for (const count of [2, 3, 4, 5, 6])
+    for (const count of [3, 4, 5, 6])
       for (const kind of ['security', 'machinery', 'shipping'] as const) {
         const r = fixture(count);
         begin(r);

@@ -97,7 +97,7 @@ describe('binding negotiation, evaluation and anti-farming', () => {
     expect(evaluate(r.party!, oil, bundle({ credits: 1 }), bundle({ oil: 3 }), 0).grade).toBe('Excellent');
   });
   it('gifts lose support, circular trades and splitting cannot create score', () => {
-    const r = fixture();
+    const r = fixture(3);
     begin(r);
     const oil = r.party!.players.find((p) => p.role === 'oil')!,
       canal = r.party!.players.find((p) => p.role === 'canal')!;
@@ -107,13 +107,13 @@ describe('binding negotiation, evaluation and anti-farming', () => {
     expect(r.party!.players.every((p) => p.support === 50 && p.influence === 0)).toBe(true);
     for (let i = 0; i < 3; i++) trade(r, oil.id, canal.id, { oil: 1 }, {});
     expect(r.party!.players.find((p) => p.id === oil.id)!.support).toBe(36.5);
-    const whole = fixture();
+    const whole = fixture(3);
     begin(whole);
     trade(whole, oil.id, canal.id, { oil: 3 }, {});
     expect(r.party!.players.map((p) => p.support)).toEqual(whole.party!.players.map((p) => p.support));
   });
   it('does not farm clamping, declarations, chats, no-op trades or repeated needs', () => {
-    const r = fixture();
+    const r = fixture(3);
     begin(r);
     const oil = r.party!.players.find((p) => p.role === 'oil')!,
       canal = r.party!.players.find((p) => p.role === 'canal')!;

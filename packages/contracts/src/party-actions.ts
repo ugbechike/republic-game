@@ -9,11 +9,16 @@ const inventory = z.object(
 );
 export const partyIntent = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('ready') }),
+  z.object({ kind: z.literal('endGame') }),
+  z.object({ kind: z.literal('resetMatch') }),
+  z.object({ kind: z.literal('duration'), seconds: z.union([z.literal(180), z.literal(300)]) }),
+  z.object({ kind: z.literal('ship'), need: id }),
+  z.object({ kind: z.literal('maintenance'), choice: z.enum(['repair', 'restrict']) }),
   z.object({ kind: z.literal('start') }),
   z.object({ kind: z.literal('rematch') }),
   z.object({ kind: z.literal('fulfill'), need: id }),
   z.object({ kind: z.literal('fallback'), need: id }),
-  z.object({ kind: z.literal('call'), to: id }),
+  z.object({ kind: z.literal('call'), to: id, purpose: z.enum(['passage', 'assistance']).optional() }),
   z.object({ kind: z.literal('respond'), meeting: id, response: z.enum(['join', 'decline', 'leave']) }),
   z.object({ kind: z.literal('chat'), meeting: id, text: z.string().trim().min(1).max(300) }),
   z.object({

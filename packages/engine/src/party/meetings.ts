@@ -1,3 +1,4 @@
+import { prepareOffer } from './prepared-offers';
 import {
   emptyInventory,
   type PartyMatch,
@@ -36,6 +37,7 @@ export function meetingAction(m: PartyMatch, p: PartyPlayer, intent: PartyIntent
       escrow: {},
       chat: [],
     });
+    if (intent.purpose) prepareOffer(m, p, m.meetings.at(-1)!, intent.purpose);
     return;
   }
   requireThat('meeting' in intent, 'Unknown diplomatic action.');
@@ -48,8 +50,8 @@ export function meetingAction(m: PartyMatch, p: PartyPlayer, intent: PartyIntent
         meeting.status === 'requested' && meeting.participants[1] === p.id,
         'Only the recipient can accept this call.',
       );
-      meeting.status = 'open';
-      meeting.expiresAt = m.endsAt;
+      meeting.status = meeting.purpose ? 'proposed' : 'open';
+      meeting.expiresAt = meeting.purpose ? Math.min(m.endsAt, now + 45000) : m.endsAt;
     } else {
       release(m, meeting);
       meeting.status = 'closed';
