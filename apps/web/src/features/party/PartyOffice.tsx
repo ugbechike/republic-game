@@ -4,7 +4,7 @@ import type { PartyProps } from './types';
 export function PartyOffice(
   props: PartyProps & {
     now: number;
-    call: (id: string) => void;
+    call: (id: string, purpose?: 'passage' | 'assistance') => void;
     navigate: (view: string) => void;
     history: () => void;
   },

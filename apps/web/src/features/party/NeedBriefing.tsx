@@ -1,15 +1,17 @@
+import { CanalBriefing } from './CanalBriefing';
 import { useState } from 'react';
 import { Phone, Check, ChevronDown } from 'lucide-react';
-import { ROLE_INFO, ASSET_LABEL, type NationalNeed } from '@republic/contracts';
+import { ROLE_INFO, ASSET_LABEL } from '@republic/contracts';
 import { timeLeft } from './usePartyTime';
 import type { PartyProps } from './types';
 export function NeedBriefing({
   game,
+  world,
   send,
   busy,
   now,
   call,
-}: PartyProps & { now: number; call: (id: string) => void }) {
+}: PartyProps & { now: number; call: (id: string, purpose?: 'passage' | 'assistance') => void }) {
   const [options, setOptions] = useState(false);
   const need = game.me.needs.find((n) => ['open', 'late'].includes(n.status));
   const achievable = need?.requirements.every(
@@ -25,6 +27,11 @@ export function NeedBriefing({
           r.assets.reduce((n, a) => n + game.me.inventory[a], 0) < r.amount,
       ),
   );
+  if (game.me.role === 'canal' && game.canal && game.canal.maintenance !== 'repaired')
+    return <CanalBriefing {...{ game, world, send, busy, now, call }} />;
+  const blocked =
+    need?.shipment &&
+    (game.canal?.maintenance === 'restricted' || (need.optional && game.canal?.maintenance === 'pending'));
   return (
     <article className="party-brief">
       <header>
@@ -33,13 +40,32 @@ export function NeedBriefing({
           <span className="kicker">YOUR CHIEF OF STAFF</span>
           <p>{need?.optional ? 'A shared opportunity, President.' : 'One promise to your people.'}</p>
         </div>
+        {!need &&
+          game.players.length === 2 &&
+          game.me.role === 'canal' &&
+          !game.news.some((n) => n.id === `${game.id}-emergency-shipment`) && (
+            <button
+              className="primary"
+              disabled={busy}
+              onClick={() => call(game.players.find((p) => p.role === 'oil')!.id, 'passage')}
+            >
+              OFFER CANAL PASSAGE
+            </button>
+          )}
         {need && (
           <time className={need.status === 'late' ? 'urgent' : ''}>
             {need.status === 'late' ? 'OVERDUE' : timeLeft(need.dueAt, now)}
           </time>
         )}
       </header>
-      <h2>{need?.title ?? 'You kept your national promises.'}</h2>
+      <h2>
+        {need?.title ??
+          (game.players.length === 2 &&
+          game.me.role === 'canal' &&
+          !game.news.some((n) => n.id === `${game.id}-emergency-shipment`)
+            ? 'The next shipment needs your passage.'
+            : 'You kept your national promises.')}
+      </h2>
       <p>
         {need
           ? need.description
@@ -67,15 +93,41 @@ export function NeedBriefing({
           </p>
         </>
       )}
+      {blocked && (
+        <p>
+          Canal maintenance blocks this shipment.{' '}
+          {game.canal?.maintenance === 'restricted'
+            ? `Reopens in ${timeLeft(game.canal.restrictedUntil, now)}.`
+            : 'Ask the Authority to fund repairs or offer assistance.'}
+        </p>
+      )}
+      {blocked && (
+        <button disabled={busy} onClick={() => call(game.players.find((p) => p.role === 'canal')!.id, 'assistance')}>
+          NEGOTIATE REPAIRS
+        </button>
+      )}
+      {need?.shipment && (
+        <p>Shipping consumes the required Oil and passage, earning {need.optional ? 10 : 6} Credits.</p>
+      )}
       <div className="party-actions">
-        {achievable && need ? (
-          <button className="primary" disabled={busy} onClick={() => send({ kind: 'fulfill', need: need.id })}>
-            <Check size={17} /> {need.optional ? 'SUPPORT THE RESPONSE' : 'FULFILL NATIONAL PROMISE'}
+        {achievable && need && !blocked ? (
+          <button
+            className="primary"
+            disabled={busy}
+            onClick={() => send({ kind: need.shipment ? 'ship' : 'fulfill', need: need.id })}
+          >
+            <Check size={17} />{' '}
+            {need.shipment ? 'SHIP OIL' : need.optional ? 'SUPPORT THE RESPONSE' : 'FULFILL NATIONAL PROMISE'}
           </button>
         ) : (
           partners.slice(0, 2).map((p) => (
-            <button className="primary" disabled={busy || !p.online} key={p.id} onClick={() => call(p.id)}>
-              <Phone size={15} /> CALL {p.name.toUpperCase()}
+            <button
+              className="primary"
+              disabled={busy || !p.online}
+              key={p.id}
+              onClick={() => call(p.id, game.players.length === 2 ? 'passage' : undefined)}
+            >
+              <Phone size={15} /> {game.players.length === 2 ? 'NEGOTIATE PASSAGE' : `CALL ${p.name.toUpperCase()}`}
               {!p.online && ' · OFFLINE'}
             </button>
           ))

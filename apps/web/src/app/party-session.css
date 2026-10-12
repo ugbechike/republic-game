@@ -1,0 +1,69 @@
+.party-session {
+  position: relative;
+}
+.party-session > button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.party-session-list {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #102630;
+  border: 1px solid #c8b783;
+  padding: 8px;
+  width: 220px;
+  box-shadow: 0 10px 30px #0008;
+}
+.party-session-list button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+}
+.party-boardroom {
+  padding-bottom: 130px;
+}
+.party-treaty > .party-actions {
+  scroll-margin-bottom: 120px;
+  padding-bottom: 20px;
+}
+.party-chat {
+  align-self: start;
+}
+@media (max-width: 600px) {
+  .party-hud {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .party-brand {
+    max-width: none;
+    min-width: 0;
+  }
+  .party-countdown {
+    margin-left: 0;
+  }
+  .party-session {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .party-scores {
+    grid-column: 1 / -1;
+  }
+  .party-boardroom {
+    padding-bottom: 145px;
+  }
+}
+
+.party-feedback {
+  margin: 0;
+  padding: 12px 5%;
+  background: #19362e;
+  color: #e3edd6;
+  font-size: 13px;
+  border-bottom: 1px solid #96b68744;
+}
+
+.party-hud-wrap {
+  background: #0b1c25;
+}

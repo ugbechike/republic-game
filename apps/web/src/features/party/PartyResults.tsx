@@ -10,9 +10,9 @@ export function PartyResults({ game, world, send, busy, leave }: PartyProps & { 
       <span className="kicker">FIVE MINUTES. A LASTING LEGACY.</span>
       <Trophy size={36} />
       <h1>
-        THE WORLD
+        {game.endedEarly ? 'ENDED EARLY' : 'THE WORLD'}
         <br />
-        <em>HAS SPOKEN.</em>
+        <em>{game.endedEarly ? 'THE CURRENT STANDINGS.' : 'HAS SPOKEN.'}</em>
       </h1>
       <p>70% Public Support + 30% Global Influence</p>
       <div className="party-ranking">

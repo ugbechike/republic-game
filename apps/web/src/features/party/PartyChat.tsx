@@ -9,7 +9,7 @@ export function PartyChat({ game, meeting, send, busy }: PartyProps & { meeting:
     if (list.current) list.current.scrollTop = list.current.scrollHeight;
   }, [meeting.chat.length]);
   return (
-    <details className="party-chat" open>
+    <details className="party-chat">
       <summary>
         Private conversation <small>Promises here are nonbinding</small>
       </summary>

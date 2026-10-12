@@ -90,13 +90,28 @@ export function TreatyTable(props: PartyProps & { meeting: PartyMeeting; now: nu
             ) : (
               <p>Awaiting the other President’s response. Your offer is reserved.</p>
             )}
-            <button disabled={busy} onClick={() => respond('counter')}>
-              COUNTER
+            <button
+              disabled={busy}
+              onClick={async () => {
+                if (await respond('counter')) setEdit(true);
+              }}
+            >
+              COUNTEROFFER
             </button>
             <button disabled={busy} onClick={() => respond('reject')}>
               REJECT
             </button>
           </>
+        )}
+        {meeting.status === 'proposed' && (
+          <button
+            disabled={busy}
+            onClick={async () => {
+              if (await respond('counter')) setEdit(true);
+            }}
+          >
+            ADD / REMOVE TERMS
+          </button>
         )}
         {meeting.status === 'accepted' && (
           <>
@@ -109,8 +124,13 @@ export function TreatyTable(props: PartyProps & { meeting: PartyMeeting; now: nu
               <PenLine size={17} />
               {meeting.signatures.includes(game.me.id) ? 'YOUR SIGNATURE IS RECORDED' : 'CONFIRM SUMMARY & SIGN'}
             </button>
-            <button disabled={busy} onClick={() => respond('counter')}>
-              REOPEN / COUNTER
+            <button
+              disabled={busy}
+              onClick={async () => {
+                if (await respond('counter')) setEdit(true);
+              }}
+            >
+              REOPEN / COUNTEROFFER
             </button>
           </>
         )}

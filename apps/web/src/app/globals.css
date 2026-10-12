@@ -36,6 +36,7 @@
 @import './party-social.css';
 @import './party-mobile.css';
 @import './party-mobile-social.css';
+@import './party-session.css';
 :root {
   --bg: #0b141b;
   --panel: #132029;

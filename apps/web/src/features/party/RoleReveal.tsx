@@ -32,7 +32,9 @@ export function RoleReveal({ game, send, busy }: PartyProps) {
       <button className="game-button gold" disabled={busy || me.ready} onClick={() => send({ kind: 'ready' })}>
         {me.ready ? 'WAITING FOR FELLOW PRESIDENTS' : 'I UNDERSTAND. OPEN MY OFFICE.'}
       </button>
-      <p>The five-minute clock starts together · {timeLeft(game.revealEndsAt, now)}</p>
+      <p>
+        The {(game.durationMs ?? 300000) / 60000}-minute clock starts together · {timeLeft(game.revealEndsAt, now)}
+      </p>
     </main>
   );
 }

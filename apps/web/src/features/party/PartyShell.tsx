@@ -1,5 +1,7 @@
+import { PartyFeedback } from './PartyFeedback';
+import { SessionMenu } from './SessionMenu';
 import { useState } from 'react';
-import { Landmark, Handshake, Globe2, Phone, LogOut } from 'lucide-react';
+import { Landmark, Handshake, Globe2, Phone } from 'lucide-react';
 import { ROLE_INFO } from '@republic/contracts';
 import { Emblem } from './Emblem';
 import { InventoryStrip } from './InventoryStrip';
@@ -27,14 +29,14 @@ export function PartyShell(props: PartyProps & { leave: () => void }) {
     setView(next);
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
-  async function call(id: string) {
+  async function call(id: string, purpose?: 'passage' | 'assistance') {
     const existing = game.meetings.find((m) => !['signed', 'closed'].includes(m.status) && m.participants.includes(id));
     if (existing) {
       select(existing.id);
       navigate('meetings');
       return;
     }
-    if (await send({ kind: 'call', to: id })) {
+    if (await send({ kind: 'call', to: id, purpose })) {
       select(undefined);
       navigate('meetings');
     }
@@ -64,9 +66,7 @@ export function PartyShell(props: PartyProps & { leave: () => void }) {
               <small>GLOBAL INFLUENCE</small>
             </button>
           </div>
-          <button className="party-exit" aria-label="Return to title" onClick={leave}>
-            <LogOut size={17} />
-          </button>
+          <SessionMenu {...props} />
         </header>
         <div className="party-stock">
           <InventoryStrip inventory={game.me.inventory} />
@@ -85,6 +85,7 @@ export function PartyShell(props: PartyProps & { leave: () => void }) {
           </button>
         </details>
       )}
+      <PartyFeedback game={game} now={now} />
       {view === 'office' ? (
         <PartyOffice {...props} now={now} call={call} navigate={navigate} history={() => setHistory(true)} />
       ) : view === 'meetings' ? (

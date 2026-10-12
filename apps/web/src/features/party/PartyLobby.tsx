@@ -47,7 +47,22 @@ export function PartyLobby({ game, world, send, busy, leave }: PartyProps & { le
             </article>
           ))}
         </div>
-        <p>{game.players.length}/6 Presidents · 5 minutes · Random unique advantages</p>
+        <p>
+          {game.players.length}/6 Presidents · {(game.durationMs ?? 300000) / 60000} minutes · Random unique advantages
+        </p>
+        {world.development && world.host === world.playerId && (
+          <label>
+            Development match length
+            <select
+              aria-label="Development match length"
+              value={(game.durationMs ?? 300000) / 1000}
+              onChange={(e) => send({ kind: 'duration', seconds: Number(e.target.value) as 180 | 300 })}
+            >
+              <option value={300}>5 minutes (normal)</option>
+              <option value={180}>3 minutes (development)</option>
+            </select>
+          </label>
+        )}
         <div className="party-actions">
           {!game.me.ready && (
             <button disabled={busy} onClick={() => send({ kind: 'ready' })}>

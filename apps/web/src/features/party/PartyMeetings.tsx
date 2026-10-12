@@ -17,11 +17,13 @@ export function PartyMeetings(
             <ArrowLeft size={15} /> BACK TO CALLS
           </button>
           <span className="kicker">PRIVATE BILATERAL SESSION</span>
-          <h1>{meeting.status === 'signed' ? 'Agreement signed.' : 'The terms are yours.'}</h1>
+          <h1>{meeting.status === 'signed' ? 'Agreement signed.' : (meeting.purpose ?? 'The terms are yours.')}</h1>
           <p>
             {meeting.status === 'signed'
               ? 'A promise, made binding.'
-              : 'Talk freely. Put only what you can guarantee on the table.'}
+              : meeting.purpose
+                ? 'This proposed exchange helps both Republics meet their current needs. Negotiate the terms, then both sign.'
+                : 'Talk freely. Put only what you can guarantee on the table.'}
           </p>
           {meeting.status !== 'signed' && (
             <button
