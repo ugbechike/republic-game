@@ -25,8 +25,9 @@ settle on recovery. Refreshing never restarts the match.
 
 Create a game, invite one to five friends with the room code, then deal the advantages.
 Everyone receives one randomly assigned role in the Canal Crisis. Read your national goal,
-call another President, negotiate terms, sign together and fulfill your promise. At 2:30,
-a shared crisis opens another opportunity; at 5:00 the server reveals the results.
+call another President, negotiate terms, sign together and fulfill your promise. In a two-player game, authorize an oil shipment, negotiate canal maintenance, then deliver an
+emergency order. Larger groups receive a shared midpoint crisis. At 5:00 results appear, or
+the host can end early from the Game menu.
 
 Use different browsers/profiles for independent local players. A tab refresh resumes its
 saved seat. Returning to the title retains a Resume button. Creating/joining another world
@@ -66,7 +67,9 @@ npm run build         # production frontend, Webpack
 
 Integration tests open local sockets and use embedded PostgreSQL. Development controls in
 World can advance time, force the twist, adjust inventory, add a need or end the round.
-They require host ownership and are rejected by the production server.
+They require host ownership and are rejected by the production server. Development hosts can
+also Reset Match from the Game menu and choose a three-minute test round in the lobby.
+See [connected-loop rules and verification](docs/connected-loop-verification.md).
 
 ## Deployment preparation (not deployed)
 

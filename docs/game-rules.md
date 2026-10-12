@@ -1,5 +1,10 @@
 # The Canal Crisis — active V0 rules
 
+**Two-player update:** see [the connected gameplay rules](connected-loop-verification.md) for
+prepared opening offers, explicit shipping, maintenance, emergency orders and host early ending.
+These replace the two-player midpoint response described in the original baseline below.
+The baseline remains applicable to 3–6-player games.
+
 ## A five-minute presidency
 
 2–6 human players create fictional Republics. The host deals unique roles randomly from the
